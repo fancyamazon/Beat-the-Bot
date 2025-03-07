@@ -14,7 +14,11 @@ var is_dashing = false
 var can_dash = true
 var dash_direction = Vector2.ZERO
 var dash_timer = 0.0
-@onready var timer = $Timer  # Get the Timer node
+@onready var timer: Timer = $DashTimer # Get the Timer node 
+
+var on_attack_cooldown = false
+var attack_cooldown = 0.5 # seconds
+@onready var attack_timer: Timer = $AttackTimer
 
 #grapple----
 var GRAPPLE_LENGTH = 200.0  # Adjust as needed
@@ -45,7 +49,7 @@ func _physics_process(delta: float) -> void:
 		# Check if the player isn't moving (using a threshold for precision)
 		if dash_direction.length() < 0.1:  # Effectively not moving
 			
-			if animated_sprite_2d.flip_h:  # Facing left (scale.x < 0)
+			if animated_sprite_2d.scale.x == -1:  # Facing left (scale.x < 0)
 				dash_direction = Vector2(-1, 0)  # Dash left
 			else:  # Facing right (scale.x > 0)
 				dash_direction = Vector2(1, 0)   # Dash right
@@ -84,6 +88,10 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("jump") and can_double_jump:
 		velocity.y = JUMP_VELOCITY
 		can_double_jump = false # Disable until player lands
+	
+	# Melee Attack
+	if Input.is_action_just_pressed("attack") and not on_attack_cooldown:
+		deal_damage()
 
 	# Reset mid-air jump when on the floor
 	if is_on_floor():
@@ -94,10 +102,11 @@ func _physics_process(delta: float) -> void:
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	var direction := Input.get_axis("left", "right")
 	#animation facing direction
+	
 	if direction >0:
-		animated_sprite_2d.flip_h=false
+		animated_sprite_2d.scale.x=1
 	elif direction<0:
-		animated_sprite_2d.flip_h=true
+		animated_sprite_2d.scale.x=-1
 
 	
 	if direction:
@@ -130,3 +139,17 @@ func take_damage(amount: int) -> void:
 		print("Enemy died")
 	else:
 		print("Enemy health left: ", health)
+
+func deal_damage(): 
+	$AnimatedSprite2D/PlayerHitBox.monitoring = true
+	on_attack_cooldown = true
+	attack_timer.start(attack_cooldown)
+	
+func _on_attack_timer_timeout() -> void:
+	$AnimatedSprite2D/PlayerHitBox.monitoring = false
+	on_attack_cooldown = false
+
+func _on_player_hit_box_area_entered(area: Area2D) -> void:
+	print(area, area.get_groups())
+	if area.is_in_group("hurtbox"):
+		area.owner.take_damage(5)
