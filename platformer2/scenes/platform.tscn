@@ -22,7 +22,6 @@ shape = SubResource("RectangleShape2D_xed65")
 one_way_collision = true
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_layer = 0
 monitoring = false
 monitorable = false
 

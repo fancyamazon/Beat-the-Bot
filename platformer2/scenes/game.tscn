@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=3 uid="uid://d07nvyd5qem1x"]
+[gd_scene load_steps=22 format=3 uid="uid://d07nvyd5qem1x"]
 
 [ext_resource type="PackedScene" uid="uid://c3ja3raqyfvcq" path="res://scenes/player.tscn" id="1_nx1nf"]
 [ext_resource type="Texture2D" uid="uid://lp3tjt6016tn" path="res://assets/Free/Terrain/Terrain (16x16).png" id="2_8mj6l"]
 [ext_resource type="PackedScene" uid="uid://st3xivfw0pcs" path="res://scenes/platform.tscn" id="3_7lvvc"]
 [ext_resource type="PackedScene" uid="uid://hc6gcfko7dn2" path="res://scenes/killzone.tscn" id="4_r3qmr"]
+[ext_resource type="PackedScene" uid="uid://b8pf7fww7yfun" path="res://scenes/enemy.tscn" id="5_dp0s8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nr660"]
 texture = ExtResource("2_8mj6l")
@@ -429,6 +430,9 @@ libraries = {
 "": SubResource("AnimationLibrary_jisqs")
 }
 autoplay = "moving_platform"
+
+[node name="Enemy" parent="." instance=ExtResource("5_dp0s8")]
+position = Vector2(244, 97)
 
 [node name="Label" type="Label" parent="."]
 offset_left = 102.0

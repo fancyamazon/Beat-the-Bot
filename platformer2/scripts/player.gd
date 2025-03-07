@@ -21,6 +21,13 @@ var GRAPPLE_LENGTH = 200.0  # Adjust as needed
 @onready var grapple_point = null #point where the player is grappling to
 var is_grappling = false
 
+#make it globally known that this is the player
+func _ready():
+	add_to_group("player")
+	
+#health
+var health = 100
+
 func _physics_process(delta: float) -> void:
 	#animations
 	if (velocity.x > 1 || velocity.x < -1):
@@ -116,3 +123,10 @@ func _stop_grapple():
 	is_grappling = false
 	grapple_point = null #release grapple point
 	# You might want to add some swing/momentum handling here
+
+func take_damage(amount: int) -> void:
+	health -= amount
+	if health <= 0:
+		print("Enemy died")
+	else:
+		print("Enemy health left: ", health)
