@@ -1,4 +1,4 @@
-[gd_scene load_steps=41 format=3 uid="uid://c3ja3raqyfvcq"]
+[gd_scene load_steps=42 format=3 uid="uid://c3ja3raqyfvcq"]
 
 [ext_resource type="Texture2D" uid="uid://c2mlftbjjd22d" path="res://assets/FreeKnight_v1/Colour2/Outline/120x80_PNGSheets/_Idle.png" id="1_8jl36"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_tqg52"]
@@ -258,11 +258,16 @@ animations = [{
 "speed": 25.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_62wuq"]
+size = Vector2(20, 32)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ewomo"]
 radius = 11.0
 height = 40.0
 
 [node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("1_tqg52")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -271,6 +276,12 @@ sprite_frames = SubResource("SpriteFrames_bwbuh")
 animation = &"running"
 autoplay = "idle"
 frame_progress = 0.335713
+
+[node name="PlayerHitBox" type="Area2D" parent="AnimatedSprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/PlayerHitBox"]
+position = Vector2(12, 19)
+shape = SubResource("RectangleShape2D_62wuq")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = 5
