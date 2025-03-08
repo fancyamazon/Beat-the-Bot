@@ -43,7 +43,7 @@ func _physics_process(delta: float) -> void:
 		# Check if the player isn't moving (using a threshold for precision)
 		if dash_direction.length() < 0.1:  # Effectively not moving
 			
-			if animated_sprite_2d.scale.x == -1:  # Facing left (scale.x < 0)
+			if animated_sprite_2d.scale.x == -2:  # Facing left (scale.x < 0)
 				dash_direction = Vector2(-1, 0)  # Dash left
 			else:  # Facing right (scale.x > 0)
 				dash_direction = Vector2(1, 0)   # Dash right
@@ -97,9 +97,9 @@ func _physics_process(delta: float) -> void:
 	#animation facing direction
 	
 	if direction >0:
-		animated_sprite_2d.scale.x=1
+		animated_sprite_2d.scale.x=2
 	elif direction<0:
-		animated_sprite_2d.scale.x=-1
+		animated_sprite_2d.scale.x=-2
 
 	
 	if direction:
@@ -111,6 +111,10 @@ func _physics_process(delta: float) -> void:
 	
 	if is_dashing:
 		animated_sprite_2d.play("dash")
+	#elif on_attack_cooldown:
+	#	animated_sprite_2d.play("melee-attack-charging") #yes i know this shouldn't go here
+	elif is_grappling:
+		animated_sprite_2d.play("grappling")
 	elif not is_on_floor():
 		animated_sprite_2d.play("jumping")
 	elif (velocity.x > 1 || velocity.x < -1):
@@ -119,6 +123,8 @@ func _physics_process(delta: float) -> void:
 		animated_sprite_2d.animation = "crouch"
 	else:
 		animated_sprite_2d.play("idle")
+	
+	#print(attack_timer.time_left)
 	
 func _start_grapple():
 	var mouse_pos = get_global_mouse_position()
@@ -148,8 +154,10 @@ func deal_damage():
 	$AnimatedSprite2D/PlayerHitBox.monitoring = true
 	on_attack_cooldown = true
 	attack_timer.start(attack_cooldown)
+	print("detected")
 	
 func _on_attack_timer_timeout() -> void:
+	print("done")
 	$AnimatedSprite2D/PlayerHitBox.monitoring = false
 	on_attack_cooldown = false
 
