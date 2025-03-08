@@ -7,7 +7,11 @@ const JUMP_VELOCITY = -450.0
 var health = 100
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var enemy_hurt_box: Area2D = $AnimatedSprite2D/EnemyHurtBox
 
+func _ready():
+	enemy_hurt_box.add_to_group("hurtbox")
+	
 func _physics_process(delta: float) -> void:
 	
 	if (velocity.x > 1 || velocity.x < -1):

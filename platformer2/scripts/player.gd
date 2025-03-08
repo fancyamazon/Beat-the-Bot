@@ -7,14 +7,14 @@ var can_double_jump = true
 
 #dashing------
 var DASH_SPEED = 800.0
-var DASH_DURATION = 0.1
+var DASH_DURATION = 0.2
 var DASH_COOLDOWN = 0.5
 
 var is_dashing = false
 var can_dash = true
 var dash_direction = Vector2.ZERO
 var dash_timer = 0.0
-@onready var timer = $Timer  # Get the Timer node
+@onready var timer = $DashTimer  # Get the Timer node
 
 #grapple----
 var GRAPPLE_LENGTH = 200.0  # Adjust as needed
@@ -30,12 +30,6 @@ var health = 100
 
 func _physics_process(delta: float) -> void:
 	#animations
-	if (velocity.x > 1 || velocity.x < -1):
-		animated_sprite_2d.animation = "running"
-	elif Input.is_action_pressed("crouch"):  # Check for crouch FIRST
-		animated_sprite_2d.animation = "crouch"
-	else:
-		animated_sprite_2d.animation = "idle"
 		
 
 	# Dash
@@ -50,7 +44,7 @@ func _physics_process(delta: float) -> void:
 			else:  # Facing right (scale.x > 0)
 				dash_direction = Vector2(1, 0)   # Dash right
 	
-
+	
 
 		is_dashing = true
 		dash_timer = DASH_DURATION
@@ -58,13 +52,13 @@ func _physics_process(delta: float) -> void:
 	if is_dashing:
 		velocity.y = 0 #no grav/fall during dash
 		velocity = dash_direction * DASH_SPEED
-		animated_sprite_2d.animation = "dash"
+		#print(animated_sprite_2d.animation.is_p)
+		
 		dash_timer -= delta
 		if dash_timer <= 0:
 			is_dashing = false
 			# Add a small cooldown if you want
 			#await get_tree().create_timer(0.2).finished #example cooldown
-	
 	#grapple
 	if Input.is_action_just_pressed("grapple"):  # Replace "grapple" with your action name
 		if not is_grappling:
@@ -77,7 +71,6 @@ func _physics_process(delta: float) -> void:
 	
 	# Add the gravity.
 	if not is_on_floor():
-		animated_sprite_2d.animation = "jumping"
 		velocity += get_gravity() * delta
 
 	# Mid-Air Jump
@@ -106,6 +99,17 @@ func _physics_process(delta: float) -> void:
 		velocity.x = move_toward(velocity.x, 0, 50)
 
 	move_and_slide()
+	
+	if is_dashing:
+		animated_sprite_2d.play("dash")
+	elif not is_on_floor():
+		animated_sprite_2d.play("jumping")
+	elif (velocity.x > 1 || velocity.x < -1):
+		animated_sprite_2d.play("running")
+	elif Input.is_action_pressed("crouch"):  # Check for crouch FIRST
+		animated_sprite_2d.animation = "crouch"
+	else:
+		animated_sprite_2d.play("idle")
 	
 func _start_grapple():
 	var mouse_pos = get_global_mouse_position()
