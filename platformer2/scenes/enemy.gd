@@ -8,9 +8,11 @@ var health = 100
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var enemy_hurt_box: Area2D = $AnimatedSprite2D/EnemyHurtBox
+@onready var health_bar: ProgressBar = $HealthBar
 
 func _ready():
 	enemy_hurt_box.add_to_group("hurtbox")
+	health_bar._init_health(health)
 	
 func _physics_process(delta: float) -> void:
 	
@@ -44,6 +46,7 @@ func _physics_process(delta: float) -> void:
 
 func take_damage(amount: int) -> void:
 	health -= amount
+	health_bar.health = health
 	if health <= 0:
 		print("Enemy died")
 	else:

@@ -1,8 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://b8pf7fww7yfun"]
+[gd_scene load_steps=15 format=3 uid="uid://b8pf7fww7yfun"]
 
 [ext_resource type="Script" path="res://scenes/enemy.gd" id="1_is05b"]
 [ext_resource type="Texture2D" uid="uid://bs04head3ey53" path="res://assets/Slime_32px_real.png" id="2_4aqqa"]
 [ext_resource type="PackedScene" uid="uid://hc6gcfko7dn2" path="res://scenes/killzone.tscn" id="3_g33v7"]
+[ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="4_fi21h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a71e5"]
 atlas = ExtResource("2_4aqqa")
@@ -95,3 +96,9 @@ shape = SubResource("RectangleShape2D_2yjti")
 [node name="scene-collision" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1)
 shape = SubResource("RectangleShape2D_dkhp7")
+
+[node name="HealthBar" parent="." instance=ExtResource("4_fi21h")]
+offset_left = -20.0
+offset_top = -26.0
+offset_right = 19.0
+offset_bottom = -22.0
