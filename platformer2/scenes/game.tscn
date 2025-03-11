@@ -1,10 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://d07nvyd5qem1x"]
+[gd_scene load_steps=21 format=3 uid="uid://d07nvyd5qem1x"]
 
 [ext_resource type="PackedScene" uid="uid://c3ja3raqyfvcq" path="res://scenes/player.tscn" id="1_nx1nf"]
 [ext_resource type="Texture2D" uid="uid://lp3tjt6016tn" path="res://assets/Free/Terrain/Terrain (16x16).png" id="2_8mj6l"]
 [ext_resource type="PackedScene" uid="uid://st3xivfw0pcs" path="res://scenes/platform.tscn" id="3_7lvvc"]
 [ext_resource type="PackedScene" uid="uid://hc6gcfko7dn2" path="res://scenes/killzone.tscn" id="4_r3qmr"]
-[ext_resource type="PackedScene" uid="uid://b8pf7fww7yfun" path="res://scenes/enemy.tscn" id="5_dp0s8"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nr660"]
 texture = ExtResource("2_8mj6l")
@@ -374,7 +373,7 @@ position = Vector2(196, 340)
 scale = Vector2(5.47574, 2.18678)
 
 [node name="TileMap" type="TileMap" parent="."]
-position = Vector2(1, 0)
+position = Vector2(7, -2)
 tile_set = SubResource("TileSet_lf8qw")
 format = 2
 layer_0/name = "back"
@@ -431,9 +430,6 @@ libraries = {
 }
 autoplay = "moving_platform"
 
-[node name="Enemy" parent="." instance=ExtResource("5_dp0s8")]
-position = Vector2(244, 97)
-
 [node name="Label" type="Label" parent="."]
 offset_left = 102.0
 offset_top = 412.0
@@ -447,7 +443,7 @@ dash: tab/e
 grapple to: right click
 grapple stop: right click again
 double jump: jump in air
-attack: left clicka
+
 
 ↓death zone here↓"
 horizontal_alignment = 1
