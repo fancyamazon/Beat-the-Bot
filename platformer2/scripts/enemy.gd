@@ -7,11 +7,13 @@ const JUMP_VELOCITY = -450.0
 var health = 100
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var enemy_hit_box: Area2D = $AnimatedSprite2D/EnemyHitBox
 @onready var enemy_hurt_box: Area2D = $AnimatedSprite2D/EnemyHurtBox
 @onready var health_bar: ProgressBar = $HealthBar
 
 func _ready():
 	enemy_hurt_box.add_to_group("hurtbox")
+	enemy_hit_box.add_to_group("hitbox")
 	health_bar._init_health(health)
 	
 func _physics_process(delta: float) -> void:

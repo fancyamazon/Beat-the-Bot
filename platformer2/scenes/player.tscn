@@ -1,7 +1,8 @@
-[gd_scene load_steps=71 format=3 uid="uid://c3ja3raqyfvcq"]
+[gd_scene load_steps=73 format=3 uid="uid://c3ja3raqyfvcq"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_tqg52"]
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_5yq6m"]
+[ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="3_yo561"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x3e6b"]
 atlas = ExtResource("2_5yq6m")
@@ -554,13 +555,15 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_62wuq"]
 size = Vector2(31, 20.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hr03j"]
+size = Vector2(12, 25.5)
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ewomo"]
 radius = 20.0
 height = 62.0
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 3
 script = ExtResource("1_tqg52")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -581,6 +584,14 @@ monitoring = false
 position = Vector2(16, -0.25)
 shape = SubResource("RectangleShape2D_62wuq")
 
+[node name="PlayerHurtBox" type="Area2D" parent="AnimatedSprite2D"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/PlayerHurtBox"]
+position = Vector2(0, -0.25)
+shape = SubResource("RectangleShape2D_hr03j")
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = 5
 position = Vector2(0, -31)
@@ -594,5 +605,29 @@ one_shot = true
 wait_time = 0.3
 one_shot = true
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+offset_left = 1030.0
+offset_top = 1207.0
+offset_right = 1127.0
+offset_bottom = 1252.0
+theme_override_font_sizes/font_size = 32
+text = "Player"
+
+[node name="HealthBar" parent="CanvasLayer" instance=ExtResource("3_yo561")]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -127.0
+offset_top = -41.0
+offset_right = 123.0
+offset_bottom = -25.0
+grow_horizontal = 2
+grow_vertical = 0
+
 [connection signal="area_entered" from="AnimatedSprite2D/PlayerHitBox" to="." method="_on_player_hit_box_area_entered"]
+[connection signal="area_entered" from="AnimatedSprite2D/PlayerHurtBox" to="." method="_on_player_hurt_box_area_entered"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
