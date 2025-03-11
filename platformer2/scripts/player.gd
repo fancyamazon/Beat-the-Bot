@@ -17,7 +17,7 @@ var dash_timer = 0.0
 @onready var timer: Timer = $DashTimer # Get the Timer node 
 
 var on_attack_cooldown = false
-var attack_cooldown = 0.5 # seconds
+var attack_cooldown = 0.3 # seconds
 @onready var attack_timer: Timer = $AttackTimer
 
 #grapple----
@@ -109,12 +109,14 @@ func _physics_process(delta: float) -> void:
 
 	move_and_slide()
 	
-	if is_dashing:
+	if attack_timer.time_left > 0:
+		animated_sprite_2d.play("melee-attack-uncharged")
+	elif is_dashing:
 		animated_sprite_2d.play("dash")
 	#elif on_attack_cooldown:
 	#	animated_sprite_2d.play("melee-attack-charging") #yes i know this shouldn't go here
 	elif is_grappling:
-		animated_sprite_2d.play("grappling")
+		animated_sprite_2d.animation = "grappling" # use for anims that don't repeat
 	elif not is_on_floor():
 		animated_sprite_2d.play("jumping")
 	elif (velocity.x > 1 || velocity.x < -1):
@@ -154,10 +156,8 @@ func deal_damage():
 	$AnimatedSprite2D/PlayerHitBox.monitoring = true
 	on_attack_cooldown = true
 	attack_timer.start(attack_cooldown)
-	print("detected")
 	
 func _on_attack_timer_timeout() -> void:
-	print("done")
 	$AnimatedSprite2D/PlayerHitBox.monitoring = false
 	on_attack_cooldown = false
 
