@@ -12,7 +12,9 @@ func _set_health(new_health):
 	health = min(max_value, new_health)
 	value = health # Changes the value for HealthBar
 	if health <= 0:
-		self.queue_free()
+		self.visible = false 
+		damage_bar.visible = false
+		# don't queue_free() because then it throws error if I hit the slime again
 	
 	if health < prev_health: # taking damage
 		flash_timer.start(flash_time)

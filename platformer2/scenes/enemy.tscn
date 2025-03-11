@@ -1,6 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://b8pf7fww7yfun"]
+[gd_scene load_steps=16 format=3 uid="uid://b8pf7fww7yfun"]
 
-[ext_resource type="Script" path="res://scenes/enemy.gd" id="1_is05b"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_is05b"]
 [ext_resource type="Texture2D" uid="uid://bs04head3ey53" path="res://assets/Slime_32px_real.png" id="2_4aqqa"]
 [ext_resource type="PackedScene" uid="uid://hc6gcfko7dn2" path="res://scenes/killzone.tscn" id="3_g33v7"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="4_fi21h"]
@@ -63,15 +63,17 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4o3l1"]
 size = Vector2(17, 13.5)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_n3n0j"]
+size = Vector2(8.45283, 16.9057)
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2yjti"]
 size = Vector2(18, 33)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dkhp7"]
-size = Vector2(14, 28)
+size = Vector2(14, 28.5)
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 3
 script = ExtResource("1_is05b")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -87,14 +89,25 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/EnemyHurtBox"]
 shape = SubResource("RectangleShape2D_4o3l1")
 
+[node name="EnemyHitBox" type="Area2D" parent="AnimatedSprite2D"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/EnemyHitBox"]
+position = Vector2(-1.15161e-06, -0.603774)
+shape = SubResource("RectangleShape2D_n3n0j")
+
 [node name="killzone" parent="." instance=ExtResource("3_g33v7")]
+visible = false
+monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="killzone"]
+visible = false
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_2yjti")
 
 [node name="scene-collision" type="CollisionShape2D" parent="."]
-position = Vector2(0, -1)
+position = Vector2(0, -1.25)
 shape = SubResource("RectangleShape2D_dkhp7")
 
 [node name="HealthBar" parent="." instance=ExtResource("4_fi21h")]

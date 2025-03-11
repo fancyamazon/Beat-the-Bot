@@ -26,19 +26,25 @@ var attack_cooldown = 0.3 # seconds
 var GRAPPLE_LENGTH = 200.0  # Adjust as needed
 @onready var grapple_point = null #point where the player is grappling to
 var is_grappling = false
+	
+#health and healthbar
+var health = 100
+@onready var health_bar: ProgressBar = $CanvasLayer/HealthBar
 
+<<<<<<< HEAD
 #ranged projectile----
 @onready var main=get_tree().get_root().get_node("Game")
 @onready var bullet=load("res://scripts/bullet.tscn")
 @export var spawn_offset: Vector2 = Vector2(20, -20)
 
+=======
+# ------------------------------ BEGIN FUNCTIONS ---------------------------------- #
+>>>>>>> c247e0e37bef7ee8adf94bb24bf49af0c2da1227
 #make it globally known that this is the player
 func _ready():
 	add_to_group("player")
+	health_bar._init_health(health)
 	
-#health
-var health = 100
-
 func _physics_process(delta: float) -> void:
 	#animations
 		
@@ -164,10 +170,11 @@ func _physics_process(delta: float) -> void:
 
 func take_damage(amount: int) -> void:
 	health -= amount
+	health_bar.health = health
 	if health <= 0:
-		print("Enemy died")
+		print("Player died")
 	else:
-		print("Enemy health left: ", health)
+		print("Player health left: ", health)
 
 func deal_damage(): 
 	$AnimatedSprite2D/PlayerHitBox.monitoring = true
@@ -179,9 +186,10 @@ func _on_attack_timer_timeout() -> void:
 	on_attack_cooldown = false
 
 func _on_player_hit_box_area_entered(area: Area2D) -> void:
-	print(area, area.get_groups())
+	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	if area.is_in_group("hurtbox"):
 		area.owner.take_damage(5)
+<<<<<<< HEAD
 		
 func _shoot():
 	var instance = bullet.instantiate()
@@ -190,3 +198,10 @@ func _shoot():
 	instance.spawnPos = global_position + spawn_offset * facing_dir
 	instance.spawnRot = rotation  # Set the spawn rotation to the player's rotation (optional)
 	main.add_child(instance)  # Add the bullet to the scene
+=======
+
+func _on_player_hurt_box_area_entered(area: Area2D) -> void:
+	#print("something entered player hurtbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
+	if area.is_in_group("hitbox"):
+		take_damage(5)
+>>>>>>> c247e0e37bef7ee8adf94bb24bf49af0c2da1227
