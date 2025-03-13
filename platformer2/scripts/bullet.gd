@@ -14,6 +14,7 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	# Horizontal movement only
+	scale.x = dir
 	velocity = Vector2(SPEED * dir, 0)  # Only move horizontally, no vertical movement
 	global_position += velocity * delta  # Move the bullet by its velocity
 		# Destroy the bullet if it exceeds a certain X position

@@ -1,8 +1,8 @@
 [gd_scene load_steps=74 format=3 uid="uid://c3ja3raqyfvcq"]
 
-[ext_resource type="Script" path="res://scripts/grapple_controller.gd" id="3_4j151"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_tqg52"]
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_5yq6m"]
+[ext_resource type="Script" path="res://scripts/grapple_controller.gd" id="3_4j151"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="3_yo561"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x3e6b"]
@@ -618,6 +618,7 @@ position = Vector2(19, -42)
 points = PackedVector2Array(0, 0, 0, 0)
 width = 5.0
 default_color = Color(0, 0, 0, 1)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer"]
