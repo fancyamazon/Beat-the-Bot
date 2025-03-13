@@ -2,6 +2,7 @@ extends Area2D
 
 @export var max_distance: float = 2000  # Max X position before destroying the bullet
 @export var SPEED = 800
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
 var dir: int  # Direction: 1 for right, -1 for left
 var spawnPos: Vector2
@@ -14,6 +15,7 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	# Horizontal movement only
+	animated_sprite_2d.scale.x = dir*2
 	velocity = Vector2(SPEED * dir, 0)  # Only move horizontally, no vertical movement
 	global_position += velocity * delta  # Move the bullet by its velocity
 		# Destroy the bullet if it exceeds a certain X position
