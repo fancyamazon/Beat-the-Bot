@@ -1,8 +1,16 @@
+<<<<<<< HEAD
+[gd_scene load_steps=72 format=3 uid="uid://c3ja3raqyfvcq"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_tqg52"]
+[ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_5yq6m"]
+[ext_resource type="Script" path="res://scripts/grapple_controller.gd" id="3_4j151"]
+=======
 [gd_scene load_steps=73 format=3 uid="uid://c3ja3raqyfvcq"]
 
 [ext_resource type="Script" path="res://scripts/player.gd" id="1_tqg52"]
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_5yq6m"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="3_yo561"]
+>>>>>>> c247e0e37bef7ee8adf94bb24bf49af0c2da1227
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x3e6b"]
 atlas = ExtResource("2_5yq6m")
@@ -278,7 +286,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"crouch",
-"speed": 5.0
+"speed": 50.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -312,7 +320,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"grappling",
-"speed": 5.0
+"speed": 25.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -570,9 +578,9 @@ script = ExtResource("1_tqg52")
 position = Vector2(0, -30)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_wppeg")
-animation = &"melee-attack-uncharged"
+animation = &"grappling"
 autoplay = "idle"
-frame = 6
+frame = 1
 frame_progress = 1.0
 
 [node name="PlayerHitBox" type="Area2D" parent="AnimatedSprite2D"]
@@ -605,6 +613,20 @@ one_shot = true
 wait_time = 0.3
 one_shot = true
 
+<<<<<<< HEAD
+[node name="grapple_controller" type="Node2D" parent="."]
+script = ExtResource("3_4j151")
+
+[node name="RayCast2D" type="RayCast2D" parent="grapple_controller"]
+position = Vector2(19, -42)
+target_position = Vector2(1000, 0)
+
+[node name="Line2D" type="Line2D" parent="grapple_controller"]
+position = Vector2(19, -42)
+points = PackedVector2Array(0, 0, 0, 0)
+width = 5.0
+default_color = Color(0, 0, 0, 1)
+=======
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer"]
@@ -627,6 +649,7 @@ offset_right = 123.0
 offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 0
+>>>>>>> c247e0e37bef7ee8adf94bb24bf49af0c2da1227
 
 [connection signal="area_entered" from="AnimatedSprite2D/PlayerHitBox" to="." method="_on_player_hit_box_area_entered"]
 [connection signal="area_entered" from="AnimatedSprite2D/PlayerHurtBox" to="." method="_on_player_hurt_box_area_entered"]

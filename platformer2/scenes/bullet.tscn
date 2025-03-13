@@ -1,17 +1,55 @@
-[gd_scene load_steps=3 format=3 uid="uid://dhj6810wo5xhx"]
+[gd_scene load_steps=9 format=3 uid="uid://dhj6810wo5xhx"]
 
-[ext_resource type="Texture2D" uid="uid://hpelvi3t8yl8" path="res://icon.svg" id="1_mqmb8"]
+[ext_resource type="Script" path="res://scripts/bullet.gd" id="1_47guu"]
+[ext_resource type="Texture2D" uid="uid://cxo4jbtq6w0u5" path="res://assets/small-rocket.png" id="2_vn1n3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yfo4p"]
-size = Vector2(48, 10)
+size = Vector2(26, 10)
 
-[node name="Area2D" type="Area2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3d3v"]
+atlas = ExtResource("2_vn1n3")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0qhrn"]
+atlas = ExtResource("2_vn1n3")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hsw1s"]
+atlas = ExtResource("2_vn1n3")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cgfu4"]
+atlas = ExtResource("2_vn1n3")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_bdj6a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3d3v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0qhrn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hsw1s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cgfu4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="bullet" type="Area2D"]
+script = ExtResource("1_47guu")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 2)
+position = Vector2(3, -1)
 shape = SubResource("RectangleShape2D_yfo4p")
 
-[node name="Icon" type="Sprite2D" parent="."]
-position = Vector2(2.98023e-07, 2.00327)
-scale = Vector2(0.375, 0.078176)
-texture = ExtResource("1_mqmb8")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_bdj6a")
+autoplay = "default"

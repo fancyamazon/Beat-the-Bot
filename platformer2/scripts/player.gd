@@ -5,6 +5,8 @@ const JUMP_VELOCITY = -450.0
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 var can_double_jump = true
 
+var facing_dir: int=1
+
 #dashing------
 var DASH_SPEED = 800.0
 var DASH_DURATION = 0.2
@@ -29,7 +31,15 @@ var is_grappling = false
 var health = 100
 @onready var health_bar: ProgressBar = $CanvasLayer/HealthBar
 
+<<<<<<< HEAD
+#ranged projectile----
+@onready var main=get_tree().get_root().get_node("Game")
+@onready var bullet=load("res://scripts/bullet.tscn")
+@export var spawn_offset: Vector2 = Vector2(20, -20)
+
+=======
 # ------------------------------ BEGIN FUNCTIONS ---------------------------------- #
+>>>>>>> c247e0e37bef7ee8adf94bb24bf49af0c2da1227
 #make it globally known that this is the player
 func _ready():
 	add_to_group("player")
@@ -66,15 +76,15 @@ func _physics_process(delta: float) -> void:
 			is_dashing = false
 			# Add a small cooldown if you want
 			#await get_tree().create_timer(0.2).finished #example cooldown
-	#grapple
-	if Input.is_action_just_pressed("grapple"):  # Replace "grapple" with your action name
-		if not is_grappling:
-			_start_grapple()
-		else:
-			_stop_grapple()
-
-	if is_grappling:
-		_update_grapple(delta)
+	##grapple
+	#if Input.is_action_just_pressed("grapple"):  # Replace "grapple" with your action name
+		#if not is_grappling:
+			#_start_grapple()
+		#else:
+			#_stop_grapple()
+#
+	#if is_grappling:
+		#_update_grapple(delta)
 	
 	# Add the gravity.
 	if not is_on_floor():
@@ -88,6 +98,10 @@ func _physics_process(delta: float) -> void:
 	# Melee Attack
 	if Input.is_action_just_pressed("attack") and not on_attack_cooldown:
 		deal_damage()
+		
+	# ranged attack
+	if(Input.is_action_just_pressed("ranged")):
+		_shoot()
 
 	# Reset mid-air jump when on the floor
 	if is_on_floor():
@@ -100,8 +114,12 @@ func _physics_process(delta: float) -> void:
 	#animation facing direction
 	
 	if direction >0:
+		facing_dir=1
+		spawn_offset= Vector2(20, -20)
 		animated_sprite_2d.scale.x=2
 	elif direction<0:
+		facing_dir=-1
+		spawn_offset= Vector2(20, 20)
 		animated_sprite_2d.scale.x=-2
 
 	
@@ -118,10 +136,12 @@ func _physics_process(delta: float) -> void:
 		animated_sprite_2d.play("dash")
 	#elif on_attack_cooldown:
 	#	animated_sprite_2d.play("melee-attack-charging") #yes i know this shouldn't go here
-	elif is_grappling:
+	elif Input.is_action_pressed("grapple"):
 		animated_sprite_2d.animation = "grappling" # use for anims that don't repeat
 	elif not is_on_floor():
 		animated_sprite_2d.play("jumping")
+	elif Input.is_action_pressed("ranged"):
+		animated_sprite_2d.animation ="ranged-attack-uncharged"
 	elif (velocity.x > 1 || velocity.x < -1):
 		animated_sprite_2d.play("running")
 	elif Input.is_action_pressed("crouch"):  # Check for crouch FIRST
@@ -131,22 +151,22 @@ func _physics_process(delta: float) -> void:
 	
 	#print(attack_timer.time_left)
 	
-func _start_grapple():
-	var mouse_pos = get_global_mouse_position()
-	grapple_point = mouse_pos #for now, just grapple to mouse position
-	is_grappling = true
-
-func _update_grapple(delta):
-	# Calculate direction to grapple point
-	var grapple_direction = (grapple_point - global_position).normalized()
-
-	# Apply force towards grapple point (you might want to tune this)
-	velocity = grapple_direction * 400 #example force
-
-func _stop_grapple():
-	is_grappling = false
-	grapple_point = null #release grapple point
-	# You might want to add some swing/momentum handling here
+#func _start_grapple():
+	#var mouse_pos = get_global_mouse_position()
+	#grapple_point = mouse_pos #for now, just grapple to mouse position
+	#is_grappling = true
+#
+#func _update_grapple(delta):
+	## Calculate direction to grapple point
+	#var grapple_direction = (grapple_point - global_position).normalized()
+#
+	## Apply force towards grapple point (you might want to tune this)
+	#velocity = grapple_direction * 400 #example force
+#
+#func _stop_grapple():
+	#is_grappling = false
+	#grapple_point = null #release grapple point
+	## You might want to add some swing/momentum handling here
 
 func take_damage(amount: int) -> void:
 	health -= amount
@@ -169,8 +189,19 @@ func _on_player_hit_box_area_entered(area: Area2D) -> void:
 	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	if area.is_in_group("hurtbox"):
 		area.owner.take_damage(5)
+<<<<<<< HEAD
+		
+func _shoot():
+	var instance = bullet.instantiate()
+	instance.dir = facing_dir  # Set the bullet's direction to the last pressed direction
+	#instance.spawnPos = global_position  # Set the spawn position to the player's position
+	instance.spawnPos = global_position + spawn_offset * facing_dir
+	instance.spawnRot = rotation  # Set the spawn rotation to the player's rotation (optional)
+	main.add_child(instance)  # Add the bullet to the scene
+=======
 
 func _on_player_hurt_box_area_entered(area: Area2D) -> void:
 	#print("something entered player hurtbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	if area.is_in_group("hitbox"):
 		take_damage(5)
+>>>>>>> c247e0e37bef7ee8adf94bb24bf49af0c2da1227
