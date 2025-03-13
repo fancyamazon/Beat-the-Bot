@@ -31,15 +31,12 @@ var is_grappling = false
 var health = 100
 @onready var health_bar: ProgressBar = $CanvasLayer/HealthBar
 
-<<<<<<< HEAD
 #ranged projectile----
 @onready var main=get_tree().get_root().get_node("Game")
-@onready var bullet=load("res://scripts/bullet.tscn")
+@onready var bullet=load("res://scenes/bullet.tscn")
 @export var spawn_offset: Vector2 = Vector2(20, -20)
 
-=======
 # ------------------------------ BEGIN FUNCTIONS ---------------------------------- #
->>>>>>> c247e0e37bef7ee8adf94bb24bf49af0c2da1227
 #make it globally known that this is the player
 func _ready():
 	add_to_group("player")
@@ -189,7 +186,6 @@ func _on_player_hit_box_area_entered(area: Area2D) -> void:
 	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	if area.is_in_group("hurtbox"):
 		area.owner.take_damage(5)
-<<<<<<< HEAD
 		
 func _shoot():
 	var instance = bullet.instantiate()
@@ -198,10 +194,8 @@ func _shoot():
 	instance.spawnPos = global_position + spawn_offset * facing_dir
 	instance.spawnRot = rotation  # Set the spawn rotation to the player's rotation (optional)
 	main.add_child(instance)  # Add the bullet to the scene
-=======
 
 func _on_player_hurt_box_area_entered(area: Area2D) -> void:
 	#print("something entered player hurtbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	if area.is_in_group("hitbox"):
 		take_damage(5)
->>>>>>> c247e0e37bef7ee8adf94bb24bf49af0c2da1227

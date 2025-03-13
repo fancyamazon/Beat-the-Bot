@@ -4,9 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://lp3tjt6016tn" path="res://assets/Free/Terrain/Terrain (16x16).png" id="2_8mj6l"]
 [ext_resource type="PackedScene" uid="uid://st3xivfw0pcs" path="res://scenes/platform.tscn" id="3_7lvvc"]
 [ext_resource type="PackedScene" uid="uid://hc6gcfko7dn2" path="res://scenes/killzone.tscn" id="4_r3qmr"]
-<<<<<<< HEAD
-[ext_resource type="PackedScene" path="res://scenes/enemy.tscn" id="5_dp0s8"]
-=======
 [ext_resource type="PackedScene" uid="uid://b8pf7fww7yfun" path="res://scenes/enemy.tscn" id="5_dp0s8"]
 [ext_resource type="Texture2D" uid="uid://dby6anbfo5aev" path="res://assets/lightning-bg/lightning_bg0.png" id="6_1mkk5"]
 [ext_resource type="Texture2D" uid="uid://b0hvm8ocpggm8" path="res://assets/lightning-bg/lightning_bg1.png" id="7_lighe"]
@@ -24,7 +21,6 @@ frame_2/texture = ExtResource("8_xv1lx")
 frame_2/duration = 1.0
 frame_3/texture = ExtResource("9_uxdud")
 frame_3/duration = 1.0
->>>>>>> 139ac25552062fb57c67f1a078a30f808aafadf8
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_nr660"]
 texture = ExtResource("2_8mj6l")
