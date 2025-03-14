@@ -21,3 +21,9 @@ func _physics_process(delta: float) -> void:
 		# Destroy the bullet if it exceeds a certain X position
 	if abs(global_position.x) > max_distance:
 		queue_free()  # Destroy the bullet
+
+
+func _on_bullet_hitbox_area_entered(area: Area2D) -> void:
+	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
+	if area.is_in_group("hurtbox"):
+		area.owner.take_damage(10)
