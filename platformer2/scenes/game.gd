@@ -20,3 +20,9 @@ func _process(delta: float) -> void:
 		else:
 			x_pos = 0
 		main.add_child(instance) 
+	if Input.is_action_just_pressed("spawn2"): 
+		var instance = null
+		for x in range(-2600, 1300, 20):
+			instance = enemy.instantiate()
+			instance.global_position.x = x
+			main.add_child(instance) 

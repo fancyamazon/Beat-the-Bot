@@ -15,8 +15,8 @@ var DASH_DURATION = 0.2
 var DASH_COOLDOWN = 0.5
 
 
-#var is_dashing = false
-var current_action = "idle"
+var is_dashing = false
+#var current_action = "idle"
 
 var can_dash = true
 var dash_direction = Vector2.ZERO
@@ -49,7 +49,7 @@ func _ready():
 	
 func action_dash():
 	animated_sprite_2d.play("dash")
-	if current_action != "dash":
+	if not is_dashing:
 		dash_direction = Vector2(velocity.x, 0).normalized()#velocity.normalized()  # Get direction of movement
 
 			# Check if the player isn't moving (using a threshold for precision)
@@ -59,14 +59,15 @@ func action_dash():
 				dash_direction = Vector2(-1, 0)  # Dash left
 			else:  # Facing right (scale.x > 0)
 				dash_direction = Vector2(1, 0)   # Dash right
-		current_action = "dash"
+		is_dashing = true
 		dash_timer = DASH_DURATION
 
 func action_jump():
 	animated_sprite_2d.play("jumping")
 	if can_double_jump:
 		velocity.y = JUMP_VELOCITY
-		can_double_jump = false # Disable until player lands
+		if not is_on_floor():
+			can_double_jump = false # Disable until player lands
 
 func _physics_process(delta: float) -> void:
 	#animations
@@ -76,14 +77,14 @@ func _physics_process(delta: float) -> void:
 		can_double_jump = true
 		animated_sprite_2d.play("jumping-landing")
 
-	if current_action == "dash":
+	if is_dashing:
 		velocity.y = 0 #no grav/fall during dash
 		velocity = dash_direction * DASH_SPEED
 		#print(animated_sprite_2d.animation.is_p)
 		
 		dash_timer -= delta
 		if dash_timer <= 0:
-			current_action = "idle"
+			is_dashing = false
 			# Add a small cooldown if you want
 			#await get_tree().create_timer(0.2).finished #example cooldown
 	##grapple
@@ -207,5 +208,6 @@ func action_grapple_retract():
 
 
 func _on_player_animation_finished() -> void:
+	print(animated_sprite_2d.animation)
 	if animated_sprite_2d.animation not in ["grappling", "crouching"]:
 		animated_sprite_2d.play("idle") # Replace with function body.
