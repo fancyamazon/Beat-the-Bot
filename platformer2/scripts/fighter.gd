@@ -24,7 +24,7 @@ var dash_timer = 0.0
 @onready var timer: Timer = $DashTimer # Get the Timer node 
 
 var on_attack_cooldown = false
-var attack_cooldown = 0.3 # seconds
+var attack_cooldown = 1 # seconds
 @onready var attack_timer: Timer = $AttackTimer
 
 #grapple----
@@ -168,10 +168,12 @@ func action_melee():
 		$AnimatedSprite2D/PlayerHitBox.monitoring = true
 		on_attack_cooldown = true
 		attack_timer.start(attack_cooldown)
+		print(attack_cooldown)
 	
 func _on_attack_timer_timeout() -> void:
 	$AnimatedSprite2D/PlayerHitBox.monitoring = false
 	on_attack_cooldown = false
+
 
 func _on_player_hit_box_area_entered(area: Area2D) -> void:
 	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
