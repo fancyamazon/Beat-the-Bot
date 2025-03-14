@@ -344,7 +344,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_1q0y4")
 }],
-"loop": true,
+"loop": false,
 "name": &"jumping-landing",
 "speed": 5.0
 }, {
@@ -571,10 +571,8 @@ script = ExtResource("1_tqg52")
 position = Vector2(0, -30)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_wppeg")
-animation = &"grappling"
+animation = &"shield-up"
 autoplay = "idle"
-frame = 1
-frame_progress = 1.0
 
 [node name="PlayerHitBox" type="Area2D" parent="AnimatedSprite2D"]
 collision_layer = 2
@@ -642,6 +640,7 @@ offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 0
 
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_player_animation_finished"]
 [connection signal="area_entered" from="AnimatedSprite2D/PlayerHitBox" to="." method="_on_player_hit_box_area_entered"]
 [connection signal="area_entered" from="AnimatedSprite2D/PlayerHurtBox" to="." method="_on_player_hurt_box_area_entered"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

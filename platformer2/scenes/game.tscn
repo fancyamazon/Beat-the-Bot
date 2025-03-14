@@ -1,6 +1,7 @@
-[gd_scene load_steps=28 format=3 uid="uid://d07nvyd5qem1x"]
+[gd_scene load_steps=29 format=3 uid="uid://d07nvyd5qem1x"]
 
 [ext_resource type="PackedScene" uid="uid://c3ja3raqyfvcq" path="res://scenes/player.tscn" id="1_nx1nf"]
+[ext_resource type="Script" path="res://scenes/game.gd" id="1_w04m8"]
 [ext_resource type="Texture2D" uid="uid://lp3tjt6016tn" path="res://assets/Free/Terrain/Terrain (16x16).png" id="2_8mj6l"]
 [ext_resource type="PackedScene" uid="uid://st3xivfw0pcs" path="res://scenes/platform.tscn" id="3_7lvvc"]
 [ext_resource type="PackedScene" uid="uid://hc6gcfko7dn2" path="res://scenes/killzone.tscn" id="4_r3qmr"]
@@ -359,6 +360,7 @@ _data = {
 
 [node name="Game" type="Node2D"]
 position = Vector2(-198, -343)
+script = ExtResource("1_w04m8")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 offset_left = -1004.0

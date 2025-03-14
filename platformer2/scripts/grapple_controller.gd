@@ -14,10 +14,10 @@ var target: Vector2
 func _process(delta):
 	ray.look_at(get_global_mouse_position())
 	
-	if Input.is_action_just_pressed("grapple"):
-		launch()
-	if Input.is_action_just_released("grapple"):
-		retract()
+	#if Input.is_action_just_pressed("grapple"):
+	#	launch()
+	#if Input.is_action_just_released("grapple"):
+	#	retract()
 	
 	if launched:
 		handle_grapple(delta)
