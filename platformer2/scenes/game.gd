@@ -14,11 +14,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("spawn"): 
 		var instance = enemy.instantiate()
-		instance.global_position.x = x_pos
-		if x_pos < 200:
-			x_pos = x_pos + 10
-		else:
-			x_pos = 0
+		instance.global_position = get_global_mouse_position()
 		main.add_child(instance) 
 	if Input.is_action_just_pressed("spawn2"): 
 		var instance = null

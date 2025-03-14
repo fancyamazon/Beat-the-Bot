@@ -360,7 +360,6 @@ _data = {
 }
 
 [node name="Game" type="Node2D"]
-position = Vector2(-198, -343)
 script = ExtResource("1_w04m8")
 
 [node name="TextureRect" type="TextureRect" parent="."]
