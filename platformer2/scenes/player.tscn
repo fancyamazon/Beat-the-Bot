@@ -612,8 +612,7 @@ position = Vector2(19, -42)
 target_position = Vector2(1000, 0)
 
 [node name="Line2D" type="Line2D" parent="grapple_controller"]
-position = Vector2(19, -42)
-points = PackedVector2Array(0, 0, 0, 0)
+points = PackedVector2Array(19, -42, 19, -42)
 width = 5.0
 default_color = Color(0, 0, 0, 1)
 
