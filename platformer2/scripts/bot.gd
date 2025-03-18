@@ -5,6 +5,9 @@ var shooting = false
 var jumping = true
 var jump_this_frame = false
 
+func get_team():
+	return "bot"
+
 func decide_actions():
 	if jump_this_frame:
 		action_jump() # jummping every frame wastes the double jump

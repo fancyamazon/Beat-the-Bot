@@ -5,6 +5,8 @@ const JUMP_VELOCITY = -450.0
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 var jumps_used = 0
 var JUMPS_MAX = 2
+
+#var team = 0
 #var can_double_jump = true
 
 var facing_dir: int=1
@@ -46,9 +48,21 @@ var health = 100
 
 # ------------------------------ BEGIN FUNCTIONS ---------------------------------- #
 #make it globally known that this is the player
+
+func get_team():
+	return "player"
+
 func _ready():
-	add_to_group("player")
+	add_to_group(get_team())
+	$AnimatedSprite2D/PlayerHurtBox.add_to_group("hurtbox")
+	#$AnimatedSprite2D/PlayerHitBox.add_to_group("hitbox")
 	health_bar._init_health(health)
+	if is_in_group("player"):
+		print("player")
+		health_bar.position.x = 200
+	else:
+		print("bot")
+		health_bar.position.x = 700
 	
 func action_dash():
 	if (not is_dashing) and (not on_dash_cooldown):
@@ -66,9 +80,9 @@ func action_dash():
 		is_dashing = true
 		dash_timer = DASH_DURATION
 		
-		print('dashed')
+		#print('dashed')
 		timer.start(DASH_COOLDOWN)
-		print(timer.time_left)
+		#print(timer.time_left)
 
 func action_jump():
 	if jumps_used < JUMPS_MAX:
@@ -154,13 +168,20 @@ func _on_attack_timer_timeout() -> void:
 
 func _on_player_hit_box_area_entered(area: Area2D) -> void:
 	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
-	if area.is_in_group("hurtbox"):
+	if area.is_in_group("hurtbox") and area.owner.get_team() != get_team():
 		area.owner.take_damage(20)
 		
 func action_ranged():
 	animated_sprite_2d.play("ranged-attack-uncharged")
 	var instance = bullet.instantiate()
 	instance.dir = facing_dir  # Set the bullet's direction to the last pressed direction
+	if get_team() == "player":
+		instance.get_node("BulletHitbox").set_collision_layer(3)
+		instance.get_node("BulletHitbox").set_collision_mask(3)
+	else:
+	
+		instance.get_node("BulletHitbox").set_collision_layer(2)
+		instance.get_node("BulletHitbox").set_collision_mask(2)
 	#instance.spawnPos = global_position  # Set the spawn position to the player's position
 	instance.spawnPos = global_position + spawn_offset * facing_dir
 	instance.spawnRot = rotation  # Set the spawn rotation to the player's rotation (optional)
@@ -168,7 +189,7 @@ func action_ranged():
 
 func _on_player_hurt_box_area_entered(area: Area2D) -> void:
 	#print("something entered player hurtbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
-	if area.is_in_group("hitbox"):
+	if area.is_in_group("hitbox") and area.owner.get_team() != get_team():
 		take_damage(5)
 
 func decide_actions():

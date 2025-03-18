@@ -46,6 +46,9 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 
+func get_team():
+	return "enemy"
+
 func take_damage(amount: int) -> void:
 	health -= amount
 	health_bar.health = health

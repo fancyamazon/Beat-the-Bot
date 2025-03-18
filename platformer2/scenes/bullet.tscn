@@ -58,8 +58,8 @@ sprite_frames = SubResource("SpriteFrames_bdj6a")
 autoplay = "default"
 
 [node name="BulletHitbox" type="Area2D" parent="."]
-collision_layer = 2
-collision_mask = 2
+collision_layer = 0
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BulletHitbox"]
 position = Vector2(3.5, -1)
