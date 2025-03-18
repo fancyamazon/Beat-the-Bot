@@ -564,7 +564,7 @@ radius = 20.0
 height = 62.0
 
 [node name="Player" type="CharacterBody2D"]
-collision_layer = 2
+collision_layer = 6
 script = ExtResource("1_tqg52")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -625,6 +625,7 @@ offset_right = 1127.0
 offset_bottom = 1252.0
 theme_override_font_sizes/font_size = 32
 text = "Player"
+metadata/_edit_use_anchors_ = true
 
 [node name="HealthBar" parent="CanvasLayer" instance=ExtResource("3_yo561")]
 anchors_preset = 7
@@ -638,6 +639,7 @@ offset_right = 123.0
 offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 0
+metadata/_edit_use_anchors_ = true
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_player_animation_finished"]
 [connection signal="area_entered" from="AnimatedSprite2D/PlayerHitBox" to="." method="_on_player_hit_box_area_entered"]

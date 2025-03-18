@@ -149,10 +149,10 @@ func set_sprite(direction: int):
 func take_damage(amount: int) -> void:
 	health -= amount
 	health_bar.health = health
-	if health <= 0:
-		print("Player died")
-	else:
-		print("Player health left: ", health)
+	#if health <= 0:
+	#	print("Player died")
+	#else:
+	#	print("Player health left: ", health)
 
 func action_melee(): 
 	if not on_attack_cooldown:
@@ -176,12 +176,15 @@ func action_ranged():
 	var instance = bullet.instantiate()
 	instance.dir = facing_dir  # Set the bullet's direction to the last pressed direction
 	if get_team() == "player":
-		instance.get_node("BulletHitbox").set_collision_layer(3)
-		instance.get_node("BulletHitbox").set_collision_mask(3)
+		print("player shot")
+		#instance.get_node("BulletHitbox").set_collision_layer(7)
+		instance.get_node("BulletHitbox").set_collision_mask_value(3, true)
+		instance.get_node("BulletHitbox").set_collision_mask_value(2, false)
 	else:
-	
-		instance.get_node("BulletHitbox").set_collision_layer(2)
-		instance.get_node("BulletHitbox").set_collision_mask(2)
+		print("bot shot")
+		#instance.get_node("BulletHitbox").set_collision_layer(7)
+		instance.get_node("BulletHitbox").set_collision_mask_value(2, true)
+		instance.get_node("BulletHitbox").set_collision_mask_value(3, false)
 	#instance.spawnPos = global_position  # Set the spawn position to the player's position
 	instance.spawnPos = global_position + spawn_offset * facing_dir
 	instance.spawnRot = rotation  # Set the spawn rotation to the player's rotation (optional)
