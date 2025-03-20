@@ -157,7 +157,7 @@ func action_strafe(input_dir: int):
 		strafe_direction = input_dir
 
 	# Apply velocity based on input_dir, but without flipping the sprite
-	velocity.x = 1.5*input_dir * SPEED #move speed is a variable
+	velocity.x = 3*input_dir * SPEED #move speed is a variable
 	#velocity = move_and_slide(velocity, Vector2.UP) #or however you apply velocity
 
 

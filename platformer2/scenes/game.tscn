@@ -388,7 +388,7 @@ position = Vector2(13.477, -48.049)
 position = Vector2(48.4033, -88.0899)
 
 [node name="platform6" parent="main_platforms" instance=ExtResource("3_7lvvc")]
-position = Vector2(125.302, -120.739)
+position = Vector2(125.507, -113.347)
 
 [node name="platform7" parent="main_platforms" instance=ExtResource("3_7lvvc")]
 position = Vector2(156.319, -194.66)
