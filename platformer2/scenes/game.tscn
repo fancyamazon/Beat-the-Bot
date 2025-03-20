@@ -12,7 +12,7 @@
 [ext_resource type="Texture2D" uid="uid://dwv0kqshqlw5l" path="res://assets/lightning-bg/lightning_bg3.png" id="9_uxdud"]
 [ext_resource type="AudioStream" uid="uid://bwg4xr4tb87lb" path="res://assets/BeatTheBot_3-11.wav" id="10_jehyl"]
 [ext_resource type="PackedScene" uid="uid://b3lw7a73lnbxs" path="res://scenes/bot.tscn" id="12_6f37j"]
-[ext_resource type="PackedScene" uid="uid://b3bfx4ocxi8yq" path="res://scenes/passive_bot.tscn" id="13_sni34"]
+[ext_resource type="PackedScene" path="res://scenes/passive_bot.tscn" id="13_sni34"]
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_7obcx"]
 frames = 4
