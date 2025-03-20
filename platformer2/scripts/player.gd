@@ -35,6 +35,8 @@ var health = 100
 @onready var main=get_tree().get_root().get_node("Game")
 @onready var bullet=load("res://scenes/bullet.tscn")
 @export var spawn_offset: Vector2 = Vector2(20, -20)
+#charged range projectile
+var charging=false
 
 # ------------------------------ BEGIN FUNCTIONS ---------------------------------- #
 #make it globally known that this is the player
@@ -97,7 +99,7 @@ func _physics_process(delta: float) -> void:
 		deal_damage()
 		
 	# ranged attack
-	if(Input.is_action_just_pressed("ranged")):
+	if(Input.is_action_just_released("ranged")):
 		_shoot()
 
 	# Reset mid-air jump when on the floor
@@ -138,7 +140,17 @@ func _physics_process(delta: float) -> void:
 	elif not is_on_floor():
 		animated_sprite_2d.play("jumping")
 	elif Input.is_action_pressed("ranged"):
-		animated_sprite_2d.animation ="ranged-attack-uncharged"
+		#if(Input.is_action_just_released("ranged")):
+		animated_sprite_2d.animation="ranged-attack-uncharged"
+			#charging=false
+		#else:
+			#charging=true
+		#
+		#if(charging==false):
+			#animated_sprite_2d.animation ="ranged-attack-uncharged"
+		#else:
+			#animated_sprite_2d.animation ="ranged-attack-charging"
+			#animated_sprite_2d.animation ="ranged-attack-held-charge"
 	elif (velocity.x > 1 || velocity.x < -1):
 		animated_sprite_2d.play("running")
 	elif Input.is_action_pressed("crouch"):  # Check for crouch FIRST

@@ -361,6 +361,7 @@ _data = {
 position = Vector2(-198, -343)
 
 [node name="TextureRect" type="TextureRect" parent="."]
+visible = false
 offset_left = -1004.0
 offset_top = -387.0
 offset_right = 1242.0
