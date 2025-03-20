@@ -1,9 +1,10 @@
-[gd_scene load_steps=78 format=3 uid="uid://myphnaj3lltv"]
+[gd_scene load_steps=79 format=3 uid="uid://myphnaj3lltv"]
 
 [ext_resource type="Script" path="res://scripts/passive_bot.gd" id="1_dqo31"]
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_ols78"]
 [ext_resource type="Script" path="res://scripts/grapple_controller.gd" id="3_uyfad"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="4_bpn2g"]
+[ext_resource type="FontFile" uid="uid://ba46rbpxu84gj" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="5_67uoa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x3e6b"]
 atlas = ExtResource("2_ols78")
@@ -563,13 +564,13 @@ size = Vector2(12, 25.5)
 size = Vector2(31, 20.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q0blw"]
-size = Vector2(232.5, 255)
+size = Vector2(503.5, 255)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_k11pt"]
 size = Vector2(83, 258)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2eav7"]
-size = Vector2(396, 505)
+size = Vector2(1071, 505)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ewomo"]
 radius = 20.0
@@ -616,7 +617,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/BotRangedSensor"]
-position = Vector2(152.25, -25)
+position = Vector2(287.75, -25)
 shape = SubResource("RectangleShape2D_q0blw")
 
 [node name="AboveSensor" type="Area2D" parent="AnimatedSprite2D"]
@@ -636,7 +637,7 @@ collision_layer = 2
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/BehindSensor"]
-position = Vector2(-248, -83.5)
+position = Vector2(-585.5, -83.5)
 shape = SubResource("RectangleShape2D_2eav7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -667,14 +668,6 @@ default_color = Color(0, 0, 0, 1)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="CanvasLayer"]
-offset_left = 1030.0
-offset_top = 1207.0
-offset_right = 1127.0
-offset_bottom = 1252.0
-theme_override_font_sizes/font_size = 32
-text = "Player"
-
 [node name="HealthBar" parent="CanvasLayer" instance=ExtResource("4_bpn2g")]
 anchors_preset = 7
 anchor_left = 0.5
@@ -682,11 +675,21 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -127.0
-offset_top = -41.0
+offset_top = -162.0
 offset_right = 123.0
-offset_bottom = -25.0
+offset_bottom = -146.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="SneakyBotLabel" type="Label" parent="CanvasLayer/HealthBar"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = -23.0
+offset_right = 323.0
+offset_bottom = 22.0
+theme_override_fonts/font = ExtResource("5_67uoa")
+theme_override_font_sizes/font_size = 16
+text = "Sneaky Bot"
 
 [node name="JumpTimer" type="Timer" parent="."]
 wait_time = 10.0

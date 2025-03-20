@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://d07nvyd5qem1x"]
+[gd_scene load_steps=33 format=3 uid="uid://d07nvyd5qem1x"]
 
 [ext_resource type="PackedScene" uid="uid://c3ja3raqyfvcq" path="res://scenes/player.tscn" id="1_nx1nf"]
 [ext_resource type="Script" path="res://scenes/game.gd" id="1_w04m8"]
@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://ckau8nb4eq5vk" path="res://assets/lightning-bg/lightning_bg2.png" id="8_xv1lx"]
 [ext_resource type="Texture2D" uid="uid://dwv0kqshqlw5l" path="res://assets/lightning-bg/lightning_bg3.png" id="9_uxdud"]
 [ext_resource type="AudioStream" uid="uid://bwg4xr4tb87lb" path="res://assets/BeatTheBot_3-11.wav" id="10_jehyl"]
+[ext_resource type="FontFile" uid="uid://b8wcbm5ximtu5" path="res://assets/fonts/PixelOperator8.ttf" id="11_50rtv"]
 [ext_resource type="PackedScene" uid="uid://b3lw7a73lnbxs" path="res://scenes/bot.tscn" id="12_6f37j"]
 [ext_resource type="PackedScene" uid="uid://b3bfx4ocxi8yq" path="res://scenes/passive_bot.tscn" id="13_sni34"]
 [ext_resource type="PackedScene" uid="uid://myphnaj3lltv" path="res://scenes/sneaky_bot.tscn" id="14_tjcyu"]
@@ -509,11 +510,12 @@ autoplay = "moving_platform"
 position = Vector2(244, 97)
 
 [node name="Label" type="Label" parent="."]
-offset_left = 102.0
-offset_top = 412.0
-offset_right = 337.0
-offset_bottom = 617.0
-theme_override_font_sizes/font_size = 12
+offset_left = 15.0
+offset_top = 395.0
+offset_right = 621.0
+offset_bottom = 600.0
+theme_override_fonts/font = ExtResource("11_50rtv")
+theme_override_font_sizes/font_size = 16
 text = "CONTROLS
 move: wasd / arrow keys (space works for jump)
 crouch: s / left shift / down
@@ -537,4 +539,4 @@ position = Vector2(-1325, 284)
 position = Vector2(1833, 48)
 
 [node name="sneaky_bot" parent="." instance=ExtResource("14_tjcyu")]
-position = Vector2(-2956, -91)
+position = Vector2(-2962, -91)

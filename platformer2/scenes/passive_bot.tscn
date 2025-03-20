@@ -1,9 +1,10 @@
-[gd_scene load_steps=78 format=3 uid="uid://b3bfx4ocxi8yq"]
+[gd_scene load_steps=79 format=3 uid="uid://b3bfx4ocxi8yq"]
 
 [ext_resource type="Script" path="res://scripts/passive_bot.gd" id="1_psbud"]
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_xi43e"]
 [ext_resource type="Script" path="res://scripts/grapple_controller.gd" id="3_xf5dy"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="4_vyw0f"]
+[ext_resource type="FontFile" uid="uid://ba46rbpxu84gj" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="5_v2tco"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x3e6b"]
 atlas = ExtResource("2_xi43e")
@@ -667,14 +668,6 @@ default_color = Color(0, 0, 0, 1)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="CanvasLayer"]
-offset_left = 1030.0
-offset_top = 1207.0
-offset_right = 1127.0
-offset_bottom = 1252.0
-theme_override_font_sizes/font_size = 32
-text = "Player"
-
 [node name="HealthBar" parent="CanvasLayer" instance=ExtResource("4_vyw0f")]
 anchors_preset = 7
 anchor_left = 0.5
@@ -682,11 +675,20 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -127.0
-offset_top = -41.0
+offset_top = -103.0
 offset_right = 123.0
-offset_bottom = -25.0
+offset_bottom = -87.0
 grow_horizontal = 2
 grow_vertical = 0
+
+[node name="PassiveBotLabel" type="Label" parent="CanvasLayer/HealthBar"]
+offset_left = -1.0
+offset_top = -23.0
+offset_right = 323.0
+offset_bottom = 22.0
+theme_override_fonts/font = ExtResource("5_v2tco")
+theme_override_font_sizes/font_size = 16
+text = "Passive Bot"
 
 [node name="JumpTimer" type="Timer" parent="."]
 wait_time = 10.0
