@@ -620,15 +620,6 @@ default_color = Color(0, 0, 0, 1)
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Label" type="Label" parent="CanvasLayer"]
-offset_left = 1030.0
-offset_top = 1207.0
-offset_right = 1127.0
-offset_bottom = 1252.0
-theme_override_font_sizes/font_size = 32
-text = "Player"
-metadata/_edit_use_anchors_ = true
-
 [node name="HealthBar" parent="CanvasLayer" instance=ExtResource("3_yo561")]
 anchors_preset = 7
 anchor_left = 0.5
@@ -641,6 +632,15 @@ offset_right = 123.0
 offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer/HealthBar"]
+offset_left = 5.0
+offset_top = -48.0
+offset_right = 102.0
+offset_bottom = -3.0
+theme_override_font_sizes/font_size = 32
+text = "Player"
 metadata/_edit_use_anchors_ = true
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_player_animation_finished"]
