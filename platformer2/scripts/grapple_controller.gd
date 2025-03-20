@@ -1,8 +1,8 @@
 extends Node2D
 
-@export var rest_length=0.2
-@export var stiffness=40.0
-@export var damping=5.0
+@export var rest_length=1.0
+@export var stiffness=30.0
+@export var damping=10.0
 
 @onready var player := get_parent()
 @onready var ray := $RayCast2D
@@ -14,10 +14,10 @@ var target: Vector2
 func _process(delta):
 	ray.look_at(get_global_mouse_position())
 	
-	if Input.is_action_just_pressed("grapple"):
-		launch()
-	if Input.is_action_just_released("grapple"):
-		retract()
+	#if Input.is_action_just_pressed("grapple"):
+	#	launch()
+	#if Input.is_action_just_released("grapple"):
+	#	retract()
 	
 	if launched:
 		handle_grapple(delta)

@@ -46,10 +46,13 @@ func _physics_process(delta: float) -> void:
 	
 	move_and_slide()
 
+func get_team():
+	return "enemy"
+
 func take_damage(amount: int) -> void:
 	health -= amount
 	health_bar.health = health
 	if health <= 0:
-		print("Enemy died")
+		self.queue_free()
 	else:
 		print("Enemy health left: ", health)
