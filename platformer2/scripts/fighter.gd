@@ -203,7 +203,7 @@ func _on_attack_timer_timeout() -> void:
 
 
 func _on_player_hit_box_area_entered(area: Area2D) -> void:
-	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
+	print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	if area.is_in_group("hurtbox") and area.owner.get_team() != get_team():
 		area.owner.take_damage(20)
 		
