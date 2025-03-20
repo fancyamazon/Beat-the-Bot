@@ -83,8 +83,8 @@ animation = &"running"
 autoplay = "idle"
 
 [node name="EnemyHurtBox" type="Area2D" parent="AnimatedSprite2D"]
-collision_layer = 2
-collision_mask = 2
+collision_layer = 6
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/EnemyHurtBox"]
 shape = SubResource("RectangleShape2D_4o3l1")

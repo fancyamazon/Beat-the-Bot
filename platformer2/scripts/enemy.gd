@@ -11,7 +11,11 @@ var health = 100
 @onready var enemy_hurt_box: Area2D = $AnimatedSprite2D/EnemyHurtBox
 @onready var health_bar: ProgressBar = $HealthBar
 
+func get_team():
+	return "enemy"
+	
 func _ready():
+	add_to_group(get_team())
 	enemy_hurt_box.add_to_group("hurtbox")
 	enemy_hit_box.add_to_group("hitbox")
 	health_bar._init_health(health)
@@ -45,9 +49,6 @@ func _physics_process(delta: float) -> void:
 	animated_sprite_2d.flip_h = velocity.x < 0
 	
 	move_and_slide()
-
-func get_team():
-	return "enemy"
 
 func take_damage(amount: int) -> void:
 	health -= amount

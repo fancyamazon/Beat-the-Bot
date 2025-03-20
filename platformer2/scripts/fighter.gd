@@ -185,8 +185,8 @@ func set_sprite(direction: int):
 func take_damage(amount: int) -> void:
 	health -= amount
 	health_bar.health = health
-	#if health <= 0:
-	#	print("Player died")
+	if health <= 0:
+		get_tree().reload_current_scene()
 	#else:
 	#	print("Player health left: ", health)
 
@@ -203,7 +203,7 @@ func _on_attack_timer_timeout() -> void:
 
 
 func _on_player_hit_box_area_entered(area: Area2D) -> void:
-	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
+	print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	if area.is_in_group("hurtbox") and area.owner.get_team() != get_team():
 		area.owner.take_damage(20)
 		
