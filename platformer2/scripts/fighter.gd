@@ -190,6 +190,8 @@ func take_damage(amount: int) -> void:
 	health_bar.health = health
 	if health <= 0 && is_in_group("player") && dying:
 		get_tree().reload_current_scene()
+	elif health <= 0 && is_in_group("bot"):
+		self.queue_free()
 	#else:
 	#	print("Player health left: ", health)
 
