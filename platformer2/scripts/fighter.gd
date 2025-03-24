@@ -60,9 +60,11 @@ const SHIELD_HEALTH=50
 var can_move=true    #cannot move while shielded
 
 
+#for debugging -- don't die
+var dying = false
 
 # ------------------------------ BEGIN FUNCTIONS ---------------------------------- #
-#make it globally known that this is the player
+#make it globally known that this is the player. bots override this in their own function
 
 func get_team():
 	return "player"
@@ -198,8 +200,10 @@ func take_damage(amount: int) -> void:
 	else:
 		health -= amount
 	health_bar.health = health
-	if health <= 0:
+	if health <= 0 && is_in_group("player") && dying:
 		get_tree().reload_current_scene()
+	elif health <= 0 && is_in_group("bot"):
+		self.queue_free()
 	#else:
 	#	print("Player health left: ", health)
 
