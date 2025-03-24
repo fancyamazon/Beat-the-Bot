@@ -54,8 +54,11 @@ var health = 100
 @onready var bullet=load("res://scenes/bullet.tscn")
 @export var spawn_offset: Vector2 = Vector2(20, -20)
 
+#for debugging -- don't die
+var dying = false
+
 # ------------------------------ BEGIN FUNCTIONS ---------------------------------- #
-#make it globally known that this is the player
+#make it globally known that this is the player. bots override this in their own function
 
 func get_team():
 	return "player"
@@ -185,7 +188,7 @@ func set_sprite(direction: int):
 func take_damage(amount: int) -> void:
 	health -= amount
 	health_bar.health = health
-	if health <= 0 && is_in_group("player"):
+	if health <= 0 && is_in_group("player") && dying:
 		get_tree().reload_current_scene()
 	#else:
 	#	print("Player health left: ", health)
