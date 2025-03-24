@@ -19,7 +19,6 @@ var DASH_SPEED = 800.0
 var DASH_DURATION = 0.2
 var DASH_COOLDOWN = 0.5
 
-var can_move=true
 
 var is_dashing = false
 #var current_action = "idle"
@@ -54,6 +53,14 @@ var health = 100
 @onready var bullet=load("res://scenes/bullet.tscn")
 @export var spawn_offset: Vector2 = Vector2(20, -20)
 
+#shield----
+var is_shielding=false
+const SHIELD_REDUCTION=0.1
+const SHIELD_HEALTH=50
+var can_move=true    #cannot move while shielded
+
+
+
 # ------------------------------ BEGIN FUNCTIONS ---------------------------------- #
 #make it globally known that this is the player
 
@@ -72,9 +79,11 @@ func _ready():
 	else:
 		print("bot")
 		health_bar.position.x = 700
+		
+
 	
 func action_dash():
-	if (not is_dashing) and (not on_dash_cooldown):
+	if can_move and (not is_dashing) and (not on_dash_cooldown):
 		animated_sprite_2d.play("dash")
 		on_dash_cooldown = true
 		dash_direction = Vector2(velocity.x, 0).normalized()#velocity.normalized()  # Get direction of movement
@@ -105,7 +114,7 @@ func action_jump():
 func _physics_process(delta: float) -> void:
 	#animations
 	# Dash
-	if is_on_floor() and jumps_used >0:
+	if is_on_floor() and jumps_used >0 and can_move:
 		#print("RESET!")
 		jumps_used = 0
 		animated_sprite_2d.play("jumping-landing")
@@ -183,7 +192,11 @@ func set_sprite(direction: int):
 		animated_sprite_2d.scale.x=-2
 
 func take_damage(amount: int) -> void:
-	health -= amount
+	if(is_shielding):
+		#take less damage when shileded, SHIELD_REDUCTION set at the top
+		health -= amount*SHIELD_REDUCTION
+	else:
+		health -= amount
 	health_bar.health = health
 	if health <= 0:
 		get_tree().reload_current_scene()
@@ -191,7 +204,7 @@ func take_damage(amount: int) -> void:
 	#	print("Player health left: ", health)
 
 func action_melee(): 
-	if not on_attack_cooldown:
+	if not on_attack_cooldown and can_move:
 		animated_sprite_2d.play("melee-attack-uncharged")
 		$AnimatedSprite2D/PlayerHitBox.monitoring = true
 		on_attack_cooldown = true
@@ -208,23 +221,24 @@ func _on_player_hit_box_area_entered(area: Area2D) -> void:
 		area.owner.take_damage(20)
 		
 func action_ranged():
-	animated_sprite_2d.play("ranged-attack-uncharged")
-	var instance = bullet.instantiate()
-	instance.dir = facing_dir  # Set the bullet's direction to the last pressed direction
-	if get_team() == "player":
-		print("player shot")
-		#instance.get_node("BulletHitbox").set_collision_layer(7)
-		instance.get_node("BulletHitbox").set_collision_mask_value(3, true)
-		instance.get_node("BulletHitbox").set_collision_mask_value(2, false)
-	else:
-		print("bot shot")
-		#instance.get_node("BulletHitbox").set_collision_layer(7)
-		instance.get_node("BulletHitbox").set_collision_mask_value(2, true)
-		instance.get_node("BulletHitbox").set_collision_mask_value(3, false)
-	#instance.spawnPos = global_position  # Set the spawn position to the player's position
-	instance.spawnPos = global_position + spawn_offset * facing_dir
-	instance.spawnRot = rotation  # Set the spawn rotation to the player's rotation (optional)
-	main.add_child(instance)  # Add the bullet to the scene
+	if(can_move):
+		animated_sprite_2d.play("ranged-attack-uncharged")
+		var instance = bullet.instantiate()
+		instance.dir = facing_dir  # Set the bullet's direction to the last pressed direction
+		if get_team() == "player":
+			print("player shot")
+			#instance.get_node("BulletHitbox").set_collision_layer(7)
+			instance.get_node("BulletHitbox").set_collision_mask_value(3, true)
+			instance.get_node("BulletHitbox").set_collision_mask_value(2, false)
+		else:
+			print("bot shot")
+			#instance.get_node("BulletHitbox").set_collision_layer(7)
+			instance.get_node("BulletHitbox").set_collision_mask_value(2, true)
+			instance.get_node("BulletHitbox").set_collision_mask_value(3, false)
+		#instance.spawnPos = global_position  # Set the spawn position to the player's position
+		instance.spawnPos = global_position + spawn_offset * facing_dir
+		instance.spawnRot = rotation  # Set the spawn rotation to the player's rotation (optional)
+		main.add_child(instance)  # Add the bullet to the scene
 
 func _on_player_hurt_box_area_entered(area: Area2D) -> void:
 	#print("something entered player hurtbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
@@ -235,12 +249,14 @@ func decide_actions():
 	pass
 	
 func action_grapple():
-	animated_sprite_2d.play("grappling")
-	$grapple_controller.launch()
+	if(can_move):
+		animated_sprite_2d.play("grappling")
+		$grapple_controller.launch()
 
 func action_grapple_retract():
-	animated_sprite_2d.play("idle")
-	$grapple_controller.retract()
+	if(can_move):
+		animated_sprite_2d.play("idle")
+		$grapple_controller.retract()
 
 
 func _on_player_animation_finished() -> void:
@@ -250,6 +266,38 @@ func _on_player_animation_finished() -> void:
 func _on_dash_timer_timeout() -> void:
 	on_dash_cooldown = false # Replace with function body.
 	print("dash is ready")
+	
+
+	
+func action_shield():
+	animated_sprite_2d.play("shield-idle")
+	can_move=false
+	is_shielding=true
+
+		
+	#if not is_shielding:
+		## Start the "shielding up" animation
+		#animated_sprite_2d.play("shield-up")
+		#is_shielding = true  # Mark that we are now in the shielding-up state
+	#elif is_shielding and not shield_up:
+		## If the shielding-up animation has finished and we are still holding the shield
+		#if animated_sprite_2d.animation == "shield-up" and animated_sprite_2d.animation_position >= animated_sprite_2d.animation_length:
+			## Transition to "shield-idle" once the "shielding-up" animation is complete
+			#animated_sprite_2d.play("shield-idle")
+			#shield_up = true  # Set shield to up state
+	#elif shield_up:
+		## If the shield button is released, reset to idle animation
+		#if not Input.is_action_pressed("shield"):
+			#animated_sprite_2d.play("idle")  # Or whatever default idle animation you use
+			#is_shielding = false
+			#shield_up = false
+func action_shield_down():
+	animated_sprite_2d.play("shield-break")
+	can_move=true
+	is_shielding=false
+
+
+
 #
 #func _input(event):
 	#if event.is_action_pressed("ranged"):

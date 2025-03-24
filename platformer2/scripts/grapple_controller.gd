@@ -1,7 +1,7 @@
 extends Node2D
 
 @export var rest_length=1.0
-@export var stiffness=30.0
+@export var stiffness=40.0
 @export var damping=10.0
 
 @onready var player := get_parent()
