@@ -185,7 +185,7 @@ func set_sprite(direction: int):
 func take_damage(amount: int) -> void:
 	health -= amount
 	health_bar.health = health
-	if health <= 0:
+	if health <= 0 && is_in_group("player"):
 		get_tree().reload_current_scene()
 	#else:
 	#	print("Player health left: ", health)

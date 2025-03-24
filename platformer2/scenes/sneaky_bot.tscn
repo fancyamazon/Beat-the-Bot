@@ -1,6 +1,6 @@
 [gd_scene load_steps=79 format=3 uid="uid://myphnaj3lltv"]
 
-[ext_resource type="Script" path="res://scripts/passive_bot.gd" id="1_dqo31"]
+[ext_resource type="Script" path="res://scripts/sneaky_bot.gd" id="1_jrww2"]
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_ols78"]
 [ext_resource type="Script" path="res://scripts/grapple_controller.gd" id="3_uyfad"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="4_bpn2g"]
@@ -578,7 +578,7 @@ height = 62.0
 
 [node name="sneaky_bot" type="CharacterBody2D"]
 collision_layer = 2
-script = ExtResource("1_dqo31")
+script = ExtResource("1_jrww2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -30)
