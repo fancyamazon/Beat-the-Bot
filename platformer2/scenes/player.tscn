@@ -572,10 +572,8 @@ script = ExtResource("1_tqg52")
 position = Vector2(0, -30)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_wppeg")
-animation = &"grappling"
+animation = &"shield-idle"
 autoplay = "idle"
-frame = 1
-frame_progress = 1.0
 
 [node name="PlayerHitBox" type="Area2D" parent="AnimatedSprite2D"]
 collision_layer = 4

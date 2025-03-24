@@ -4,7 +4,7 @@ extends AnimatableBody2D
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("crouch"):
-		print("crouched")
+		#print("crouched")
 		area.set_deferred("monitoring",true)
 		
 

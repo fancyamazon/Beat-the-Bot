@@ -11,7 +11,7 @@ func get_team():
 
 func decide_actions():
 	if jump_this_frame:
-		action_jump() # jummping every frame wastes the double jump
+		#action_jump() # jummping every frame wastes the double jump
 		jump_this_frame = false
 	if attacking:
 		action_melee()
@@ -113,15 +113,15 @@ func _on_jumptimer_2_timeout() -> void:
 
 func _on_above_sensor_area_entered(area: Area2D) -> void:
 	if area.is_in_group("hurtbox"):
-		#action_walk(1)
-		pass
-		#action_dash() # bot loves throwing itself off walls
-		#if position.x < -1326:
-			#action_walk(1)
-			#action_dash() # Replace with function body.
-			#action_walk(0)
-		#else:
-			#action_walk(-1)
-			#action_dash()
-			#action_walk(0)
+		action_walk(1)
+		#pass
+		action_dash() # bot loves throwing itself off walls
+		if position.x < -1326:
+			action_walk(1)
+			action_dash() # Replace with function body.
+			action_walk(0)
+		else:
+			action_walk(-1)
+			action_dash()
+			action_walk(0)
 # again, signals mess with physics - bot will not move if action_walk is put like this in a signal
