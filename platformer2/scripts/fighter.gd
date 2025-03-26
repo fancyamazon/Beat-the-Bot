@@ -19,6 +19,8 @@ var DASH_SPEED = 800.0
 var DASH_DURATION = 0.2
 var DASH_COOLDOWN = 0.5
 
+#
+var movement_locked = false
 
 var is_dashing = false
 #var current_action = "idle"
@@ -43,6 +45,7 @@ var RANGED_START=0.5
 var GRAPPLE_LENGTH = 200.0  # Adjust as needed
 @onready var grapple_point = null #point where the player is grappling to
 var is_grappling = false
+var gravity_affected = true
 	
 #health and healthbar
 var health = 100
@@ -122,13 +125,11 @@ func _physics_process(delta: float) -> void:
 		animated_sprite_2d.play("jumping-landing")
 	
 
-	if not is_on_floor():
+	if not is_on_floor() and gravity_affected:
 		velocity += get_gravity() * delta
 	
 	decide_actions()
 	
-	if timer.time_left != 0:
-		print(timer.time_left)
 
 
 	
@@ -144,10 +145,11 @@ func _physics_process(delta: float) -> void:
 	
 	set_sprite(direction)
 	
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, 50)
+	if !movement_locked:
+		if direction:
+			velocity.x = direction * SPEED
+		else:
+			velocity.x = move_toward(velocity.x, 0, 50)
 	
 	if(!can_move):
 		velocity.x=0
@@ -256,11 +258,15 @@ func action_grapple():
 	if(can_move):
 		animated_sprite_2d.play("grappling")
 		$grapple_controller.launch()
+		#gravity_affected = false
+		movement_locked = true
 
 func action_grapple_retract():
 	if(can_move):
 		animated_sprite_2d.play("idle")
 		$grapple_controller.retract()
+		#gravity_affected = true
+		movement_locked = false
 
 
 func _on_player_animation_finished() -> void:
@@ -269,7 +275,7 @@ func _on_player_animation_finished() -> void:
 
 func _on_dash_timer_timeout() -> void:
 	on_dash_cooldown = false # Replace with function body.
-	print("dash is ready")
+	#print("dash is ready")
 	
 
 	
