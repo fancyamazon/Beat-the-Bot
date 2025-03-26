@@ -1,8 +1,8 @@
 [gd_scene load_steps=79 format=3 uid="uid://myphnaj3lltv"]
 
-[ext_resource type="Script" path="res://scripts/sneaky_bot.gd" id="1_jrww2"]
+[ext_resource type="Script" uid="uid://dvoe2d5s4s207" path="res://scripts/sneaky_bot.gd" id="1_jrww2"]
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_ols78"]
-[ext_resource type="Script" path="res://scripts/grapple_controller.gd" id="3_uyfad"]
+[ext_resource type="Script" uid="uid://dgmr0dwn1k1of" path="res://scripts/grapple_controller.gd" id="3_uyfad"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="4_bpn2g"]
 [ext_resource type="FontFile" uid="uid://ba46rbpxu84gj" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="5_67uoa"]
 

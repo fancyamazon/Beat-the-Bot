@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://st3xivfw0pcs"]
 
-[ext_resource type="Script" path="res://scripts/platform.gd" id="1_noksq"]
+[ext_resource type="Script" uid="uid://b25qaah3crlhg" path="res://scripts/platform.gd" id="1_noksq"]
 [ext_resource type="Texture2D" uid="uid://tydq4yft11ll" path="res://assets/tile_energycube-3.png.png" id="2_4pq1n"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xed65"]
