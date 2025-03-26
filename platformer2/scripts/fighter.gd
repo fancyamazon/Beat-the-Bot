@@ -258,14 +258,14 @@ func action_grapple():
 	if(can_move):
 		animated_sprite_2d.play("grappling")
 		$grapple_controller.launch()
-		#gravity_affected = false
+		gravity_affected = false
 		movement_locked = true
 
 func action_grapple_retract():
 	if(can_move):
 		animated_sprite_2d.play("idle")
 		$grapple_controller.retract()
-		#gravity_affected = true
+		gravity_affected = true
 		movement_locked = false
 
 
