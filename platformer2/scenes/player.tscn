@@ -609,7 +609,7 @@ one_shot = true
 script = ExtResource("3_4j151")
 
 [node name="RayCast2D" type="RayCast2D" parent="grapple_controller"]
-target_position = Vector2(1000, 0)
+target_position = Vector2(500, 0)
 
 [node name="Line2D" type="Line2D" parent="grapple_controller"]
 points = PackedVector2Array(0, 0, 0, 0)

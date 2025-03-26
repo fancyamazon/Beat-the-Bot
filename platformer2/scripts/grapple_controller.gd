@@ -2,7 +2,7 @@ extends Node2D
 
 @export var rest_length=0
 @export var stiffness=20.0
-@export var damping=0
+@export var damping=1
 
 @onready var player := get_parent()
 @onready var ray := $RayCast2D
