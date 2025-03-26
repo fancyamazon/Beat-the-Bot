@@ -46,6 +46,7 @@ var GRAPPLE_LENGTH = 200.0  # Adjust as needed
 @onready var grapple_point = null #point where the player is grappling to
 var is_grappling = false
 var gravity_affected = true
+@onready var grappling_line_2d: Line2D = $grapple_controller/Line2D
 	
 #health and healthbar
 var health = 100
@@ -190,10 +191,12 @@ func set_sprite(direction: int):
 		facing_dir=1
 		spawn_offset= Vector2(20, -20)
 		animated_sprite_2d.scale.x=2
+		grappling_line_2d.set_point_position(0, Vector2(21, -44))
 	elif direction<0:
 		facing_dir=-1
 		spawn_offset= Vector2(20, 20)
 		animated_sprite_2d.scale.x=-2
+		grappling_line_2d.set_point_position(0, Vector2(-21, -44))
 
 func take_damage(amount: int) -> void:
 	if(is_shielding):
