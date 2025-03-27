@@ -2,7 +2,7 @@ extends Node2D
 
 @export var rest_length=0
 @export var stiffness=20.0
-@export var damping=1
+@export var damping=5
 
 @onready var player := get_parent()
 @onready var ray := $RayCast2D
@@ -47,7 +47,7 @@ func handle_grapple(delta):
 		var vel_dot = player.velocity.dot(target_dir)
 		var damping = -damping * vel_dot * target_dir
 		
-		force = spring_force + damping
+		force = 2*spring_force + damping
 		#print(force)
 	
 	player.velocity += force * delta

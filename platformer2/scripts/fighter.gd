@@ -89,7 +89,7 @@ func _ready():
 
 	
 func action_dash():
-	if can_move and (not is_dashing) and (not on_dash_cooldown):
+	if can_move and (not is_dashing) and (not on_dash_cooldown) and !movement_locked:
 		animated_sprite_2d.play("dash")
 		on_dash_cooldown = true
 		dash_direction = Vector2(velocity.x, 0).normalized()#velocity.normalized()  # Get direction of movement
@@ -109,7 +109,7 @@ func action_dash():
 		#print(timer.time_left)
 
 func action_jump():
-	if(can_move):
+	if(can_move and not movement_locked):
 		if jumps_used < JUMPS_MAX:
 			#print("jumping...")
 			#print("currently " + str(jumps_used))
@@ -158,7 +158,7 @@ func _physics_process(delta: float) -> void:
 
 	
 func action_strafe(input_dir: int):
-	if not can_move:
+	if not can_move or movement_locked:
 		return
 
 	if input_dir == 0:
@@ -178,13 +178,15 @@ func action_strafe(input_dir: int):
 
 
 func action_walk(input_dir: int):
-	if(!can_move):
+	direction = input_dir
+	
+	if(!can_move or movement_locked):
 		return
 	if input_dir == 0 && direction != 0:
 		animated_sprite_2d.play("idle")
 	elif input_dir != 0 && direction == 0:
 		animated_sprite_2d.play("running")
-	direction = input_dir
+	
 	
 func set_sprite(direction: int):
 	if direction >0:
@@ -261,7 +263,7 @@ func action_grapple():
 	if(can_move):
 		animated_sprite_2d.play("grappling")
 		$grapple_controller.launch()
-		gravity_affected = false
+		#gravity_affected = false
 		movement_locked = true
 
 func action_grapple_retract():
