@@ -8,10 +8,12 @@ var dir: int  # Direction: 1 for right, -1 for left
 var spawnPos: Vector2
 var spawnRot: float
 var velocity: Vector2
+@onready var bullet_hitbox: Area2D = $BulletHitbox
 
 func _ready():
 	global_position = spawnPos
 	global_rotation = spawnRot
+	bullet_hitbox.add_to_group("hitbox")
 
 func _physics_process(delta: float) -> void:
 	# Horizontal movement only
