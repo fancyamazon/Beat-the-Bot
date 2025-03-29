@@ -278,7 +278,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_3c5io")
 }],
-"loop": false,
+"loop": true,
 "name": &"crouch",
 "speed": 50.0
 }, {
@@ -526,7 +526,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"shield-break",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -572,7 +572,7 @@ script = ExtResource("1_tqg52")
 position = Vector2(0, -30)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_wppeg")
-animation = &"shield-idle"
+animation = &"shield-break"
 autoplay = "idle"
 
 [node name="PlayerHitBox" type="Area2D" parent="AnimatedSprite2D"]

@@ -603,6 +603,9 @@ one_shot = true
 wait_time = 0.3
 one_shot = true
 
+[node name="RangeTimer" type="Timer" parent="."]
+wait_time = 0.3
+
 [node name="ranged_charge_timer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
@@ -643,3 +646,5 @@ offset_bottom = -25.0
 grow_horizontal = 2
 grow_vertical = 0
 metadata/_edit_use_anchors_ = true
+
+[connection signal="timeout" from="RangeTimer" to="." method="_on_range_timer_timeout"]

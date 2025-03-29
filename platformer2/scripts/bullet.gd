@@ -12,6 +12,7 @@ var velocity: Vector2
 func _ready():
 	global_position = spawnPos
 	global_rotation = spawnRot
+	$BulletHitbox.add_to_group("hitbox")
 
 func _physics_process(delta: float) -> void:
 	# Horizontal movement only
