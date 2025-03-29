@@ -18,3 +18,5 @@ func decide_actions():
 	if Input.is_action_just_released("shield"):
 		action_shield_down()
 	action_walk(Input.get_axis("left", "right"))
+	if Input.is_action_just_pressed("tp"):
+		position = get_global_mouse_position()
