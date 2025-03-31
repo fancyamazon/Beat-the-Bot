@@ -1,7 +1,7 @@
 [gd_scene load_steps=73 format=3 uid="uid://c740fnyl8cfxb"]
 
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_toxlr"]
-[ext_resource type="Script" path="res://scripts/grapple_controller.gd" id="3_yxhgq"]
+[ext_resource type="Script" uid="uid://d3gyv5dtwwac0" path="res://scripts/grapple_controller.gd" id="3_yxhgq"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="4_urmeo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x3e6b"]

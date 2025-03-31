@@ -15,6 +15,9 @@ var target: Vector2
 var collider: Object
 var offset_from_center: Vector2 # how far it is from the center of the platform
 
+func _ready():
+	rope.hide()
+
 func _physics_process(delta: float) -> void:
 	if launched:
 		handle_grapple(delta)

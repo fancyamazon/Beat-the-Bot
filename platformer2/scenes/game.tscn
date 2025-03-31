@@ -1,11 +1,11 @@
 [gd_scene load_steps=32 format=4 uid="uid://d07nvyd5qem1x"]
 
-[ext_resource type="Script" path="res://scenes/game.gd" id="1_w04m8"]
+[ext_resource type="Script" uid="uid://dw4058l8eedmx" path="res://scenes/game.gd" id="1_w04m8"]
 [ext_resource type="Texture2D" uid="uid://lp3tjt6016tn" path="res://assets/Free/Terrain/Terrain (16x16).png" id="2_8mj6l"]
 [ext_resource type="PackedScene" uid="uid://st3xivfw0pcs" path="res://scenes/platform.tscn" id="3_7lvvc"]
 [ext_resource type="PackedScene" uid="uid://b8pf7fww7yfun" path="res://scenes/enemy.tscn" id="5_dp0s8"]
 [ext_resource type="Texture2D" uid="uid://dby6anbfo5aev" path="res://assets/lightning-bg/lightning_bg0.png" id="6_1mkk5"]
-[ext_resource type="PackedScene" path="res://scenes/tilemap.tscn" id="6_hi10e"]
+[ext_resource type="PackedScene" uid="uid://bwvo4ik24ce80" path="res://scenes/tilemap.tscn" id="6_hi10e"]
 [ext_resource type="Texture2D" uid="uid://b0hvm8ocpggm8" path="res://assets/lightning-bg/lightning_bg1.png" id="7_lighe"]
 [ext_resource type="Texture2D" uid="uid://ckau8nb4eq5vk" path="res://assets/lightning-bg/lightning_bg2.png" id="8_xv1lx"]
 [ext_resource type="Texture2D" uid="uid://dwv0kqshqlw5l" path="res://assets/lightning-bg/lightning_bg3.png" id="9_uxdud"]
@@ -255,9 +255,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4d1tj"]
 _data = {
-"RESET": SubResource("Animation_n2x8v"),
-"moving_platform": SubResource("Animation_227ho"),
-"moving_platform1": SubResource("Animation_5ddd2")
+&"RESET": SubResource("Animation_n2x8v"),
+&"moving_platform": SubResource("Animation_227ho"),
+&"moving_platform1": SubResource("Animation_5ddd2")
 }
 
 [sub_resource type="Animation" id="Animation_atuyg"]
@@ -293,8 +293,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_fpqwr"]
 _data = {
-"RESET": SubResource("Animation_atuyg"),
-"moving_platform2": SubResource("Animation_ycd6f")
+&"RESET": SubResource("Animation_atuyg"),
+&"moving_platform2": SubResource("Animation_ycd6f")
 }
 
 [sub_resource type="Animation" id="Animation_rtxps"]
@@ -330,8 +330,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pjq6v"]
 _data = {
-"RESET": SubResource("Animation_rtxps"),
-"moving_platform": SubResource("Animation_4g6q0")
+&"RESET": SubResource("Animation_rtxps"),
+&"moving_platform": SubResource("Animation_4g6q0")
 }
 
 [sub_resource type="Animation" id="Animation_uph3n"]
@@ -367,8 +367,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_jisqs"]
 _data = {
-"RESET": SubResource("Animation_uph3n"),
-"moving_platform": SubResource("Animation_wp5gx")
+&"RESET": SubResource("Animation_uph3n"),
+&"moving_platform": SubResource("Animation_wp5gx")
 }
 
 [node name="Game" type="Node2D"]
@@ -470,7 +470,7 @@ scale = Vector2(1.88, 1.64)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="moving_platforms/moving_platform1"]
 libraries = {
-"": SubResource("AnimationLibrary_4d1tj")
+&"": SubResource("AnimationLibrary_4d1tj")
 }
 autoplay = "moving_platform1"
 
@@ -480,7 +480,7 @@ scale = Vector2(1.88, 1.64)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="moving_platforms/moving_platform2"]
 libraries = {
-"": SubResource("AnimationLibrary_fpqwr")
+&"": SubResource("AnimationLibrary_fpqwr")
 }
 autoplay = "moving_platform2"
 
@@ -490,7 +490,7 @@ scale = Vector2(1.88002, 1.6)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="moving_platforms/moving_platform3"]
 libraries = {
-"": SubResource("AnimationLibrary_pjq6v")
+&"": SubResource("AnimationLibrary_pjq6v")
 }
 autoplay = "moving_platform"
 
@@ -500,7 +500,7 @@ scale = Vector2(1.88004, 1.6)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="moving_platforms/moving_platform4"]
 libraries = {
-"": SubResource("AnimationLibrary_jisqs")
+&"": SubResource("AnimationLibrary_jisqs")
 }
 autoplay = "moving_platform"
 
