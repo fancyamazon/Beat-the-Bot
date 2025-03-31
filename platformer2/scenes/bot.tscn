@@ -1,4 +1,4 @@
-[gd_scene load_steps=79 format=3 uid="uid://b3lw7a73lnbxs"]
+[gd_scene load_steps=75 format=3 uid="uid://b3lw7a73lnbxs"]
 
 [ext_resource type="Script" uid="uid://b1bhlas7n404t" path="res://scripts/bot.gd" id="1_vqv6c"]
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_h3jnr"]
@@ -560,18 +560,6 @@ size = Vector2(31, 20.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hr03j"]
 size = Vector2(12, 25.5)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gw8tk"]
-size = Vector2(31, 20.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_q0blw"]
-size = Vector2(330, 68)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_k11pt"]
-size = Vector2(83, 258)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2eav7"]
-size = Vector2(624, 744)
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ewomo"]
 radius = 20.0
 height = 62.0
@@ -603,42 +591,6 @@ collision_mask = 4
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/PlayerHurtBox"]
 position = Vector2(0, -0.25)
 shape = SubResource("RectangleShape2D_hr03j")
-
-[node name="BotMeleeSensor" type="Area2D" parent="AnimatedSprite2D"]
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/BotMeleeSensor"]
-position = Vector2(16, -0.25)
-shape = SubResource("RectangleShape2D_gw8tk")
-
-[node name="BotRangedSensor" type="Area2D" parent="AnimatedSprite2D"]
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/BotRangedSensor"]
-position = Vector2(196, -18.5)
-shape = SubResource("RectangleShape2D_q0blw")
-
-[node name="AboveSensor" type="Area2D" parent="AnimatedSprite2D"]
-position = Vector2(0, 15)
-scale = Vector2(0.5, 0.5)
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/AboveSensor"]
-position = Vector2(4.5, -211)
-shape = SubResource("RectangleShape2D_k11pt")
-
-[node name="BehindSensor" type="Area2D" parent="AnimatedSprite2D"]
-position = Vector2(0, 15)
-scale = Vector2(0.5, 0.5)
-collision_layer = 2
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/BehindSensor"]
-position = Vector2(-362, -73)
-shape = SubResource("RectangleShape2D_2eav7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = 5
@@ -701,13 +653,6 @@ autostart = true
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_player_animation_finished"]
 [connection signal="area_entered" from="AnimatedSprite2D/PlayerHitBox" to="." method="_on_player_hit_box_area_entered"]
 [connection signal="area_entered" from="AnimatedSprite2D/PlayerHurtBox" to="." method="_on_player_hurt_box_area_entered"]
-[connection signal="area_entered" from="AnimatedSprite2D/BotMeleeSensor" to="." method="_on_bot_sensor_area_entered"]
-[connection signal="area_exited" from="AnimatedSprite2D/BotMeleeSensor" to="." method="_on_bot_sensor_area_exited"]
-[connection signal="area_entered" from="AnimatedSprite2D/BotRangedSensor" to="." method="_on_bot_ranged_sensor_area_entered"]
-[connection signal="area_exited" from="AnimatedSprite2D/BotRangedSensor" to="." method="_on_bot_ranged_sensor_area_exited"]
-[connection signal="area_entered" from="AnimatedSprite2D/AboveSensor" to="." method="_on_above_sensor_area_entered"]
-[connection signal="area_entered" from="AnimatedSprite2D/BehindSensor" to="." method="_on_behind_sensor_area_entered"]
-[connection signal="area_exited" from="AnimatedSprite2D/BehindSensor" to="." method="_on_behind_sensor_area_exited"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="JumpTimer" to="." method="_on_jump_timer_timeout"]

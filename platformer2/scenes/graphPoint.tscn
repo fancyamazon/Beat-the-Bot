@@ -3,4 +3,5 @@
 [ext_resource type="Texture2D" uid="uid://hpelvi3t8yl8" path="res://icon.svg" id="1_fbci3"]
 
 [node name="Sprite2D" type="Sprite2D"]
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_fbci3")

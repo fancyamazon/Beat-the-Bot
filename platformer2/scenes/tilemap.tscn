@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://bwvo4ik24ce80"]
+[gd_scene load_steps=5 format=3 uid="uid://bwvo4ik24ce80"]
 
 [ext_resource type="Texture2D" uid="uid://ysowh4acapaj" path="res://assets/TileConveyorAll.png" id="1_pqkuf"]
+[ext_resource type="Script" uid="uid://b14jdjd1ayd7m" path="res://scripts/TileMapPathFind.cs" id="2_38yc0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_v6lcd"]
 texture = ExtResource("1_pqkuf")
@@ -529,6 +530,7 @@ terrain_set_0/terrain_0/name = "conveyor-terrain"
 terrain_set_0/terrain_0/color = Color(0.5, 0.34375, 0.25, 1)
 sources/0 = SubResource("TileSetAtlasSource_v6lcd")
 
-[node name="TileMapLayer2" type="TileMapLayer"]
+[node name="TileMapPathFind" type="TileMapLayer"]
 scale = Vector2(2, 2)
 tile_set = SubResource("TileSet_qeonc")
+script = ExtResource("2_38yc0")
