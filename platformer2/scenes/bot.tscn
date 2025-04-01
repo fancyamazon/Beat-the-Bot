@@ -592,6 +592,45 @@ collision_mask = 4
 position = Vector2(0, -0.25)
 shape = SubResource("RectangleShape2D_hr03j")
 
+<<<<<<< HEAD
+=======
+[node name="BotMeleeSensor" type="Area2D" parent="AnimatedSprite2D"]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/BotMeleeSensor"]
+position = Vector2(16, -0.25)
+shape = SubResource("RectangleShape2D_gw8tk")
+
+[node name="BotRangedSensor" type="Area2D" parent="AnimatedSprite2D"]
+collision_layer = 6
+collision_mask = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/BotRangedSensor"]
+position = Vector2(196, -18.5)
+shape = SubResource("RectangleShape2D_q0blw")
+
+[node name="AboveSensor" type="Area2D" parent="AnimatedSprite2D"]
+position = Vector2(0, 15)
+scale = Vector2(0.5, 0.5)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/AboveSensor"]
+position = Vector2(4.5, -211)
+shape = SubResource("RectangleShape2D_k11pt")
+
+[node name="BehindSensor" type="Area2D" parent="AnimatedSprite2D"]
+position = Vector2(0, 15)
+scale = Vector2(0.5, 0.5)
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/BehindSensor"]
+position = Vector2(-362, -73)
+shape = SubResource("RectangleShape2D_2eav7")
+
+>>>>>>> 265f0c24d19f579f08d957719779856d5166bfa1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 z_index = 5
 position = Vector2(0, -31)

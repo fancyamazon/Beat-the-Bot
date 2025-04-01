@@ -6,12 +6,15 @@ var shooting = false
 var jumping = true
 var jump_this_frame = false
 
+var last_health=health
+
+
 func get_team():
 	return "bot"
 
 func decide_actions():
 	if jump_this_frame:
-		#action_jump() # jummping every frame wastes the double jump
+		action_jump() # jummping every frame wastes the double jump
 		jump_this_frame = false
 	if attacking:
 		action_melee()
@@ -38,6 +41,7 @@ func _on_bot_sensor_area_exited(area: Area2D) -> void:
 		#shooting = true # Replace with function body.
 		
 func _on_bot_ranged_sensor_area_entered(area: Area2D) -> void:
+	#print(area)
 	if area.is_in_group("hurtbox"):
 		var player_x = area.global_position.x
 		var bot_x = global_position.x
@@ -50,11 +54,17 @@ func _on_bot_ranged_sensor_area_entered(area: Area2D) -> void:
 			action_strafe(1)
 
 		shooting = true
+	elif(area.is_in_group("hitbox")):
+		print(area)
+		action_shield()
 
 
 func _on_bot_ranged_sensor_area_exited(area: Area2D) -> void:
 	if area.is_in_group("hurtbox"):
 		shooting = false # Replace with function body.
+		
+	elif(area.is_in_group("hitbox")):
+		action_shield_down()
 
 
 #func _on_behind_sensor_area_entered(area: Area2D) -> void:
@@ -93,10 +103,14 @@ func _on_behind_sensor_area_entered(area: Area2D) -> void:
 			print("dashed")
 			action_walk(-1 * $AnimatedSprite2D.scale.x) #walk in opposite direction
 			print("walk opposite")
+	elif area.is_in_group("hitbox"):
+		action_shield()
 
 func _on_behind_sensor_area_exited(area: Area2D) -> void:
 	if area.is_in_group("hurtbox"):
 		action_walk(0)
+	elif area.is_in_group("hitbox"):
+		action_shield_down()
 
 
 func _on_jump_timer_timeout() -> void:

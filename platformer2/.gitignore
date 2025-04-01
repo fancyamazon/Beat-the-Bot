@@ -13,3 +13,6 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# Ignore .DS_Store because it causes merge conflicts and is useless
+.DS_Store

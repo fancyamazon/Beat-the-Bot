@@ -37,8 +37,14 @@ var on_dash_cooldown = false
 var attack_cooldown = 0.5 # seconds
 @onready var attack_timer: Timer = $AttackTimer
 
-var RANGED_START=0.5
-@onready var ranged_charge_timer: Timer=$ranged_charge_timer
+#@onready var range_timer: Timer = $RangeTimer
+#@onready var range_timer: Timer=$RangeTimer
+@onready var range_timer: Timer = $Timers/RangeTimer
+var range_cooldown=0.3
+var on_range_cooldown=false
+
+#var RANGED_START=0.5
+#@onready var ranged_charge_timer: Timer=$ranged_charge_timer
 
 
 #grapple----
@@ -46,6 +52,7 @@ var GRAPPLE_LENGTH = 200.0  # Adjust as needed
 @onready var grapple_point = null #point where the player is grappling to
 var is_grappling = false
 var gravity_affected = true
+@onready var grappling_line_2d: Line2D = $grapple_controller/Line2D
 	
 #health and healthbar
 var health = 100
@@ -76,7 +83,7 @@ func _ready():
 
 	add_to_group(get_team())
 	$AnimatedSprite2D/PlayerHurtBox.add_to_group("hurtbox")
-	#$AnimatedSprite2D/PlayerHitBox.add_to_group("hitbox")
+	#$AnimatedSprite2D/PlayerHitBox.add_to_group("hitbox")d
 	health_bar._init_health(health)
 	if is_in_group("player"):
 		print("player")
@@ -84,11 +91,10 @@ func _ready():
 	else:
 		print("bot")
 		health_bar.position.x = 700
-		
-
+				
 	
 func action_dash():
-	if can_move and (not is_dashing) and (not on_dash_cooldown):
+	if can_move and (not is_dashing) and (not on_dash_cooldown) and !movement_locked:
 		animated_sprite_2d.play("dash")
 		on_dash_cooldown = true
 		dash_direction = Vector2(velocity.x, 0).normalized()#velocity.normalized()  # Get direction of movement
@@ -108,7 +114,7 @@ func action_dash():
 		#print(timer.time_left)
 
 func action_jump():
-	if(can_move):
+	if(can_move and not movement_locked):
 		if jumps_used < JUMPS_MAX:
 			#print("jumping...")
 			#print("currently " + str(jumps_used))
@@ -157,7 +163,7 @@ func _physics_process(delta: float) -> void:
 
 	
 func action_strafe(input_dir: int):
-	if not can_move:
+	if not can_move or movement_locked:
 		return
 
 	if input_dir == 0:
@@ -177,23 +183,27 @@ func action_strafe(input_dir: int):
 
 
 func action_walk(input_dir: int):
-	if(!can_move):
+	direction = input_dir
+	
+	if(!can_move or movement_locked):
 		return
 	if input_dir == 0 && direction != 0:
 		animated_sprite_2d.play("idle")
 	elif input_dir != 0 && direction == 0:
 		animated_sprite_2d.play("running")
-	direction = input_dir
+	
 	
 func set_sprite(direction: int):
 	if direction >0:
 		facing_dir=1
 		spawn_offset= Vector2(20, -20)
 		animated_sprite_2d.scale.x=2
+		grappling_line_2d.set_point_position(0, Vector2(21, -44))
 	elif direction<0:
 		facing_dir=-1
 		spawn_offset= Vector2(20, 20)
 		animated_sprite_2d.scale.x=-2
+		grappling_line_2d.set_point_position(0, Vector2(-21, -44))
 
 func take_damage(amount: int) -> void:
 	if(is_shielding):
@@ -202,7 +212,7 @@ func take_damage(amount: int) -> void:
 	else:
 		health -= amount
 	health_bar.health = health
-	if health <= 0 && is_in_group("player") && dying:
+	if health <= 0 && is_in_group("player"):
 		get_tree().reload_current_scene()
 	elif health <= 0 && is_in_group("bot"):
 		self.queue_free()
@@ -219,6 +229,9 @@ func action_melee():
 func _on_attack_timer_timeout() -> void:
 	$AnimatedSprite2D/PlayerHitBox.monitoring = false
 	on_attack_cooldown = false
+	
+func _on_range_timer_timeout() -> void:
+	on_range_cooldown=false
 
 
 func _on_player_hit_box_area_entered(area: Area2D) -> void:
@@ -227,28 +240,35 @@ func _on_player_hit_box_area_entered(area: Area2D) -> void:
 		area.owner.take_damage(20)
 		
 func action_ranged():
-	if(can_move):
+	if(can_move and not on_range_cooldown):
 		animated_sprite_2d.play("ranged-attack-uncharged")
 		var instance = bullet.instantiate()
+		range_timer.start(range_cooldown)
 		instance.dir = facing_dir  # Set the bullet's direction to the last pressed direction
 		if get_team() == "player":
-			print("player shot")
+			#print("player shot")
 			#instance.get_node("BulletHitbox").set_collision_layer(7)
+			instance.get_node("BulletHitbox").set_collision_layer_value(3, true)
+			instance.get_node("BulletHitbox").set_collision_layer_value(2, false)
 			instance.get_node("BulletHitbox").set_collision_mask_value(3, true)
 			instance.get_node("BulletHitbox").set_collision_mask_value(2, false)
 		else:
-			print("bot shot")
+			#print("bot shot")
 			#instance.get_node("BulletHitbox").set_collision_layer(7)
+			instance.get_node("BulletHitbox").set_collision_layer_value(2, true)
+			instance.get_node("BulletHitbox").set_collision_layer_value(3, false)
 			instance.get_node("BulletHitbox").set_collision_mask_value(2, true)
 			instance.get_node("BulletHitbox").set_collision_mask_value(3, false)
 		#instance.spawnPos = global_position  # Set the spawn position to the player's position
 		instance.spawnPos = global_position + spawn_offset * facing_dir
 		instance.spawnRot = rotation  # Set the spawn rotation to the player's rotation (optional)
 		main.add_child(instance)  # Add the bullet to the scene
+		
+		on_range_cooldown=true
 
 func _on_player_hurt_box_area_entered(area: Area2D) -> void:
 	#print("something entered player hurtbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
-	if area.is_in_group("hitbox") and area.owner.get_team() != get_team():
+	if area.is_in_group("hitbox"):
 		take_damage(5)
 
 func decide_actions():
@@ -258,7 +278,7 @@ func action_grapple():
 	if(can_move):
 		animated_sprite_2d.play("grappling")
 		$grapple_controller.launch()
-		gravity_affected = false
+		#gravity_affected = false
 		movement_locked = true
 
 func action_grapple_retract():
