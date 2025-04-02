@@ -39,7 +39,7 @@ var attack_cooldown = 0.5 # seconds
 
 #@onready var range_timer: Timer = $RangeTimer
 #@onready var range_timer: Timer=$RangeTimer
-@onready var range_timer: Timer = $Timers/RangeTimer
+@onready var range_timer: Timer = $RangeTimer
 var range_cooldown=0.3
 var on_range_cooldown=false
 

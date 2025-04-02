@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://bs8afcb25aopf"]
 
-[ext_resource type="Script" uid="uid://dsfth2dxb1hbv" path="res://scenes/dash_timer.gd" id="1_gdx1u"]
+[ext_resource type="Script" uid="uid://dsfth2dxb1hbv" path="res://scripts/dash_timer.gd" id="1_gdx1u"]
 
 [node name="Timers" type="Node"]
 

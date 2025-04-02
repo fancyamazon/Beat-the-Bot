@@ -1,6 +1,6 @@
 [gd_scene load_steps=32 format=4 uid="uid://d07nvyd5qem1x"]
 
-[ext_resource type="Script" uid="uid://2jisuhgnj2lt" path="res://scenes/game.gd" id="1_w04m8"]
+[ext_resource type="Script" uid="uid://2jisuhgnj2lt" path="res://game.gd" id="1_w04m8"]
 [ext_resource type="Texture2D" uid="uid://lp3tjt6016tn" path="res://assets/Free/Terrain/Terrain (16x16).png" id="2_8mj6l"]
 [ext_resource type="PackedScene" uid="uid://st3xivfw0pcs" path="res://scenes/platform.tscn" id="3_7lvvc"]
 [ext_resource type="PackedScene" uid="uid://b8pf7fww7yfun" path="res://scenes/enemy.tscn" id="5_dp0s8"]
@@ -12,7 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://bwg4xr4tb87lb" path="res://assets/BeatTheBot_3-11.wav" id="10_jehyl"]
 [ext_resource type="PackedScene" uid="uid://c3ja3raqyfvcq" path="res://scenes/player.tscn" id="10_w85to"]
 [ext_resource type="FontFile" uid="uid://b8wcbm5ximtu5" path="res://assets/fonts/PixelOperator8.ttf" id="11_50rtv"]
-[ext_resource type="PackedScene" uid="uid://b3lw7a73lnbxs" path="res://scenes/bot.tscn" id="12_6f37j"]
+[ext_resource type="PackedScene" uid="uid://coplb7pxy172c" path="res://scenes/bot.tscn" id="12_6f37j"]
 [ext_resource type="PackedScene" uid="uid://b3bfx4ocxi8yq" path="res://scenes/passive_bot.tscn" id="13_sni34"]
 [ext_resource type="PackedScene" uid="uid://myphnaj3lltv" path="res://scenes/sneaky_bot.tscn" id="14_tjcyu"]
 

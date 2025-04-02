@@ -1,5 +1,6 @@
-[gd_scene load_steps=73 format=3 uid="uid://c740fnyl8cfxb"]
+[gd_scene load_steps=74 format=3 uid="uid://c740fnyl8cfxb"]
 
+[ext_resource type="Script" uid="uid://dmxssb186uj1f" path="res://scripts/fighter.gd" id="1_rsphg"]
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_toxlr"]
 [ext_resource type="Script" uid="uid://dgmr0dwn1k1of" path="res://scripts/grapple_controller.gd" id="3_yxhgq"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="4_urmeo"]
@@ -563,6 +564,7 @@ radius = 20.0
 height = 62.0
 
 [node name="Fighter" type="CharacterBody2D"]
+script = ExtResource("1_rsphg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -30)
@@ -645,4 +647,9 @@ grow_horizontal = 2
 grow_vertical = 0
 metadata/_edit_use_anchors_ = true
 
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_player_animation_finished"]
+[connection signal="area_entered" from="AnimatedSprite2D/PlayerHitBox" to="." method="_on_player_hit_box_area_entered"]
+[connection signal="area_entered" from="AnimatedSprite2D/PlayerHurtBox" to="." method="_on_player_hurt_box_area_entered"]
+[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="RangeTimer" to="." method="_on_range_timer_timeout"]

@@ -7,7 +7,7 @@ var shooting = false
 var jumping = true
 var jump_this_frame = false
 
-@onready var player=get_node("Player")
+#@onready var player=get_node("Player")
 
 func get_team():
 	return "bot"
