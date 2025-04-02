@@ -1,6 +1,5 @@
-[gd_scene load_steps=74 format=3 uid="uid://c740fnyl8cfxb"]
+[gd_scene load_steps=73 format=3 uid="uid://c740fnyl8cfxb"]
 
-[ext_resource type="Script" uid="uid://dmxssb186uj1f" path="res://scripts/fighter.gd" id="1_rsphg"]
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_toxlr"]
 [ext_resource type="Script" uid="uid://dgmr0dwn1k1of" path="res://scripts/grapple_controller.gd" id="3_yxhgq"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="4_urmeo"]
@@ -564,7 +563,6 @@ radius = 20.0
 height = 62.0
 
 [node name="Fighter" type="CharacterBody2D"]
-script = ExtResource("1_rsphg")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -30)

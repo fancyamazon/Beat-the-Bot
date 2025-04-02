@@ -432,13 +432,7 @@ position = Vector2(-316.952, -272.278)
 position = Vector2(-514.149, -337.576)
 
 [node name="Player" parent="." instance=ExtResource("10_w85to")]
-position = Vector2(142, 296)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(1, -19)
-limit_bottom = 750
-position_smoothing_enabled = true
-rotation_smoothing_enabled = true
+position = Vector2(311, 206)
 
 [node name="TileMap2" type="TileMap" parent="."]
 position = Vector2(-1569, 99)

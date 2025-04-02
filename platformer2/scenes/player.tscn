@@ -7,3 +7,9 @@
 
 [node name="Fighter" parent="." instance=ExtResource("1_g2els")]
 script = ExtResource("2_a5wam")
+
+[node name="Camera2D" type="Camera2D" parent="Fighter"]
+position = Vector2(1, -19)
+limit_bottom = 750
+position_smoothing_enabled = true
+rotation_smoothing_enabled = true
