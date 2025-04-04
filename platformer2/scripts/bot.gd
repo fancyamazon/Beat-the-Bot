@@ -7,10 +7,15 @@ var shooting = false
 var jumping = true
 var jump_this_frame = false
 
-#@onready var player=get_node("Player")
+
+@onready var nav=get_parent()
+
 
 func get_team():
 	return "bot"
 
 func decide_actions():
-	pass
+	#print(nav.actions)
+	action_walk(nav.actions[0])
+	if nav.actions[1] > 0:
+		action_jump()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=4 uid="uid://d07nvyd5qem1x"]
+[gd_scene load_steps=35 format=4 uid="uid://d07nvyd5qem1x"]
 
 [ext_resource type="Script" uid="uid://2jisuhgnj2lt" path="res://game.gd" id="1_w04m8"]
 [ext_resource type="Texture2D" uid="uid://lp3tjt6016tn" path="res://assets/Free/Terrain/Terrain (16x16).png" id="2_8mj6l"]
@@ -16,7 +16,6 @@
 [ext_resource type="PackedScene" uid="uid://b3bfx4ocxi8yq" path="res://scenes/passive_bot.tscn" id="13_sni34"]
 [ext_resource type="PackedScene" uid="uid://myphnaj3lltv" path="res://scenes/sneaky_bot.tscn" id="14_tjcyu"]
 [ext_resource type="PackedScene" uid="uid://bqumibaarvnyl" path="res://scenes/BotNavTest.tscn" id="16_80cx4"]
-[ext_resource type="Texture2D" uid="uid://c71a4akh2r28r" path="res://assets/Free/Items/Boxes/Box2/Idle.png" id="17_e8heu"]
 [ext_resource type="Texture2D" uid="uid://hpelvi3t8yl8" path="res://icon.svg" id="18_rvswv"]
 [ext_resource type="Script" uid="uid://dv4ewbhrk46v1" path="res://scripts/pathdraw.cs" id="19_boyg6"]
 
@@ -436,7 +435,7 @@ position = Vector2(-316.952, -272.278)
 position = Vector2(-514.149, -337.576)
 
 [node name="Player" parent="." instance=ExtResource("10_w85to")]
-position = Vector2(0, 90)
+position = Vector2(212, -116)
 
 [node name="TileMap2" type="TileMap" parent="."]
 position = Vector2(-1569, 99)
@@ -524,7 +523,7 @@ stream = ExtResource("10_jehyl")
 autoplay = true
 
 [node name="nav_test" parent="." instance=ExtResource("12_6f37j")]
-position = Vector2(722, -178)
+position = Vector2(740, -193)
 
 [node name="passive_bot" parent="." instance=ExtResource("13_sni34")]
 position = Vector2(811, -346)
@@ -538,13 +537,13 @@ tile_map_data = PackedByteArray("AAAUAAEAAAADAAMAAAD8/wcAAAAAAAIAAAD9/wcAAAABAAI
 [node name="BotNavTest" parent="." instance=ExtResource("16_80cx4")]
 position = Vector2(117, 0)
 
-[node name="NavTarget" type="CharacterBody2D" parent="."]
-position = Vector2(254, -118)
-
-[node name="Sprite2D" type="Sprite2D" parent="NavTarget"]
-texture = ExtResource("17_e8heu")
-
 [node name="MySprite" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("18_rvswv")
+
+[node name="MySprite2" type="Sprite2D" parent="."]
+position = Vector2(109, -23)
+rotation = 2.32825
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("18_rvswv")
 

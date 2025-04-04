@@ -62,23 +62,17 @@ public partial class BotNavTest : CharacterBody2D
 
 	private void DoPathFinding()
 	{
-		var playerTilePosition = _pathFind2D.LocalToMap(_player.Position);
+		var playerTilePosition = _pathFind2D.LocalToMap(_player.GlobalPosition); 
 		_path = _pathFind2D.GetPlaform2DPath(this.Position, _pathFind2D.MapToLocal(playerTilePosition));
 		pathArray = _path.ToArray();
 		
-		
-		//for (int i = 0; i < pathArray.Length - 1; i++){
-		//	GD.Print("drawing");
-		//	DrawLine(pathArray[i].Position, pathArray[i+1].Position, new Color(0, 0, 1, 1));
-		//	GD.Print("drawn");
-		//}
+
 		
 		GoToNextPointInPath();
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		QueueRedraw();
 		Vector2 velocity = Velocity;
 		Vector2 direction = Vector2.Zero;
 		//GD.Print(my_sprite);
