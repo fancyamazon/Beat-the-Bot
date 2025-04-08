@@ -13,15 +13,15 @@ public partial class NavigationAdvisor : Node2D
 	private PointInfo _prevTarget = null;
 	private Timer _startTime;
 	private CharacterBody2D _player;
-    private CharacterBody2D _bot;
+	private CharacterBody2D _bot;
 	private Sprite2D my_sprite;
 
-    private int[] actions = new int[2]; // first value is direction, second is number of jumps
+	private int[] actions = new int[2]; // first value is direction, second is number of jumps
 	public override void _Ready()
 	{
 		_pathFind2D = FindParent("Game").FindChild("TileMapPathFind") as TileMapPathFind;
 		_player = FindParent("Game").FindChild("Player").FindChild("Fighter") as CharacterBody2D;
-        _bot = GetNode<CharacterBody2D>("Fighter");
+		_bot = GetNode<CharacterBody2D>("Fighter");
 		my_sprite = FindParent("Game").FindChild("MySprite2") as Sprite2D;
 		_startTime = GetNode<Timer>("PathFindTimer");
 	}
@@ -67,15 +67,15 @@ public partial class NavigationAdvisor : Node2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-        
-        actions[0] = 0;
-        actions[1] = 0;
+		
+		actions[0] = 0;
+		actions[1] = 0;
 		// Handle start hunt.
 		if (Input.IsActionJustPressed("ui_accept")) {
-            //GD.Print("started");
+			//GD.Print("started");
 			_startTime.Start();
-            //GD.Print("done");
-        }
+			//GD.Print("done");
+		}
 
 		// if there is a target set
 		if (_target != null)
@@ -84,13 +84,13 @@ public partial class NavigationAdvisor : Node2D
 			if (_target.Position.X - 5 > _bot.GlobalPosition.X)
 			{
 				//direction.X = 1f;
-                actions[0] = 1;
+				actions[0] = 1;
 			}
 			// If the target is to the left of the current pusition
 			else if (_target.Position.X + 5 < _bot.GlobalPosition.X)
 			{
 				//direction.X = -1f;
-                actions[0] = -1;
+				actions[0] = -1;
 			}
 			else
 			{
@@ -101,7 +101,7 @@ public partial class NavigationAdvisor : Node2D
 				}
 			}
 		}
-        //GD.Print(actions[0].ToString() + ", " +actions[1].ToString());
+		//GD.Print(actions[0].ToString() + ", " +actions[1].ToString());
 
 	}
 
