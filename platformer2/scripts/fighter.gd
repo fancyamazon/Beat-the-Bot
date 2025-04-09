@@ -226,7 +226,7 @@ func set_sprite(direction: int):
 func take_damage(amount: int) -> void:
 	if(is_shielding):
 		#take less damage when shileded, SHIELD_REDUCTION set at the top
-		health -= amount*SHIELD_REDUCTION
+		health -= amount*(1-SHIELD_REDUCTION)
 	else:
 		health -= amount
 	health_bar.health = health
