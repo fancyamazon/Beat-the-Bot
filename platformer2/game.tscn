@@ -1,6 +1,6 @@
 [gd_scene load_steps=34 format=4 uid="uid://d07nvyd5qem1x"]
 
-[ext_resource type="Script" uid="uid://db25rkl7nijpv" path="res://game.gd" id="1_w04m8"]
+[ext_resource type="Script" uid="uid://2jisuhgnj2lt" path="res://game.gd" id="1_w04m8"]
 [ext_resource type="Texture2D" uid="uid://lp3tjt6016tn" path="res://assets/Free/Terrain/Terrain (16x16).png" id="2_8mj6l"]
 [ext_resource type="PackedScene" uid="uid://st3xivfw0pcs" path="res://scenes/platform.tscn" id="3_7lvvc"]
 [ext_resource type="PackedScene" uid="uid://b8pf7fww7yfun" path="res://scenes/enemy.tscn" id="5_dp0s8"]
@@ -15,8 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://b3bfx4ocxi8yq" path="res://scenes/passive_bot.tscn" id="13_sni34"]
 [ext_resource type="PackedScene" uid="uid://myphnaj3lltv" path="res://scenes/sneaky_bot.tscn" id="14_tjcyu"]
 [ext_resource type="PackedScene" uid="uid://bqumibaarvnyl" path="res://scenes/BotNavTest.tscn" id="16_80cx4"]
+[ext_resource type="PackedScene" uid="uid://cs7b01i3hck6h" path="res://scenes/aggressive_bot.tscn" id="17_e8heu"]
 [ext_resource type="Texture2D" uid="uid://hpelvi3t8yl8" path="res://icon.svg" id="18_rvswv"]
-[ext_resource type="PackedScene" uid="uid://l2wjmv2fkw6m" path="res://scenes/bot.tscn" id="19_e36ub"]
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_7obcx"]
 frames = 4
@@ -536,5 +536,5 @@ rotation = 2.32825
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("18_rvswv")
 
-[node name="BotAggressive" parent="." instance=ExtResource("19_e36ub")]
-position = Vector2(687, -184)
+[node name="Node2D" parent="." instance=ExtResource("17_e8heu")]
+position = Vector2(668, -208)

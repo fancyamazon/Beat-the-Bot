@@ -11,7 +11,6 @@ script = ExtResource("1_hhacj")
 
 [node name="Fighter" parent="." instance=ExtResource("1_qpkb6")]
 script = ExtResource("1_vqv6c")
-spawn_offset = null
 
 [node name="HealthCanvas" type="CanvasLayer" parent="Fighter"]
 
