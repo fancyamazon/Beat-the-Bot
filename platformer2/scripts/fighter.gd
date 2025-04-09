@@ -56,7 +56,8 @@ var gravity_affected = true
 	
 #health and healthbar
 var health = 100
-@onready var health_bar: ProgressBar = $CanvasLayer/HealthBar
+@onready var health_bar: ProgressBar = $HealthCanvas/HealthBar
+@onready var character_label: Label = $HealthCanvas/CharacterLabel
 
 #ranged projectile----
 @onready var main=get_tree().get_root().get_node("Game")
@@ -86,12 +87,14 @@ func _ready():
 	#$AnimatedSprite2D/PlayerHitBox.add_to_group("hitbox")d
 	health_bar._init_health(health)
 	if is_in_group("player"):
-		print("player")
+		print("aligning <player> healthbar + label")
 		health_bar.position.x = 200
+		character_label.position.x = 200
 	else:
-		print("bot")
+		print("aligning <bot> healthbar + labelbot")
 		health_bar.position.x = 700
-				
+		character_label.position.x = 700
+	character_label.position.y = health_bar.position.y-20
 	
 func action_dash():
 	if can_move and (not is_dashing) and (not on_dash_cooldown) and !movement_locked:

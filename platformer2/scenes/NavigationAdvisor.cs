@@ -13,7 +13,7 @@ public partial class NavigationAdvisor : Node2D
 	private PointInfo _prevTarget = null;
 	private Timer _startTime;
 	private CharacterBody2D _player;
-    private CharacterBody2D _bot;
+	private CharacterBody2D _bot;
 	private Sprite2D my_sprite;
 
 	public Vector2 search_point;
@@ -23,7 +23,7 @@ public partial class NavigationAdvisor : Node2D
 	{
 		_pathFind2D = FindParent("Game").FindChild("TileMapPathFind") as TileMapPathFind;
 		_player = FindParent("Game").FindChild("Player").FindChild("Fighter") as CharacterBody2D;
-        _bot = GetNode<CharacterBody2D>("Fighter");
+		_bot = GetNode<CharacterBody2D>("Fighter");
 		my_sprite = FindParent("Game").FindChild("MySprite2") as Sprite2D;
 		_startTime = GetNode<Timer>("PathFindTimer");
 		search_point = Vector2.Zero;
@@ -75,10 +75,10 @@ public partial class NavigationAdvisor : Node2D
         movements[1] = 0;
 		// Handle start hunt.
 		if (Input.IsActionJustPressed("ui_accept")) {
-            //GD.Print("started");
+			//GD.Print("started");
 			_startTime.Start();
-            //GD.Print("done");
-        }
+			//GD.Print("done");
+		}
 
 		// if there is a target set
 		if (_target != null)
