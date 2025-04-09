@@ -83,8 +83,8 @@ func get_team():
 func _ready():
 
 	add_to_group(get_team())
-	$AnimatedSprite2D/HurtBox.add_to_group("hurtbox")
-	#$AnimatedSprite2D/HitBox.add_to_group("hitbox")d
+	$AnimatedSprite2D/PlayerHurtBox.add_to_group("hurtbox")
+	#$AnimatedSprite2D/PlayerHitBox.add_to_group("hitbox")
 	health_bar._init_health(health)
 	if is_in_group("player"):
 		print("aligning <player> healthbar + label")

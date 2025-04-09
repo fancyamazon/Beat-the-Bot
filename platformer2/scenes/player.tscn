@@ -5,7 +5,7 @@
 [ext_resource type="FontFile" uid="uid://ba46rbpxu84gj" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="3_dqkch"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="3_qhqgy"]
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D2" type="Node2D"]
 
 [node name="Fighter" parent="." instance=ExtResource("1_g2els")]
 script = ExtResource("2_a5wam")
