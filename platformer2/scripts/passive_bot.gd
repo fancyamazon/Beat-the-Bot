@@ -15,9 +15,19 @@ func determine_search_point(player_pos, bot_pos):
 func decide_actions():
 	nav.search_point = determine_search_point(player.global_position, global_position)
 	#print(nav.actions)
-	if player.global_position.y - global_position.y < 400 and player.global_position.y - global_position.y > -30:
-		action_ranged()
 	action_walk(nav.get_movements()[0])
+	if player.global_position.y - global_position.y < 400 and player.global_position.y - global_position.y > -30:
+		if player.global_position.x - global_position.x > 100:
+			if facing_dir == 1:
+				action_ranged()
+			else:
+				action_walk(1)
+		if player.global_position.x - global_position.x < -100:
+			if facing_dir == -1:
+				action_ranged()
+			else:
+				action_walk(-1)
+
 	if nav.get_movements()[1] > 0:
 		action_jump()
 	elif player.global_position.x - global_position.x > -10 and player.global_position.x - global_position.x < 10:
