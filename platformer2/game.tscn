@@ -1,6 +1,6 @@
 [gd_scene load_steps=34 format=4 uid="uid://d07nvyd5qem1x"]
 
-[ext_resource type="Script" uid="uid://2jisuhgnj2lt" path="res://game.gd" id="1_w04m8"]
+[ext_resource type="Script" uid="uid://db25rkl7nijpv" path="res://game.gd" id="1_w04m8"]
 [ext_resource type="Texture2D" uid="uid://lp3tjt6016tn" path="res://assets/Free/Terrain/Terrain (16x16).png" id="2_8mj6l"]
 [ext_resource type="PackedScene" uid="uid://st3xivfw0pcs" path="res://scenes/platform.tscn" id="3_7lvvc"]
 [ext_resource type="PackedScene" uid="uid://b8pf7fww7yfun" path="res://scenes/enemy.tscn" id="5_dp0s8"]
@@ -16,7 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://myphnaj3lltv" path="res://scenes/sneaky_bot.tscn" id="14_tjcyu"]
 [ext_resource type="PackedScene" uid="uid://bqumibaarvnyl" path="res://scenes/BotNavTest.tscn" id="16_80cx4"]
 [ext_resource type="Texture2D" uid="uid://hpelvi3t8yl8" path="res://icon.svg" id="18_rvswv"]
-[ext_resource type="PackedScene" uid="uid://coplb7pxy172c" path="res://scenes/bot-template.tscn" id="19_e36ub"]
+[ext_resource type="PackedScene" uid="uid://l2wjmv2fkw6m" path="res://scenes/bot.tscn" id="19_e36ub"]
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_7obcx"]
 frames = 4
@@ -490,7 +490,7 @@ libraries = {
 autoplay = "moving_platform"
 
 [node name="Enemy" parent="." instance=ExtResource("5_dp0s8")]
-position = Vector2(306, -343)
+position = Vector2(306, -378)
 
 [node name="Label" type="Label" parent="."]
 offset_left = 15.0
@@ -519,7 +519,7 @@ autoplay = true
 position = Vector2(443, -58)
 
 [node name="sneaky_bot" parent="." instance=ExtResource("14_tjcyu")]
-position = Vector2(1302, -434)
+position = Vector2(1023, -248)
 
 [node name="BotNavTest" parent="." instance=ExtResource("16_80cx4")]
 position = Vector2(117, 0)
@@ -537,4 +537,4 @@ scale = Vector2(0.3, 0.3)
 texture = ExtResource("18_rvswv")
 
 [node name="BotAggressive" parent="." instance=ExtResource("19_e36ub")]
-position = Vector2(673, -218)
+position = Vector2(687, -184)

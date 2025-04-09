@@ -308,10 +308,9 @@ func action_grapple_retract():
 		gravity_affected = true
 		movement_locked = false
 
-
-func _on_player_animation_finished() -> void:
+func _on_animated_sprite_2d_animation_finished() -> void:
 	if animated_sprite_2d.animation not in ["grappling", "crouching"]:
-		animated_sprite_2d.play("idle") # Replace with function body.
+		animated_sprite_2d.play("idle") # Replace with function body.func _on_player_animation_finished() -> void:
 
 func _on_dash_timer_timeout() -> void:
 	on_dash_cooldown = false # Replace with function body.
