@@ -18,7 +18,7 @@ public partial class NavigationAdvisor : Node2D
 
 	public Vector2 search_point;
 
-    private int[] movements = new int[2]; // direction, number of jumps, melee attack
+	private int[] movements = new int[2]; // direction, number of jumps, melee attack
 	public override void _Ready()
 	{
 		_pathFind2D = FindParent("Game").FindChild("TileMapPathFind") as TileMapPathFind;
@@ -70,9 +70,9 @@ public partial class NavigationAdvisor : Node2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-        
-        movements[0] = 0;
-        movements[1] = 0;
+		
+		movements[0] = 0;
+		movements[1] = 0;
 		// Handle start hunt.
 		if (Input.IsActionJustPressed("ui_accept")) {
 			//GD.Print("started");
@@ -87,13 +87,13 @@ public partial class NavigationAdvisor : Node2D
 			if (_target.Position.X - 5 > _bot.GlobalPosition.X)
 			{
 				//direction.X = 1f;
-                movements[0] = 1;
+				movements[0] = 1;
 			}
 			// If the target is to the left of the current pusition
 			else if (_target.Position.X + 5 < _bot.GlobalPosition.X)
 			{
 				//direction.X = -1f;
-                movements[0] = -1;
+				movements[0] = -1;
 			}
 			else
 			{
@@ -104,7 +104,7 @@ public partial class NavigationAdvisor : Node2D
 				}
 			}
 		}
-        //GD.Print(movements[0].ToString() + ", " +movements[1].ToString());
+		//GD.Print(movements[0].ToString() + ", " +movements[1].ToString());
 
 	}
 

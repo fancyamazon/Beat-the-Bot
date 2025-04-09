@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://cs7b01i3hck6h"]
+[gd_scene load_steps=6 format=3 uid="uid://bt0qx32gkk3dp"]
 
 [ext_resource type="Script" uid="uid://dv2u2rj825eud" path="res://scenes/NavigationAdvisor.cs" id="1_44xh6"]
 [ext_resource type="PackedScene" uid="uid://c740fnyl8cfxb" path="res://scenes/fighter.tscn" id="2_63yym"]
@@ -28,7 +28,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("4_j5cuf")
 theme_override_font_sizes/font_size = 16
-text = "Passive Bot"
+text = "Aggressive Bot"
 
 [node name="HealthBar" parent="Fighter/HealthCanvas" instance=ExtResource("5_wjf1l")]
 anchors_preset = 8
@@ -37,9 +37,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -452.0
-offset_top = 232.0
+offset_top = 282.0
 offset_right = -202.0
-offset_bottom = 248.0
+offset_bottom = 298.0
 grow_horizontal = 2
 grow_vertical = 2
 

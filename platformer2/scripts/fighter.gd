@@ -92,14 +92,14 @@ func _ready():
 		character_label.position.x = 200
 		
 		print("aligning <player> collision layers")
-		set_collision_layer_value(3, true)
+		#set_collision_layer_value(3, true)
 		set_collision_mask_value(1, true)
-		set_collision_mask_value(3, true)
+		#set_collision_mask_value(3, true)
 		$AnimatedSprite2D/HitBox.set_collision_layer_value(2, true)
 		$AnimatedSprite2D/HitBox.set_collision_mask_value(2, true)
 		$AnimatedSprite2D/HurtBox.set_collision_layer_value(3, true)
 		$AnimatedSprite2D/HurtBox.set_collision_mask_value(3, true)
-		
+
 		#print("collision layer is 3 = " + str(get_collision_layer_value(3)))
 	else:
 		print("aligning <bot> healthbar + labelbot")
@@ -107,13 +107,14 @@ func _ready():
 		character_label.position.x = 700
 		
 		print("aligning <bot> collision layers")
-		set_collision_layer_value(2, true)
+		#set_collision_layer_value(2, true)
 		set_collision_mask_value(1, true)
-		set_collision_mask_value(2, true)
+		#set_collision_mask_value(2, true)
 		$AnimatedSprite2D/HitBox.set_collision_layer_value(3, true)
 		$AnimatedSprite2D/HitBox.set_collision_mask_value(3, true)
 		$AnimatedSprite2D/HurtBox.set_collision_layer_value(2, true)
 		$AnimatedSprite2D/HurtBox.set_collision_mask_value(2, true)
+
 	character_label.position.y = health_bar.position.y-20
 	
 func action_dash():
