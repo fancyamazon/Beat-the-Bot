@@ -1,9 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://b3bfx4ocxi8yq"]
+[gd_scene load_steps=5 format=3 uid="uid://b3bfx4ocxi8yq"]
 
+[ext_resource type="Script" uid="uid://dv2u2rj825eud" path="res://scenes/NavigationAdvisor.cs" id="1_nrnto"]
 [ext_resource type="PackedScene" uid="uid://c740fnyl8cfxb" path="res://scenes/fighter.tscn" id="1_ple6w"]
 [ext_resource type="Script" uid="uid://c3l00g3hsxcd3" path="res://scripts/passive_bot.gd" id="1_psbud"]
+[ext_resource type="PackedScene" uid="uid://vhediblqaylo" path="res://scenes/pathdraw.tscn" id="2_vbo1x"]
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_nrnto")
+
+[node name="pathdraw" parent="." instance=ExtResource("2_vbo1x")]
 
 [node name="Fighter" parent="." instance=ExtResource("1_ple6w")]
 script = ExtResource("1_psbud")
+
+[node name="PathFindTimer" type="Timer" parent="."]
+wait_time = 0.3
+
+[connection signal="timeout" from="PathFindTimer" to="." method="OnPathFindTimerTimeout"]
