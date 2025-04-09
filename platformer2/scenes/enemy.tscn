@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://b8pf7fww7yfun"]
 
-[ext_resource type="Script" uid="uid://3ymbq6txv2er" path="res://scripts/enemy.gd" id="1_is05b"]
+[ext_resource type="Script" uid="uid://50snnthk700j" path="res://scripts/enemy.gd" id="1_is05b"]
 [ext_resource type="Texture2D" uid="uid://bs04head3ey53" path="res://assets/Slime_32px_real.png" id="2_4aqqa"]
 [ext_resource type="PackedScene" uid="uid://hc6gcfko7dn2" path="res://scenes/killzone.tscn" id="3_g33v7"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="4_fi21h"]

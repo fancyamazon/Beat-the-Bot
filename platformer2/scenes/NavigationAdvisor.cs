@@ -16,9 +16,7 @@ public partial class NavigationAdvisor : Node2D
 	private CharacterBody2D _bot;
 	private Sprite2D my_sprite;
 
-	public Vector2 search_point;
-
-    private int[] movements = new int[2]; // direction, number of jumps, melee attack
+	private int[] actions = new int[2]; // first value is direction, second is number of jumps
 	public override void _Ready()
 	{
 		_pathFind2D = FindParent("Game").FindChild("TileMapPathFind") as TileMapPathFind;
@@ -26,7 +24,6 @@ public partial class NavigationAdvisor : Node2D
 		_bot = GetNode<CharacterBody2D>("Fighter");
 		my_sprite = FindParent("Game").FindChild("MySprite2") as Sprite2D;
 		_startTime = GetNode<Timer>("PathFindTimer");
-		search_point = Vector2.Zero;
 	}
 
 	private void OnPathFindTimerTimeout()
@@ -60,7 +57,7 @@ public partial class NavigationAdvisor : Node2D
 
 	private void DoPathFinding()
 	{
-		var playerTilePosition = _pathFind2D.LocalToMap(search_point);
+		var playerTilePosition = _pathFind2D.LocalToMap(_player.GlobalPosition);
 		_path = _pathFind2D.GetPlaform2DPath(_bot.GlobalPosition, _pathFind2D.MapToLocal(playerTilePosition));
 		pathArray = _path.ToArray();
 		
@@ -70,9 +67,9 @@ public partial class NavigationAdvisor : Node2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-        
-        movements[0] = 0;
-        movements[1] = 0;
+		
+		actions[0] = 0;
+		actions[1] = 0;
 		// Handle start hunt.
 		if (Input.IsActionJustPressed("ui_accept")) {
 			//GD.Print("started");
@@ -87,13 +84,13 @@ public partial class NavigationAdvisor : Node2D
 			if (_target.Position.X - 5 > _bot.GlobalPosition.X)
 			{
 				//direction.X = 1f;
-                movements[0] = 1;
+				actions[0] = 1;
 			}
 			// If the target is to the left of the current pusition
 			else if (_target.Position.X + 5 < _bot.GlobalPosition.X)
 			{
 				//direction.X = -1f;
-                movements[0] = -1;
+				actions[0] = -1;
 			}
 			else
 			{
@@ -104,16 +101,8 @@ public partial class NavigationAdvisor : Node2D
 				}
 			}
 		}
-        //GD.Print(movements[0].ToString() + ", " +movements[1].ToString());
+		//GD.Print(actions[0].ToString() + ", " +actions[1].ToString());
 
-	}
-
-	public int[] get_movements() {
-		return movements;
-	}
-
-	public Vector2 get_vector_to_player(){
-		return _player.GlobalPosition - _bot.GlobalPosition;
 	}
 
 	private bool JumpRightEdgeToLeftEdge()
@@ -164,10 +153,10 @@ public partial class NavigationAdvisor : Node2D
 			int heightDistance = _pathFind2D.LocalToMap(_target.Position).Y - _pathFind2D.LocalToMap(_prevTarget.Position).Y;
 			if (Mathf.Abs(heightDistance) <= 2)
 			{
-				movements[1] = 1;
+				actions[1] = 1;
 			}else
 			{
-				movements[1] = 2;
+				actions[1] = 2;
 			}
 		}
 	}
