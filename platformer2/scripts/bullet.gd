@@ -8,7 +8,11 @@ var dir: int  # Direction: 1 for right, -1 for left
 var spawnPos: Vector2
 var spawnRot: float
 var velocity: Vector2
+var team = "N/A: No Team Error"
 @onready var bullet_hitbox: Area2D = $BulletHitbox
+
+func get_team():
+	return team
 
 func _ready():
 	global_position = spawnPos
@@ -26,6 +30,6 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_bullet_hitbox_area_entered(area: Area2D) -> void:
-	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
-	if area.is_in_group("hurtbox"):
+	print("something entered bullet hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
+	if area.is_in_group("hurtbox") and area.owner.get_team() != get_team():
 		area.owner.take_damage(5)
