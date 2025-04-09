@@ -574,8 +574,8 @@ animation = &"shield-up"
 autoplay = "idle"
 
 [node name="HitBox" type="Area2D" parent="AnimatedSprite2D"]
-collision_layer = 7
-collision_mask = 7
+collision_layer = 0
+collision_mask = 0
 monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/HitBox"]
@@ -583,8 +583,8 @@ position = Vector2(16, -0.25)
 shape = SubResource("RectangleShape2D_cjyki")
 
 [node name="HurtBox" type="Area2D" parent="AnimatedSprite2D"]
-collision_layer = 7
-collision_mask = 7
+collision_layer = 0
+collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/HurtBox"]
 position = Vector2(0, -0.25)
