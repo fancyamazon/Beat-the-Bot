@@ -253,7 +253,7 @@ func _on_range_timer_timeout() -> void:
 
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
-	print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
+	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	if area.is_in_group("hurtbox") and area.owner.get_team() != get_team():
 		area.owner.take_damage(20)
 		
@@ -286,7 +286,7 @@ func action_ranged():
 		on_range_cooldown=true
 
 func _on_hurt_box_area_entered(area: Area2D) -> void:
-	print("something entered player hurtbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
+	#print("something entered player hurtbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	#print("hurtbox entered. I'm team" + get_team())
 	if area.is_in_group("hitbox") and area.owner.get_team() != get_team():
 		take_damage(5)

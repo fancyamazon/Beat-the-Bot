@@ -30,6 +30,6 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_bullet_hitbox_area_entered(area: Area2D) -> void:
-	print("something entered bullet hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
+	#print("something entered bullet hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	if area.is_in_group("hurtbox") and area.owner.get_team() != get_team():
 		area.owner.take_damage(5)
