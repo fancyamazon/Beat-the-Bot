@@ -8,7 +8,6 @@ func get_team():
 
 func decide_actions():
 	nav.search_point = player.global_position 
-	#print(nav.actions)
 	action_walk(nav.get_movements()[0])
 	if nav.get_movements()[1] > 0:
 		action_jump()

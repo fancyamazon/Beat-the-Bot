@@ -203,6 +203,7 @@ func action_strafe(input_dir: int):
 
 func action_walk(input_dir: int):
 	direction = input_dir
+	#set_sprite(direction)
 	
 	if(!can_move or movement_locked):
 		return
