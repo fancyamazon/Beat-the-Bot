@@ -43,28 +43,29 @@ var attack_cooldown = 0.5 # seconds
 var range_cooldown=0.3
 var on_range_cooldown=false
 
-#var RANGED_START=0.5
-#@onready var ranged_charge_timer: Timer=$ranged_charge_timer
+### Charged ranged attacks
+@onready var charged_attack_timer: Timer = $ChargedAttackTimer
+var charged_status = 0 # 0 = not started, 1 = in the process, 2 = finished
+var charging_duration = 1.0 # seconds
 
-
-#grapple----
-var GRAPPLE_LENGTH = 200.0  # Adjust as needed
+### Grappling
+var GRAPPLE_LENGTH = 200.0  # Ad$ChargedAttackTimerjust as needed
 @onready var grapple_point = null #point where the player is grappling to
 var is_grappling = false
 var gravity_affected = true
 @onready var grappling_line_2d: Line2D = $grapple_controller/Line2D
 	
-#health and healthbar
+### Health and healthbar
 var health = 100
 @onready var health_bar: ProgressBar = $HealthCanvas/HealthBar
 @onready var character_label: Label = $HealthCanvas/CharacterLabel
 
-#ranged projectile----
+### Ranged projectile
 @onready var main=get_tree().get_root().get_node("Game")
 @onready var bullet=load("res://scenes/bullet.tscn")
 @export var spawn_offset: Vector2 = Vector2(20, -20)
 
-#shield----
+### Shielding
 var is_shielding=false
 const SHIELD_REDUCTION=0.1
 const SHIELD_HEALTH=50
@@ -346,24 +347,29 @@ func action_shield_down():
 	can_move=true
 	is_shielding=false
 
+func action_charged_attack():
+	if charged_status == 0:
+		charged_status = 1
+		charged_attack_timer.start(charging_duration)
+		print("charging started")
+	elif charged_status == 1 || charged_status == 2:
+		pass
+		
+func action_release_charged_attack():
+	if charged_status == 0 || charged_status == 1:
+		charged_status = 0
+		charged_attack_timer.stop()
+		print("charging cancelled")
+	elif charged_status == 2:
+		print("shot")
+		if can_move == false:
+			can_move = true
+		print("movement re-enabled")
+		charged_status = 0
+		# TOOD: reset animation
 
-
-#
-#func _input(event):
-	#if event.is_action_pressed("ranged"):
-		#ranged_charge_timer.start(RANGED_START)
-		#print("charging started")
-		#if(ranged_charge_timer.timeout):
-			#_on_charge_timeout()
-#
-	#if event.is_action_released("ranged"):
-		#print("shot")
-		#ranged_charge_timer.stop()
-		#if can_move == false:
-			#can_move = true
-		#print("movement enabled")
-#
-#func _on_charge_timeout():
-	#print("charging complete")
-	#can_move = false
-	#print("movement disabled")
+func _on_charged_attack_timer_timeout() -> void:
+	charged_status = 2
+	print("charging complete")
+	can_move = false
+	print("movement disabled")
