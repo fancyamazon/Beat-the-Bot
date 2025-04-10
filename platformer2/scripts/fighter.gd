@@ -47,6 +47,7 @@ var on_range_cooldown=false
 @onready var charged_attack_timer: Timer = $ChargedAttackTimer
 var charged_status = 0 # 0 = not started, 1 = in the process, 2 = finished
 var charging_duration = 1.0 # seconds
+var charged_attack_damage = 35
 
 ### Grappling
 var GRAPPLE_LENGTH = 200.0  # Ad$ChargedAttackTimerjust as needed
@@ -350,6 +351,7 @@ func action_shield_down():
 
 func action_charged_attack():
 	if charged_status == 0:
+		### animated_sprite_2d.play("ranged-attack-uncharged") REPLACE WITH SHOOTING ANIMATION
 		charged_status = 1
 		charged_attack_timer.start(charging_duration)
 		print("charging started")
@@ -363,6 +365,29 @@ func action_release_charged_attack():
 		print("charging cancelled")
 	elif charged_status == 2:
 		print("shot")
+		var instance = bullet.instantiate()
+		instance.team = get_team()
+		instance.bullet_type = 1
+		instance.damage_dealt = charged_attack_damage
+		instance.dir = facing_dir  # Set the bullet's direction to the last pressed direction
+		if get_team() == "player":
+			#print("player shot")
+			#instance.get_node("BulletHitbox").set_collision_layer(7)
+			instance.get_node("BulletHitbox").set_collision_layer_value(2, true)
+			instance.get_node("BulletHitbox").set_collision_layer_value(3, false)
+			instance.get_node("BulletHitbox").set_collision_mask_value(2, true)
+			instance.get_node("BulletHitbox").set_collision_mask_value(3, false)
+		else:
+			#print("bot shot")
+			#instance.get_node("BulletHitbox").set_collision_layer(7)
+			instance.get_node("BulletHitbox").set_collision_layer_value(3, true)
+			instance.get_node("BulletHitbox").set_collision_layer_value(2, false)
+			instance.get_node("BulletHitbox").set_collision_mask_value(3, true)
+			instance.get_node("BulletHitbox").set_collision_mask_value(2, false)
+		#instance.spawnPos = global_position  # Set the spawn position to the player's position
+		instance.spawnPos = global_position + spawn_offset * facing_dir
+		instance.spawnRot = rotation  # Set the spawn rotation to the player's rotation (optional)
+		main.add_child(instance)  # Add the bullet to the scene
 		if can_move == false:
 			can_move = true
 		print("movement re-enabled")

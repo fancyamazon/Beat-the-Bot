@@ -12,7 +12,6 @@ script = ExtResource("1_gjkjt")
 
 [node name="Fighter" parent="." instance=ExtResource("1_ple6w")]
 script = ExtResource("1_psbud")
-spawn_offset = null
 
 [node name="HealthCanvas" type="CanvasLayer" parent="Fighter"]
 
@@ -49,6 +48,5 @@ grow_vertical = 2
 wait_time = 0.3
 
 [node name="pathdraw" parent="." instance=ExtResource("6_2787x")]
-myColor = Color(0.168014, 0.51571, 1, 1)
 
 [connection signal="timeout" from="PathFindTimer" to="." method="OnPathFindTimerTimeout"]

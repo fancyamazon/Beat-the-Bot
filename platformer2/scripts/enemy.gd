@@ -4,7 +4,7 @@ extends CharacterBody2D
 const SPEED = 400.0
 const JUMP_VELOCITY = -450.0
 
-var health = 100
+var health = 50
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var enemy_hit_box: Area2D = $AnimatedSprite2D/EnemyHitBox
