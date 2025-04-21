@@ -494,7 +494,7 @@ autoplay = "moving_platform"
 [node name="Enemy" parent="." instance=ExtResource("5_dp0s8")]
 position = Vector2(677, -551)
 
-[node name="Label" type="Label" parent="."]
+[node name="InstructionsLabel" type="Label" parent="."]
 offset_left = 253.0
 offset_top = 22.0
 offset_right = 859.0
@@ -503,13 +503,14 @@ theme_override_fonts/font = ExtResource("11_50rtv")
 theme_override_font_sizes/font_size = 16
 text = "CONTROLS
 move: wasd / arrow keys (space works for jump)
-crouch: s / left shift / down
+crouch: s /  down
 dash: tab/e
 grapple to: hold right click
 grapple stop: let go of right click
 double jump: jump in air
-melee attack: Q
-ranged attack: left click
+melee attack: left click	
+ranged attack: shift
+charged range attack: R
 shield: F
 slime movement: ijkl
 
