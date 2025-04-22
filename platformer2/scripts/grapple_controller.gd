@@ -1,17 +1,19 @@
 extends Node2D
 
+### Properties
 @export var rest_length=0
 @export var stiffness=20.0
 @export var damping=5
 
+### Hit detection
 @onready var player := get_parent()
 @onready var ray := $RayCast2D
 @onready var rope := $Line2D
-
-var launched = false
 var target: Vector2
 
-# This is to solve for moving platforms. 
+var launched = false
+
+## This is to solve for moving platforms. 
 var collider: Object
 var offset_from_center: Vector2 # how far it is from the center of the platform
 
@@ -25,11 +27,7 @@ func _physics_process(delta: float) -> void:
 func _process(delta):
 	ray.look_at(get_global_mouse_position())
 	
-	#if Input.is_action_just_pressed("grapple"):
-	#	launch()
-	#if Input.is_action_just_released("grapple"):
-	#	retract()
-	
+	### NOTE -- when this is commented, grapple is ~twice as slow.
 	if launched:
 		handle_grapple(delta)
 
@@ -51,7 +49,7 @@ func retract():
 	collider = null
 
 func handle_grapple(delta):
-	# handling if the collider disappeared
+	# Handling if the collider disappeared
 	if not is_instance_valid(collider):
 		retract()
 		return
@@ -73,10 +71,12 @@ func handle_grapple(delta):
 		var damping = -damping * vel_dot * target_dir
 		
 		force = 2*spring_force + damping
-		#print(force)
+
+	if displacement < 10 and (abs((force*delta).x) < 5 or abs((force*delta).y) < 5):
+		player.velocity = Vector2.ZERO # When near the target and very low speed, stop moving (prevents shakiness)
+	else:
+		player.velocity += force * delta
 	
-	player.velocity += force * delta
-	# todo in the future: when velocity drops below certain amount (indicating shakiness) then set it to zero
 	update_rope()
 
 func update_rope():
