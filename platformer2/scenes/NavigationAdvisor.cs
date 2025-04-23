@@ -9,7 +9,7 @@ public partial class NavigationAdvisor : Node2D
 	private Stack<PointInfo> _path = new Stack<PointInfo>();
 	private float JumpDistanceHeightThreshold = 120.0f;
 	public PointInfo[] pathArray = {};
-	private PointInfo _target = null;
+	public PointInfo _target = null;
 	private PointInfo _prevTarget = null;
 	private Timer _startTime;
 	private CharacterBody2D _player;
@@ -18,7 +18,7 @@ public partial class NavigationAdvisor : Node2D
 
 	public Vector2 search_point;
 
-	private int[] movements = new int[2]; // direction, number of jumps, melee attack
+	private int[] movements = new int[3]; // direction, number of jumps, dash
 	public override void _Ready()
 	{
 		_pathFind2D = FindParent("Game").FindChild("TileMapPathFind") as TileMapPathFind;
@@ -54,7 +54,6 @@ public partial class NavigationAdvisor : Node2D
 
 		_prevTarget = _target;  // Set the previous target to the current target
 		_target = _path.Pop();  // Set the target node to the next target in the stack
-		my_sprite.Position = _target.Position;
 	}
 
 
@@ -73,6 +72,7 @@ public partial class NavigationAdvisor : Node2D
 		
 		movements[0] = 0;
 		movements[1] = 0;
+		movements[2] = 0;
 		// Handle start hunt.
 		if (Input.IsActionJustPressed("ui_accept")) {
 			//GD.Print("started");
@@ -84,22 +84,21 @@ public partial class NavigationAdvisor : Node2D
 		if (_target != null)
 		{
 			// If the target is to the right of the current pusition
-			if (_target.Position.X - 5 > _bot.GlobalPosition.X)
+			if (_target.Position.X - 5> _bot.GlobalPosition.X)
 			{
-				//direction.X = 1f;
 				movements[0] = 1;
 			}
 			// If the target is to the left of the current pusition
-			else if (_target.Position.X + 5 < _bot.GlobalPosition.X)
+			else if (_target.Position.X  + 5< _bot.GlobalPosition.X)
 			{
 				//direction.X = -1f;
 				movements[0] = -1;
 			}
 
 			// so we don't miss double jumps
-			if (_target.Position.Y > _bot.GlobalPosition.Y + 100) {
+			/*else if (_target.Position.Y > _bot.GlobalPosition.Y + 100) {
 				movements[0] = 0;
-			} 
+			} */
 
 			else
 			{
@@ -108,6 +107,25 @@ public partial class NavigationAdvisor : Node2D
 					GoToNextPointInPath();
 					Jump();
 				}
+
+				// helps fall down ledges
+				if (_target.Position.Y > _bot.GlobalPosition.Y + 100) {
+					if (_target.Position.X < _bot.GlobalPosition.X)
+					{
+						//direction.X = -1f;
+						movements[0] = -1;
+					} else if (_target.Position.X  > _bot.GlobalPosition.X)
+					{
+						//direction.X = -1f;
+						movements[0] = 1;
+					}
+				}
+			}
+
+			if (_target.Position.Y < _bot.GlobalPosition.Y - 100) {
+				movements[0] = 0;
+			} else if (_target.Position.Y < _bot.GlobalPosition.Y + 20 && Mathf.Abs(_target.Position.X - _bot.GlobalPosition.Y) > 100) {
+				movements[2] = 1;
 			}
 		}
 		//GD.Print(movements[0].ToString() + ", " +movements[1].ToString());
