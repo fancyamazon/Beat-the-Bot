@@ -9,7 +9,7 @@ public partial class NavigationAdvisor : Node2D
 	private Stack<PointInfo> _path = new Stack<PointInfo>();
 	private float JumpDistanceHeightThreshold = 120.0f;
 	public PointInfo[] pathArray = {};
-	private PointInfo _target = null;
+	public PointInfo _target = null;
 	private PointInfo _prevTarget = null;
 	private Timer _startTime;
 	private CharacterBody2D _player;
@@ -54,7 +54,6 @@ public partial class NavigationAdvisor : Node2D
 
 		_prevTarget = _target;  // Set the previous target to the current target
 		_target = _path.Pop();  // Set the target node to the next target in the stack
-		my_sprite.Position = _target.Position;
 	}
 
 
@@ -84,22 +83,21 @@ public partial class NavigationAdvisor : Node2D
 		if (_target != null)
 		{
 			// If the target is to the right of the current pusition
-			if (_target.Position.X - 5 > _bot.GlobalPosition.X)
+			if (_target.Position.X - 5> _bot.GlobalPosition.X)
 			{
-				//direction.X = 1f;
 				movements[0] = 1;
 			}
 			// If the target is to the left of the current pusition
-			else if (_target.Position.X + 5 < _bot.GlobalPosition.X)
+			else if (_target.Position.X  + 5< _bot.GlobalPosition.X)
 			{
 				//direction.X = -1f;
 				movements[0] = -1;
 			}
 
 			// so we don't miss double jumps
-			if (_target.Position.Y > _bot.GlobalPosition.Y + 100) {
+			/*else if (_target.Position.Y > _bot.GlobalPosition.Y + 100) {
 				movements[0] = 0;
-			} 
+			} */
 
 			else
 			{
@@ -108,6 +106,10 @@ public partial class NavigationAdvisor : Node2D
 					GoToNextPointInPath();
 					Jump();
 				}
+			}
+
+			if (_target.Position.Y > _bot.GlobalPosition.Y + 100) {
+				movements[0] = 0;
 			}
 		}
 		//GD.Print(movements[0].ToString() + ", " +movements[1].ToString());
