@@ -10,7 +10,7 @@ func decide_actions():
 	if(Input.is_action_just_pressed("ranged")):
 		action_ranged()
 	if Input.is_action_just_pressed("grapple"):
-		action_grapple()
+		call_deferred("action_grapple_deferred")
 	if Input.is_action_just_released("grapple"):
 		action_grapple_retract()
 	if Input.is_action_just_pressed("shield"):

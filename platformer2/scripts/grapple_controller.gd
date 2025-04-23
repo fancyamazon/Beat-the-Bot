@@ -4,12 +4,16 @@ extends Node2D
 @export var REST_LENGTH = 0
 @export var STIFFNESS = 20.0
 @export var DAMPING = 5
+const LIMITED_TO_SCREEN = true # Whether grappling is limited to on-screen walls
 
 ### Hit detection
 @onready var player := get_parent()
 @onready var ray := $RayCast2D
 @onready var rope := $Line2D
 var target: Vector2
+
+### Far distance, at least the diagonal of the screen
+const FAR_DISTANCE = 3000
 
 var launched = false
 
@@ -25,23 +29,50 @@ func _physics_process(delta: float) -> void:
 		handle_grapple(delta)
 
 func _process(delta):
-	ray.look_at(get_global_mouse_position())
+	#ray.look_at(get_global_mouse_position())
 	
 	### NOTE -- when this is commented, grapple is ~twice as slow.
 	if launched:
 		handle_grapple(delta)
 
-func launch():
-	if ray.is_colliding():
-		launched = true
-		target = ray.get_collision_point()
-		collider = ray.get_collider()
-		if collider is Node2D:
-			offset_from_center = target - collider.global_position
-		else:
-			offset_from_center = Vector2.ZERO
+func is_point_on_screen(world_pos: Vector2) -> bool:
+	var inv_canvas_xform: Transform2D = get_tree().root.canvas_transform.affine_inverse()
+	var viewport_rect: Rect2 = get_viewport().get_visible_rect()
 
-		rope.show()
+	var upper_left: Vector2 = inv_canvas_xform * Vector2.ZERO
+	var lower_right: Vector2 = inv_canvas_xform * viewport_rect.size
+
+	var screen_bounds_world: Rect2 = Rect2(upper_left, lower_right - upper_left)
+	return screen_bounds_world.has_point(world_pos)
+
+func launch(looking_at: Vector2):
+	#print("Player global position: ", get_global_mouse_position())
+	#print("looking_at: ", looking_at)
+	#print("Ray beore look_at: ", ray.global_position)
+	var direction = (looking_at - ray.global_position).normalized()
+	ray.target_position = ray.to_local(ray.global_position + direction * FAR_DISTANCE)
+	ray.force_raycast_update()
+	#print("Ray after look_at: ", ray.global_position)
+	if ray.is_colliding():
+		target = ray.get_collision_point()
+		
+		#print("Target global:", target)
+		#print("Canvas inv * target:", get_viewport().get_canvas_transform().affine_inverse() * target)
+		#print("Visible rect:", get_viewport().get_visible_rect())
+		
+		if is_point_on_screen(target) and LIMITED_TO_SCREEN: # Check that the target is within screen bounds
+			launched = true
+			#print("target is on screen")
+			collider = ray.get_collider()
+			if collider is Node2D:
+				offset_from_center = target - collider.global_position
+			else:
+				offset_from_center = Vector2.ZERO
+
+			rope.show()
+		else:
+			#print("is not on screen")
+			pass
 
 func retract():
 	launched = false

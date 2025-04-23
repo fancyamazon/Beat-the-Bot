@@ -422,10 +422,10 @@ func _on_charged_attack_timer_timeout() -> void:
 
 ### -------------------------------- GRAPPLING -------------------------------- ### 
 	
-func action_grapple():
+func action_grapple(target: Vector2):
 	if(can_move):
 		animated_sprite_2d.play("grappling")
-		grapple_controller.launch()
+		grapple_controller.launch(target)
 		#gravity_affected = false
 		movement_locked = true
 
@@ -436,6 +436,9 @@ func action_grapple_retract():
 		gravity_affected = true
 		movement_locked = false
 
+func action_grapple_deferred():
+	action_grapple(get_global_mouse_position())
+	
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if animated_sprite_2d.animation not in ["grappling", "crouching"]:
 		animated_sprite_2d.play("idle") # Replace with function body.func _on_player_animation_finished() -> void:

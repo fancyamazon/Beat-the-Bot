@@ -9,11 +9,9 @@ var djump_this_frame = false
 func get_team():
 	return "bot"
 
-
 func decide_actions():
 	nav.search_point = player.global_position 
-	if nav.get_movements()[0] != 0 or nav.get_movements()[1] != 0:
-		print(nav.get_movements())
+
 	action_walk(nav.get_movements()[0])
 	
 	# on timer end, jump
