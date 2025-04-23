@@ -44,6 +44,9 @@ offset_bottom = 298.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="DoubleJumpTimer" type="Timer" parent="Fighter"]
+wait_time = 0.2
+
 [node name="PathFindTimer" type="Timer" parent="."]
 wait_time = 0.3
 
