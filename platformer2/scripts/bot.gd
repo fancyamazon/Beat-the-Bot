@@ -21,6 +21,8 @@ func decide_actions():
 		action_jump()
 		if nav.get_movements()[1] == 2:
 			setup_double_jump()
+	if nav.get_movements()[2] == 1:
+		print('lowkey wanna dash')
 		
 	if abs(nav.get_vector_to_player().x) < 100:
 		action_melee()
