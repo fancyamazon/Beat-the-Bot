@@ -28,3 +28,5 @@ func decide_actions():
 		action_charged_attack()
 	if Input.is_action_just_released("charged_attack"):
 		action_release_charged_attack()
+	if Input.is_action_just_pressed("crouch"):
+		action_crouch()

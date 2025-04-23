@@ -1,17 +1,22 @@
 extends Area2D
 
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var bullet_hitbox: Area2D = $BulletHitbox
+
+### Changeable properties
 @export var max_distance: float = 1500  # Max X position before destroying the bullet
 @export var SPEED = 800
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
+### Variables necessary to run
 var dir: int  # Direction: 1 for right, -1 for left
 var spawnPos: Vector2
 var spawnRot: float
 var velocity: Vector2
+
+### Type-dependent
 var team = "N/A: No Team Error" # This is set after being instantiated in fighter.gd
 var bullet_type = 0 # 0 = Regular, 1 = Charged
 var damage_dealt = 5 # Also edited from instantiation
-@onready var bullet_hitbox: Area2D = $BulletHitbox
 
 func get_team():
 	return team

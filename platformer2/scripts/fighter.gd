@@ -49,7 +49,8 @@ var GRAPPLE_LENGTH = 200.0  # Ad$ChargedAttackTimerjust as needed
 @onready var grapple_point = null #point where the player is grappling to
 var is_grappling = false
 var gravity_affected = true
-@onready var grappling_line_2d: Line2D = $grapple_controller/Line2D
+@onready var grapple_controller: Node2D = $GrappleController
+@onready var grappling_line_2d: Line2D = $GrappleController/Line2D
 	
 ### Health and healthbar
 var health = 100
@@ -65,6 +66,13 @@ var health = 100
 var is_shielding=false
 const SHIELD_REDUCTION=0.1
 const SHIELD_HEALTH=50
+
+### Falling through platform while crouching
+@onready var collision_shape = $CollisionShape2D
+@onready var floor_ray_left: RayCast2D = $FloorRayLeft # Points down at floor from the bottom of the character
+@onready var floor_ray_right: RayCast2D = $FloorRayRight
+var is_falling_through = false
+var fall_timer_sec = 0.1 # seconds
 
 ### Dev tools for debugging
 var invincibility = false # Unable to die when true
@@ -293,14 +301,14 @@ func decide_actions():
 func action_grapple():
 	if(can_move):
 		animated_sprite_2d.play("grappling")
-		$grapple_controller.launch()
+		grapple_controller.launch()
 		#gravity_affected = false
 		movement_locked = true
 
 func action_grapple_retract():
 	if(can_move):
 		animated_sprite_2d.play("idle")
-		$grapple_controller.retract()
+		grapple_controller.retract()
 		gravity_affected = true
 		movement_locked = false
 
@@ -384,10 +392,33 @@ func action_release_charged_attack():
 			can_move = true
 		print("movement re-enabled")
 		charged_status = 0
-		# TOOD: reset animation
+		# TODO: reset animation
 
 func _on_charged_attack_timer_timeout() -> void:
 	charged_status = 2
 	print("charging complete")
 	can_move = false
 	print("movement disabled")
+
+func action_crouch():
+	animated_sprite_2d.play("crouch")
+	if is_on_floor():
+		floor_ray_left.force_raycast_update()
+		floor_ray_right.force_raycast_update()
+		
+		var platform = "None"
+		if floor_ray_left.is_colliding():
+			platform = floor_ray_left.get_collider()
+		if floor_ray_right.is_colliding():
+			platform = floor_ray_right.get_collider()
+		
+		if platform is FallablePlatform:
+			print("detected Fallable")
+			is_falling_through = true
+			set_collision_mask_value(1, false)
+			
+			await get_tree().create_timer(fall_timer_sec).timeout
+			
+			print("should be 2sec after")
+			set_collision_mask_value(1, true)
+			is_falling_through = false
