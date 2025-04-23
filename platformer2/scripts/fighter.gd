@@ -121,6 +121,7 @@ func _ready():
 	# Set the character label to a bit above the health bar (negative = higher)
 	character_label.position.y = health_bar.position.y-20
 
+### -------------------------------- PHYSICS, MOVEMENT OV -------------------------------- ### 
 func _physics_process(delta: float) -> void:
 	#animations
 	# Dash
@@ -155,6 +156,10 @@ func _physics_process(delta: float) -> void:
 		velocity.x=0
 	move_and_slide()
 
+func decide_actions():
+	pass
+
+### -------------------------------- MOVEMENT (Dash, Jump, Strafe, Walk, Crouch, TP) -------------------------------- ### 
 func action_dash():
 	if can_move and (not is_dashing) and (not on_dash_cooldown) and !movement_locked:
 		animated_sprite_2d.play("dash")
@@ -213,8 +218,36 @@ func action_walk(input_dir: int):
 		animated_sprite_2d.play("idle")
 	elif input_dir != 0 && direction == 0:
 		animated_sprite_2d.play("running")
+
+func action_crouch():
+	animated_sprite_2d.play("crouch")
+	if is_on_floor():
+		floor_ray_left.force_raycast_update()
+		floor_ray_right.force_raycast_update()
+		
+		var platform = "None"
+		if floor_ray_left.is_colliding():
+			platform = floor_ray_left.get_collider()
+		if floor_ray_right.is_colliding():
+			platform = floor_ray_right.get_collider()
+		
+		if platform is FallablePlatform:
+			print("detected Fallable")
+			is_falling_through = true
+			set_collision_mask_value(1, false)
+			
+			await get_tree().create_timer(fall_timer_sec).timeout
+			
+			print("should be 2sec after")
+			set_collision_mask_value(1, true)
+			is_falling_through = false
+			
+func action_teleport():
+	global_position = get_global_mouse_position()
+	velocity.y = 0
+	jumps_used = 0
 	
-	
+### -------------------------------- SPRITE -------------------------------- ### 
 func set_sprite(direction: int):
 	if direction >0:
 		facing_dir=1
@@ -227,6 +260,7 @@ func set_sprite(direction: int):
 		animated_sprite_2d.scale.x=-2
 		grappling_line_2d.set_point_position(0, Vector2(-21, -44))
 
+### -------------------------------- DAMAGE (taking damage, melee, ranged, charged, shielding) -------------------------------- ### 
 func take_damage(amount: int) -> void:
 	if(is_shielding):
 		#take less damage when shileded, SHIELD_REDUCTION set at the top
@@ -295,31 +329,9 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 	if area.is_in_group("hitbox") and area.owner.get_team() != get_team():
 		take_damage(5)
 
-func decide_actions():
-	pass
-	
-func action_grapple():
-	if(can_move):
-		animated_sprite_2d.play("grappling")
-		grapple_controller.launch()
-		#gravity_affected = false
-		movement_locked = true
-
-func action_grapple_retract():
-	if(can_move):
-		animated_sprite_2d.play("idle")
-		grapple_controller.retract()
-		gravity_affected = true
-		movement_locked = false
-
-func _on_animated_sprite_2d_animation_finished() -> void:
-	if animated_sprite_2d.animation not in ["grappling", "crouching"]:
-		animated_sprite_2d.play("idle") # Replace with function body.func _on_player_animation_finished() -> void:
-
 func _on_dash_timer_timeout() -> void:
 	on_dash_cooldown = false # Replace with function body.
 	#print("dash is ready")
-	
 
 	
 func action_shield():
@@ -400,25 +412,22 @@ func _on_charged_attack_timer_timeout() -> void:
 	can_move = false
 	print("movement disabled")
 
-func action_crouch():
-	animated_sprite_2d.play("crouch")
-	if is_on_floor():
-		floor_ray_left.force_raycast_update()
-		floor_ray_right.force_raycast_update()
-		
-		var platform = "None"
-		if floor_ray_left.is_colliding():
-			platform = floor_ray_left.get_collider()
-		if floor_ray_right.is_colliding():
-			platform = floor_ray_right.get_collider()
-		
-		if platform is FallablePlatform:
-			print("detected Fallable")
-			is_falling_through = true
-			set_collision_mask_value(1, false)
-			
-			await get_tree().create_timer(fall_timer_sec).timeout
-			
-			print("should be 2sec after")
-			set_collision_mask_value(1, true)
-			is_falling_through = false
+### -------------------------------- GRAPPLING -------------------------------- ### 
+	
+func action_grapple():
+	if(can_move):
+		animated_sprite_2d.play("grappling")
+		grapple_controller.launch()
+		#gravity_affected = false
+		movement_locked = true
+
+func action_grapple_retract():
+	if(can_move):
+		animated_sprite_2d.play("idle")
+		grapple_controller.retract()
+		gravity_affected = true
+		movement_locked = false
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	if animated_sprite_2d.animation not in ["grappling", "crouching"]:
+		animated_sprite_2d.play("idle") # Replace with function body.func _on_player_animation_finished() -> void:
