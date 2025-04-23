@@ -11,7 +11,6 @@ func get_team():
 
 func decide_actions():
 	nav.search_point = player.global_position 
-	print(nav.get_movements())
 	if should_move:
 		action_walk(nav.get_movements()[0])
 	

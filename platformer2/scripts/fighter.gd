@@ -5,22 +5,27 @@ class_name Fighter extends CharacterBody2D
 ### Basic movement abilities
 const SPEED = 400.0
 const JUMP_VELOCITY = -450.0
-var JUMPS_MAX = 2
+const JUMPS_MAX = 2
 var jumps_used = 0
+
+### Attack damages
+const MELEE_ATTACK_DAMAGE = 40
+const RANGED_ATTACK_DAMAGE = 5
+const CHARGED_ATTACK_DAMAGE = 35
 
 ### Directions
 var facing_dir: int = 1
 var direction = 0
 var strafe_direction
 
-### Movement lockS
+### Movement lock
 var movement_locked = false
 var can_move = true
 
 ### Dash
-var DASH_SPEED = 800.0
-var DASH_DURATION = 0.2
-var DASH_COOLDOWN = 0.5
+const DASH_SPEED = 800.0
+const DASH_DURATION = 0.2
+const DASH_COOLDOWN = 0.5
 
 var is_dashing = false
 var can_dash = true
@@ -31,25 +36,25 @@ var dash_timer = 0.0
 ### Cooldowns
 var on_attack_cooldown = false
 var on_dash_cooldown = false
-var attack_cooldown = 0.5 # seconds
+const ATTACK_COOLDOWN = 0.5 # seconds
 @onready var attack_timer: Timer = $AttackTimer
 
 @onready var range_timer: Timer = $RangeTimer
-var range_cooldown=0.3
+const RANGE_COOLDOWN = 0.3
 var on_range_cooldown=false
 
 ### Charged ranged attacks
 @onready var charged_attack_timer: Timer = $ChargedAttackTimer
 var charged_status = 0 # 0 = not started, 1 = in the process, 2 = finished
 var charging_duration = 1.0 # seconds
-var charged_attack_damage = 35
 
 ### Grappling
-var GRAPPLE_LENGTH = 200.0  # Ad$ChargedAttackTimerjust as needed
+const GRAPPLE_LENGTH = 200.0  # Ad$ChargedAttackTimerjust as needed
 @onready var grapple_point = null #point where the player is grappling to
 var is_grappling = false
 var gravity_affected = true
-@onready var grappling_line_2d: Line2D = $grapple_controller/Line2D
+@onready var grapple_controller: Node2D = $GrappleController
+@onready var grappling_line_2d: Line2D = $GrappleController/Line2D
 	
 ### Health and healthbar
 var health = 100
@@ -62,9 +67,17 @@ var health = 100
 @export var spawn_offset: Vector2 = Vector2(20, -20)
 
 ### Shielding
-var is_shielding=false
-const SHIELD_REDUCTION=0.1
-const SHIELD_HEALTH=50
+var is_shielding = false
+const SHIELD_REDUCTION = 0.7
+const SHIELD_HEALTH = 50
+var remaining_shield_health = SHIELD_HEALTH
+
+### Falling through platform while crouching
+@onready var collision_shape = $CollisionShape2D
+@onready var floor_ray_left: RayCast2D = $FloorRayLeft # Points down at floor from the bottom of the character
+@onready var floor_ray_right: RayCast2D = $FloorRayRight
+var is_falling_through = false
+const FALL_TIMER_SEC = 0.1 # seconds
 
 ### Dev tools for debugging
 var invincibility = false # Unable to die when true
@@ -113,6 +126,7 @@ func _ready():
 	# Set the character label to a bit above the health bar (negative = higher)
 	character_label.position.y = health_bar.position.y-20
 
+### -------------------------------- PHYSICS, MOVEMENT OV -------------------------------- ### 
 func _physics_process(delta: float) -> void:
 	#animations
 	# Dash
@@ -147,6 +161,10 @@ func _physics_process(delta: float) -> void:
 		velocity.x=0
 	move_and_slide()
 
+func decide_actions():
+	pass
+
+### -------------------------------- MOVEMENT (Dash, Jump, Strafe, Walk, Crouch, TP) -------------------------------- ### 
 func action_dash():
 	if can_move and (not is_dashing) and (not on_dash_cooldown) and !movement_locked:
 		animated_sprite_2d.play("dash")
@@ -205,8 +223,34 @@ func action_walk(input_dir: int):
 		animated_sprite_2d.play("idle")
 	elif input_dir != 0 && direction == 0:
 		animated_sprite_2d.play("running")
+
+func action_crouch():
+	animated_sprite_2d.play("crouch")
+	if is_on_floor():
+		floor_ray_left.force_raycast_update()
+		floor_ray_right.force_raycast_update()
+		
+		var platform = "None"
+		if floor_ray_left.is_colliding():
+			platform = floor_ray_left.get_collider()
+		if floor_ray_right.is_colliding():
+			platform = floor_ray_right.get_collider()
+		
+		if platform is FallablePlatform:
+			is_falling_through = true
+			set_collision_mask_value(1, false)
+			
+			await get_tree().create_timer(FALL_TIMER_SEC).timeout
+			
+			set_collision_mask_value(1, true)
+			is_falling_through = false
+			
+func action_teleport():
+	global_position = get_global_mouse_position()
+	velocity.y = 0
+	jumps_used = 0
 	
-	
+### -------------------------------- SPRITE -------------------------------- ### 
 func set_sprite(direction: int):
 	if direction >0:
 		facing_dir=1
@@ -219,10 +263,16 @@ func set_sprite(direction: int):
 		animated_sprite_2d.scale.x=-2
 		grappling_line_2d.set_point_position(0, Vector2(-21, -44))
 
+### -------------------------------- DAMAGE (taking damage, melee, ranged, charged, shielding) -------------------------------- ### 
 func take_damage(amount: int) -> void:
 	if(is_shielding):
-		#take less damage when shileded, SHIELD_REDUCTION set at the top
-		health -= amount*(1-SHIELD_REDUCTION)
+		# Take less damage when shielded
+		remaining_shield_health -= amount*SHIELD_REDUCTION
+		if remaining_shield_health > 0:
+			health -= amount*(1-SHIELD_REDUCTION)
+		else: 
+			action_shield_down()
+			health -= amount
 	else:
 		health -= amount
 	health_bar.health = health
@@ -238,7 +288,7 @@ func action_melee():
 		animated_sprite_2d.play("melee-attack-uncharged")
 		$AnimatedSprite2D/HitBox.monitoring = true
 		on_attack_cooldown = true
-		attack_timer.start(attack_cooldown)
+		attack_timer.start(ATTACK_COOLDOWN)
 	
 func _on_attack_timer_timeout() -> void:
 	$AnimatedSprite2D/HitBox.monitoring = false
@@ -251,14 +301,14 @@ func _on_range_timer_timeout() -> void:
 func _on_hit_box_area_entered(area: Area2D) -> void:
 	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	if area.is_in_group("hurtbox") and area.owner.get_team() != get_team():
-		area.owner.take_damage(50)
+		area.owner.take_damage(MELEE_ATTACK_DAMAGE)
 		
 func action_ranged():
 	if(can_move and not on_range_cooldown):
 		animated_sprite_2d.play("ranged-attack-uncharged")
 		var instance = bullet.instantiate()
 		instance.team = get_team()
-		range_timer.start(range_cooldown)
+		range_timer.start(RANGE_COOLDOWN)
 		instance.dir = facing_dir  # Set the bullet's direction to the last pressed direction
 		if get_team() == "player":
 			#print("player shot")
@@ -285,40 +335,18 @@ func _on_hurt_box_area_entered(area: Area2D) -> void:
 	#print("something entered player hurtbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	#print("hurtbox entered. I'm team" + get_team())
 	if area.is_in_group("hitbox") and area.owner.get_team() != get_team():
-		take_damage(5)
-
-func decide_actions():
-	pass
-	
-func action_grapple():
-	if(can_move):
-		animated_sprite_2d.play("grappling")
-		$grapple_controller.launch()
-		#gravity_affected = false
-		movement_locked = true
-
-func action_grapple_retract():
-	if(can_move):
-		animated_sprite_2d.play("idle")
-		$grapple_controller.retract()
-		gravity_affected = true
-		movement_locked = false
-
-func _on_animated_sprite_2d_animation_finished() -> void:
-	if animated_sprite_2d.animation not in ["grappling", "crouching"]:
-		animated_sprite_2d.play("idle") # Replace with function body.func _on_player_animation_finished() -> void:
+		take_damage(RANGED_ATTACK_DAMAGE)
 
 func _on_dash_timer_timeout() -> void:
 	on_dash_cooldown = false # Replace with function body.
 	#print("dash is ready")
-	
 
 	
 func action_shield():
 	animated_sprite_2d.play("shield-idle")
 	can_move=false
 	is_shielding=true
-
+	remaining_shield_health = SHIELD_HEALTH
 		
 	#if not is_shielding:
 		## Start the "shielding up" animation
@@ -360,7 +388,7 @@ func action_release_charged_attack():
 		var instance = bullet.instantiate()
 		instance.team = get_team()
 		instance.bullet_type = 1
-		instance.damage_dealt = charged_attack_damage
+		instance.damage_dealt = CHARGED_ATTACK_DAMAGE
 		instance.dir = facing_dir  # Set the bullet's direction to the last pressed direction
 		if get_team() == "player":
 			#print("player shot")
@@ -384,10 +412,30 @@ func action_release_charged_attack():
 			can_move = true
 		print("movement re-enabled")
 		charged_status = 0
-		# TOOD: reset animation
+		# TODO: reset animation
 
 func _on_charged_attack_timer_timeout() -> void:
 	charged_status = 2
 	print("charging complete")
 	can_move = false
 	print("movement disabled")
+
+### -------------------------------- GRAPPLING -------------------------------- ### 
+	
+func action_grapple():
+	if(can_move):
+		animated_sprite_2d.play("grappling")
+		grapple_controller.launch()
+		#gravity_affected = false
+		movement_locked = true
+
+func action_grapple_retract():
+	if(can_move):
+		animated_sprite_2d.play("idle")
+		grapple_controller.retract()
+		gravity_affected = true
+		movement_locked = false
+
+func _on_animated_sprite_2d_animation_finished() -> void:
+	if animated_sprite_2d.animation not in ["grappling", "crouching"]:
+		animated_sprite_2d.play("idle") # Replace with function body.func _on_player_animation_finished() -> void:

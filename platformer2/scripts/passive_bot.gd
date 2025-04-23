@@ -1,6 +1,6 @@
 extends Fighter
 
-@onready var nav=get_parent()
+@onready var nav = get_parent()
 @onready var player = get_parent().get_parent().get_node("Player").get_node("Fighter")
 
 var mode = "nav"

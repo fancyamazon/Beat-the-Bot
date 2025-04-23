@@ -2,7 +2,7 @@ extends ProgressBar
 
 ### "Flash" animation
 @onready var flash_timer: Timer = $FlashTimer
-var flash_time = 0.4 # Amount, in seconds, of how long the white "flash" takes to catch up to the green bar
+const FLASH_TIME = 0.4 # Amount, in seconds, of how long the white "flash" takes to catch up to the green bar
 
 @onready var damage_bar: ProgressBar = $DamageBar
 
@@ -18,7 +18,7 @@ func _set_health(new_health):
 		# don't queue_free() because then it throws error if I hit the slime again
 	
 	if health < prev_health: # taking damage
-		flash_timer.start(flash_time)
+		flash_timer.start(FLASH_TIME)
 	else:
 		damage_bar.value = health
 

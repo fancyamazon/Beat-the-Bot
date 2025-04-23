@@ -23,7 +23,7 @@ func decide_actions():
 		action_shield_down()
 	action_walk(Input.get_axis("left", "right"))
 	if Input.is_action_just_pressed("tp"):
-		global_position = get_global_mouse_position()
+		action_teleport()
 	if Input.is_action_pressed("charged_attack"):
 		action_charged_attack()
 	if Input.is_action_just_released("charged_attack"):
@@ -31,3 +31,5 @@ func decide_actions():
 	if health < 100:
 		health += 1
 	health_bar.health = health
+	if Input.is_action_just_pressed("crouch"):
+		action_crouch()
