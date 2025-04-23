@@ -1,5 +1,6 @@
 extends ProgressBar
 
+### "Flash" animation
 @onready var flash_timer: Timer = $FlashTimer
 var flash_time = 0.4 # Amount, in seconds, of how long the white "flash" takes to catch up to the green bar
 

@@ -1,10 +1,27 @@
-[gd_scene load_steps=10 format=3 uid="uid://dhj6810wo5xhx"]
+[gd_scene load_steps=15 format=3 uid="uid://dhj6810wo5xhx"]
 
 [ext_resource type="Script" uid="uid://4mu1wgjq4lwi" path="res://scripts/bullet.gd" id="1_47guu"]
+[ext_resource type="Texture2D" uid="uid://5jlcb2n7c40j" path="res://assets/large-rocket.png" id="2_l5glv"]
 [ext_resource type="Texture2D" uid="uid://cxo4jbtq6w0u5" path="res://assets/small-rocket.png" id="2_vn1n3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yfo4p"]
 size = Vector2(26, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eoqba"]
+atlas = ExtResource("2_l5glv")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qncy5"]
+atlas = ExtResource("2_l5glv")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tamys"]
+atlas = ExtResource("2_l5glv")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26lx3"]
+atlas = ExtResource("2_l5glv")
+region = Rect2(96, 0, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w3d3v"]
 atlas = ExtResource("2_vn1n3")
@@ -26,6 +43,23 @@ region = Rect2(96, 0, 32, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_eoqba")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qncy5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tamys")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_26lx3")
+}],
+"loop": true,
+"name": &"charged",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_w3d3v")
 }, {
 "duration": 1.0,
@@ -38,7 +72,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_cgfu4")
 }],
 "loop": true,
-"name": &"default",
+"name": &"regular",
 "speed": 5.0
 }]
 
@@ -55,7 +89,8 @@ shape = SubResource("RectangleShape2D_yfo4p")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_bdj6a")
-autoplay = "default"
+animation = &"charged"
+autoplay = "regular"
 
 [node name="BulletHitbox" type="Area2D" parent="."]
 collision_layer = 0

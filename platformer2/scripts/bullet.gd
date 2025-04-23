@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var max_distance: float = 3000  # Max X position before destroying the bullet
+@export var max_distance: float = 1500  # Max X position before destroying the bullet
 @export var SPEED = 800
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -22,16 +22,15 @@ func _ready():
 	$BulletHitbox.add_to_group("hitbox")
 
 func _physics_process(delta: float) -> void:
-	# Horizontal movement only
 	if bullet_type == 1:
+		$AnimatedSprite2D.animation = "charged"
 		self.scale = Vector2(2,2)
-	animated_sprite_2d.scale.x = dir*2
+	animated_sprite_2d.scale.x = dir * 2
 	velocity = Vector2(SPEED * dir, 0)  # Only move horizontally, no vertical movement
 	global_position += velocity * delta  # Move the bullet by its velocity
-		# Destroy the bullet if it exceeds a certain X position
-	if abs(global_position.x) > max_distance:
+	# Destroy the bullet if it exceeds its max distance
+	if abs(global_position.x - spawnPos.x) > max_distance:
 		queue_free()  # Destroy the bullet
-
 
 func _on_bullet_hitbox_area_entered(area: Area2D) -> void:
 	#print("something entered bullet hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging

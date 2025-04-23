@@ -1,44 +1,39 @@
 class_name Fighter extends CharacterBody2D
 
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+
+### Basic movement abilities
 const SPEED = 400.0
 const JUMP_VELOCITY = -450.0
-@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
-var jumps_used = 0
 var JUMPS_MAX = 2
+var jumps_used = 0
 
-#var team = 0
-#var can_double_jump = true
-
-var facing_dir: int=1
-var direction = 0 
-
+### Directions
+var facing_dir: int = 1
+var direction = 0
 var strafe_direction
 
-#dashing------
+### Movement lockS
+var movement_locked = false
+var can_move = true
+
+### Dash
 var DASH_SPEED = 800.0
 var DASH_DURATION = 0.2
 var DASH_COOLDOWN = 0.5
 
-#
-var movement_locked = false
-
 var is_dashing = false
-#var current_action = "idle"
-
-#dash
 var can_dash = true
 var dash_direction = Vector2.ZERO
 var dash_timer = 0.0
 @onready var timer: Timer = $DashTimer # Get the Timer node 
 
-#cooldowns
+### Cooldowns
 var on_attack_cooldown = false
 var on_dash_cooldown = false
 var attack_cooldown = 0.5 # seconds
 @onready var attack_timer: Timer = $AttackTimer
 
-#@onready var range_timer: Timer = $RangeTimer
-#@onready var range_timer: Timer=$RangeTimer
 @onready var range_timer: Timer = $RangeTimer
 var range_cooldown=0.3
 var on_range_cooldown=false
@@ -70,23 +65,21 @@ var health = 100
 var is_shielding=false
 const SHIELD_REDUCTION=0.1
 const SHIELD_HEALTH=50
-var can_move=true    #cannot move while shielded
 
+### Dev tools for debugging
+var invincibility = false # Unable to die when true
 
-#for debugging -- don't die
-var dying = false
-
-# ------------------------------ BEGIN FUNCTIONS ---------------------------------- #
-#make it globally known that this is the player. bots override this in their own function
+### ------------------------------ BEGIN FUNCTIONS ---------------------------------- ###
+# Globally announce that this is the player. 
+# Bots override this in their own function
 
 func get_team():
 	return "player"
 
 func _ready():
-
 	add_to_group(get_team())
 	$AnimatedSprite2D/HurtBox.add_to_group("hurtbox")
-	#$AnimatedSprite2D/HitBox.add_to_group("hitbox")
+	$AnimatedSprite2D/HitBox.add_to_group("hitbox")
 	health_bar._init_health(health)
 	if is_in_group("player"):
 		print("aligning <player> healthbar + label")
@@ -116,38 +109,10 @@ func _ready():
 		$AnimatedSprite2D/HitBox.set_collision_mask_value(3, true)
 		$AnimatedSprite2D/HurtBox.set_collision_layer_value(2, true)
 		$AnimatedSprite2D/HurtBox.set_collision_mask_value(2, true)
-
-	character_label.position.y = health_bar.position.y-20
 	
-func action_dash():
-	if can_move and (not is_dashing) and (not on_dash_cooldown) and !movement_locked:
-		animated_sprite_2d.play("dash")
-		on_dash_cooldown = true
-		dash_direction = Vector2(velocity.x, 0).normalized()#velocity.normalized()  # Get direction of movement
+	# Set the character label to a bit above the health bar (negative = higher)
+	character_label.position.y = health_bar.position.y-20
 
-			# Check if the player isn't moving (using a threshold for precision)
-		if dash_direction.length() < 0.1:  # Effectively not moving
-				
-			if animated_sprite_2d.scale.x == -2:  # Facing left (scale.x < 0)
-				dash_direction = Vector2(-1, 0)  # Dash left
-			else:  # Facing right (scale.x > 0)
-				dash_direction = Vector2(1, 0)   # Dash right
-		is_dashing = true
-		dash_timer = DASH_DURATION
-		
-		#print('dashed')
-		timer.start(DASH_COOLDOWN)
-		#print(timer.time_left)
-
-func action_jump():
-	if(can_move and not movement_locked):
-		if jumps_used < JUMPS_MAX:
-			#print("jumping...")
-			#print("currently " + str(jumps_used))
-			animated_sprite_2d.play("jumping")
-			velocity.y = JUMP_VELOCITY
-			jumps_used += 1
-			#print("now " + str(jumps_used))
 func _physics_process(delta: float) -> void:
 	#animations
 	# Dash
@@ -182,6 +147,36 @@ func _physics_process(delta: float) -> void:
 		velocity.x=0
 	move_and_slide()
 
+func action_dash():
+	if can_move and (not is_dashing) and (not on_dash_cooldown) and !movement_locked:
+		animated_sprite_2d.play("dash")
+		on_dash_cooldown = true
+		dash_direction = Vector2(velocity.x, 0).normalized()#velocity.normalized()  # Get direction of movement
+
+			# Check if the player isn't moving (using a threshold for precision)
+		if dash_direction.length() < 0.1:  # Effectively not moving
+				
+			if animated_sprite_2d.scale.x == -2:  # Facing left (scale.x < 0)
+				dash_direction = Vector2(-1, 0)  # Dash left
+			else:  # Facing right (scale.x > 0)
+				dash_direction = Vector2(1, 0)   # Dash right
+		is_dashing = true
+		dash_timer = DASH_DURATION
+		
+		#print('dashed')
+		timer.start(DASH_COOLDOWN)
+		#print(timer.time_left)
+
+func action_jump():
+	if(can_move and not movement_locked):
+		if jumps_used < JUMPS_MAX:
+			#print("jumping...")
+			#print("currently " + str(jumps_used))
+			animated_sprite_2d.play("jumping")
+			velocity.y = JUMP_VELOCITY
+			jumps_used += 1
+			#print("now " + str(jumps_used))
+
 	
 func action_strafe(input_dir: int):
 	if not can_move or movement_locked:
@@ -199,9 +194,6 @@ func action_strafe(input_dir: int):
 	# Apply velocity based on input_dir, but without flipping the sprite
 	velocity.x = 3*input_dir * SPEED #move speed is a variable
 	#velocity = move_and_slide(velocity, Vector2.UP) #or however you apply velocity
-
-
-
 
 func action_walk(input_dir: int):
 	direction = input_dir
@@ -234,7 +226,7 @@ func take_damage(amount: int) -> void:
 	else:
 		health -= amount
 	health_bar.health = health
-	if health <= 0 && is_in_group("player"):
+	if health <= 0 && is_in_group("player") && !invincibility:
 		get_tree().reload_current_scene()
 	elif health <= 0 && is_in_group("bot"):
 		self.queue_free()

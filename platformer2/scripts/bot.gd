@@ -1,6 +1,6 @@
 extends Fighter
 
-@onready var nav=get_parent()
+@onready var nav = get_parent()
 @onready var player = get_parent().get_parent().get_node("Player").get_node("Fighter")
 @onready var djtimer = get_node("DoubleJumpTimer")
 
@@ -23,8 +23,8 @@ func decide_actions():
 		action_jump()
 		if nav.get_movements()[1] == 2:
 			setup_double_jump()
-			
-	if (nav.get_vector_to_player().x > -100 and nav.get_vector_to_player().x < 100):
+		
+	if abs(nav.get_vector_to_player().x) < 100:
 		action_melee()
 
 
