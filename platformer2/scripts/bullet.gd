@@ -4,7 +4,7 @@ extends Area2D
 @onready var bullet_hitbox: Area2D = $BulletHitbox
 
 ### Changeable properties
-@export var max_distance: float = 1500  # Max X position before destroying the bullet
+@export var MAX_DISTANCE: float = 1500  # Max X position before destroying the bullet
 @export var SPEED = 800
 
 ### Variables necessary to run
@@ -34,7 +34,7 @@ func _physics_process(delta: float) -> void:
 	velocity = Vector2(SPEED * dir, 0)  # Only move horizontally, no vertical movement
 	global_position += velocity * delta  # Move the bullet by its velocity
 	# Destroy the bullet if it exceeds its max distance
-	if abs(global_position.x - spawnPos.x) > max_distance:
+	if abs(global_position.x - spawnPos.x) > MAX_DISTANCE:
 		queue_free()  # Destroy the bullet
 
 func _on_bullet_hitbox_area_entered(area: Area2D) -> void:

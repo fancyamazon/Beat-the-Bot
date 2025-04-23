@@ -1,9 +1,9 @@
 extends Node2D
 
 ### Properties
-@export var rest_length=0
-@export var stiffness=20.0
-@export var damping=5
+@export var REST_LENGTH = 0
+@export var STIFFNESS = 20.0
+@export var DAMPING = 5
 
 ### Hit detection
 @onready var player := get_parent()
@@ -59,16 +59,16 @@ func handle_grapple(delta):
 	var target_dir = player.global_position.direction_to(target)
 	var target_dist = player.global_position.distance_to(target)
 	
-	var displacement = target_dist - rest_length
+	var displacement = target_dist - REST_LENGTH
 	
 	var force = Vector2.ZERO
 	
 	if displacement > 0:
-		var spring_force_magnitude = 2000#stiffness * displacement
+		var spring_force_magnitude = 2000#STIFFNESS * displacement
 		var spring_force = target_dir * spring_force_magnitude
 		
 		var vel_dot = player.velocity.dot(target_dir)
-		var damping = -damping * vel_dot * target_dir
+		var damping = -DAMPING * vel_dot * target_dir
 		
 		force = 2*spring_force + damping
 
