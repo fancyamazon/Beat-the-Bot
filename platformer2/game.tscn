@@ -461,6 +461,8 @@ autoplay = "moving_platform2"
 visible = false
 position = Vector2(753, 274)
 scale = Vector2(1.88002, 1.6)
+collision_layer = 0
+collision_mask = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="moving_platforms/moving_platform3"]
 libraries = {
@@ -472,6 +474,8 @@ autoplay = "moving_platform"
 visible = false
 position = Vector2(847, 203)
 scale = Vector2(1.88004, 1.6)
+collision_layer = 0
+collision_mask = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="moving_platforms/moving_platform4"]
 libraries = {
