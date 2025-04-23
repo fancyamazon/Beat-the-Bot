@@ -35,7 +35,9 @@ public partial class TileMapPathFind : TileMapLayer
 	[Export]
 	public int JumpDistance = 5;                       // Distance between two tiles to count as a jump
 	[Export]
-	public int JumpHeight = 4;                         // Height between two tiles to connect a jump	
+	public int JumpHeight = 7;                         // Height between two tiles to connect a jump	
+	// height = 4 = 3 block jump
+	// height = 7 = 6 block jump
 	//private const int COLLISION_LAYER = 0;              // The collision layer for the tiles. Not needed for TileMapLayers
 	private const int CELL_IS_EMPTY = -1;               // TileMap defines an empty space as -1
 	private const int MAX_TILE_FALL_SCAN_DEPTH = 500;   // Max number of tiles to scand downwards for a solid tile

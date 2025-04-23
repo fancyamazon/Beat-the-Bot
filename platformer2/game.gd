@@ -16,6 +16,7 @@ func _process(delta: float) -> void:
 		var instance = enemy.instantiate()
 		instance.global_position = get_global_mouse_position()
 		main.add_child(instance) 
+		print(main.get_node("Player").get_child(0).position)
 	if Input.is_action_just_pressed("spawn2"): 
 		var instance = null
 		for x in range(-2600, 1300, 20):

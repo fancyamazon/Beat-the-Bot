@@ -95,6 +95,12 @@ public partial class NavigationAdvisor : Node2D
 				//direction.X = -1f;
 				movements[0] = -1;
 			}
+
+			// so we don't miss double jumps
+			if (_target.Position.Y > _bot.GlobalPosition.Y + 100) {
+				movements[0] = 0;
+			} 
+
 			else
 			{
 				if (_bot.IsOnFloor())
@@ -162,7 +168,7 @@ public partial class NavigationAdvisor : Node2D
 		if (_prevTarget.Position.Y > _target.Position.Y || JumpRightEdgeToLeftEdge() || JumpLeftEdgeToRightEdge())
 		{
 			int heightDistance = _pathFind2D.LocalToMap(_target.Position).Y - _pathFind2D.LocalToMap(_prevTarget.Position).Y;
-			if (Mathf.Abs(heightDistance) <= 2)
+			if (Mathf.Abs(heightDistance) <= 3) // JumpDistanceHeightThreshold
 			{
 				movements[1] = 1;
 			}else
