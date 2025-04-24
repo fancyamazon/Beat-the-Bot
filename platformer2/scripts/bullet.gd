@@ -18,6 +18,10 @@ var team = "N/A: No Team Error" # This is set after being instantiated in fighte
 var bullet_type = 0 # 0 = Regular, 1 = Charged
 var damage_dealt = 5 # Also edited from instantiation
 
+### Delete upon hitting wall
+const DELETE_WHEN_HIT_WALL = true
+@onready var wall_hit_detection: RayCast2D = $AnimatedSprite2D/WallHitDetection
+
 func get_team():
 	return team
 
@@ -27,6 +31,13 @@ func _ready():
 	$BulletHitbox.add_to_group("hitbox")
 
 func _physics_process(delta: float) -> void:
+	wall_hit_detection.force_raycast_update()
+	if wall_hit_detection.is_colliding() and DELETE_WHEN_HIT_WALL:
+		var collider = wall_hit_detection.get_collider()
+		print("Collider:", collider, " | Type: ", typeof(collider))
+		if collider is TileMapLayer:
+			self.queue_free()
+		
 	if bullet_type == 1:
 		$AnimatedSprite2D.animation = "charged"
 		self.scale = Vector2(2,2)
@@ -37,6 +48,7 @@ func _physics_process(delta: float) -> void:
 	if abs(global_position.x - spawnPos.x) > MAX_DISTANCE:
 		queue_free()  # Destroy the bullet
 
+		
 func _on_bullet_hitbox_area_entered(area: Area2D) -> void:
 	#print("something entered bullet hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
 	if area.is_in_group("hurtbox") and area.owner.get_team() != get_team():

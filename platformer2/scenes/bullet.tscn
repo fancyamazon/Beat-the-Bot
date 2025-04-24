@@ -92,6 +92,11 @@ sprite_frames = SubResource("SpriteFrames_bdj6a")
 animation = &"charged"
 autoplay = "regular"
 
+[node name="WallHitDetection" type="RayCast2D" parent="AnimatedSprite2D"]
+position = Vector2(-5, -0.5)
+scale = Vector2(0.5, 0.5)
+target_position = Vector2(49, 0)
+
 [node name="BulletHitbox" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 0
