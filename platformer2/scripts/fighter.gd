@@ -22,6 +22,11 @@ var strafe_direction
 var movement_locked = false
 var can_move = true
 
+### Hitboxes and hurtboxes
+@onready var hitbox: Hitbox = $AnimatedSprite2D/Hitbox
+@onready var hurtbox: Hurtbox = $AnimatedSprite2D/Hurtbox
+@onready var hitbox_collision: CollisionShape2D = $AnimatedSprite2D/Hitbox/CollisionShape2D
+
 ### Dash
 const DASH_SPEED = 800.0
 const DASH_DURATION = 0.2
@@ -61,8 +66,8 @@ var health = 100
 @onready var character_label: Label = $HealthCanvas/CharacterLabel
 
 ### Ranged projectile
-@onready var main=get_tree().get_root().get_node("Game")
-@onready var bullet=load("res://scenes/bullet.tscn")
+@onready var main = get_tree().get_root().get_node("Game")
+@onready var bullet = load("res://scenes/bullet.tscn")
 @export var spawn_offset: Vector2 = Vector2(20, -20)
 
 ### Shielding
@@ -79,7 +84,9 @@ var is_falling_through = false
 const FALL_TIMER_SEC = 0.1 # seconds
 
 ### Dev tools for debugging
-var invincibility = false # Unable to die when true
+const INVINCIBILITY = false # Unable to die when true
+const DIE_FROM_VOID = true 
+const CAN_TELEPORT = true
 
 ### ------------------------------ BEGIN FUNCTIONS ---------------------------------- ###
 # Globally announce that this is the player. 
@@ -89,43 +96,26 @@ func get_team():
 	return "player"
 
 func _ready():
-	add_to_group(get_team())
-	$AnimatedSprite2D/HurtBox.add_to_group("hurtbox")
-	$AnimatedSprite2D/HitBox.add_to_group("hitbox")
 	health_bar._init_health(health)
-	if is_in_group("player"):
-		#print("aligning <player> healthbar + label")
+	
+	# Aligning player/bot healthbars and labels
+	if get_team() == "player":
 		health_bar.position.x = 200
 		character_label.position.x = 200
-		
-		#print("aligning <player> collision layers")
-		#set_collision_layer_value(3, true)
-		set_collision_mask_value(1, true)
-		#set_collision_mask_value(3, true)
-		$AnimatedSprite2D/HitBox.set_collision_layer_value(2, true)
-		$AnimatedSprite2D/HitBox.set_collision_mask_value(2, true)
-		$AnimatedSprite2D/HurtBox.set_collision_layer_value(3, true)
-		$AnimatedSprite2D/HurtBox.set_collision_mask_value(3, true)
-
-		#print("collision layer is 3 = " + str(get_collision_layer_value(3)))
 	else:
-		#print("aligning <bot> healthbar + labelbot")
 		health_bar.position.x = 700
 		character_label.position.x = 700
-		
-		#print("aligning <bot> collision layers")
-		#set_collision_layer_value(2, true)
-		set_collision_mask_value(1, true)
-		#set_collision_mask_value(2, true)
-		$AnimatedSprite2D/HitBox.set_collision_layer_value(3, true)
-		$AnimatedSprite2D/HitBox.set_collision_mask_value(3, true)
-		$AnimatedSprite2D/HurtBox.set_collision_layer_value(2, true)
-		$AnimatedSprite2D/HurtBox.set_collision_mask_value(2, true)
 	
 	# Set the character label to a bit above the health bar (negative = higher)
-	character_label.position.y = health_bar.position.y-20
+	character_label.position.y = health_bar.position.y - 20
+	
+	# Hitbox initialization
+	hitbox.damage = MELEE_ATTACK_DAMAGE # Set the damage of the melee attack
+	hitbox_collision.disabled = true
+	
 
 ### -------------------------------- PHYSICS, MOVEMENT OV -------------------------------- ### 
+
 func _physics_process(delta: float) -> void:
 	#animations
 	# Dash
@@ -138,15 +128,6 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 	
 	decide_actions()
-	
-	if is_dashing:
-		velocity.y = 0 #no grav/fall during dash
-		velocity = dash_direction * DASH_SPEED
-		#print(animated_sprite_2d.animation.is_p)
-		
-		dash_duration_timer -= delta
-		if dash_duration_timer <= 0:
-			is_dashing = false
 
 	set_sprite()
 	
@@ -156,14 +137,26 @@ func _physics_process(delta: float) -> void:
 		else:
 			velocity.x = move_toward(velocity.x, 0, 50)
 	
+	## NOTE: is_dashing must occur after "velocity.x = direction * SPEED", since dash overrides movement.
+	if is_dashing: 
+		velocity.y = 0 #no grav/fall during dash
+		velocity = dash_direction * DASH_SPEED
+		#print(animated_sprite_2d.animation.is_p)
+		
+		dash_duration_timer -= delta
+		if dash_duration_timer <= 0:
+			is_dashing = false
+	
 	if(!can_move):
-		velocity.x=0
+		velocity.x = 0
+		
 	move_and_slide()
 
 func decide_actions():
 	pass
 
 ### -------------------------------- MOVEMENT (Dash, Jump, Strafe, Walk, Crouch, TP) -------------------------------- ### 
+
 func action_dash():
 	if can_move and (not is_dashing) and (not on_dash_cooldown) and !movement_locked:
 		animated_sprite_2d.play("dash")
@@ -192,9 +185,8 @@ func action_jump():
 			animated_sprite_2d.play("jumping")
 			velocity.y = JUMP_VELOCITY
 			jumps_used += 1
-			#print("now " + str(jumps_used))
+			#print("now " + str(jumps_used))	
 
-	
 func action_strafe(input_dir: int):
 	if not can_move or movement_locked:
 		return
@@ -245,11 +237,15 @@ func action_crouch():
 			is_falling_through = false
 			
 func action_teleport():
+	if not CAN_TELEPORT:
+		return
+		
 	global_position = get_global_mouse_position()
 	velocity.y = 0
 	jumps_used = 0
 	
 ### -------------------------------- SPRITE -------------------------------- ### 
+
 func set_sprite():
 	if direction >0:
 		facing_dir=1
@@ -263,7 +259,11 @@ func set_sprite():
 		grappling_line_2d.set_point_position(0, Vector2(-21, -44))
 
 ### -------------------------------- DAMAGE (taking damage, melee, ranged, charged, shielding) -------------------------------- ### 
+
 func take_damage(amount: int) -> void:
+	if INVINCIBILITY:
+		return
+		
 	if(is_shielding):
 		# Take less damage when shielded
 		remaining_shield_health -= amount*SHIELD_REDUCTION
@@ -275,9 +275,9 @@ func take_damage(amount: int) -> void:
 	else:
 		health -= amount
 	health_bar.health = health
-	if health <= 0 && is_in_group("player") && !invincibility:
+	if health <= 0 and get_team() == "player":
 		call_deferred("reload_scene")
-	elif health <= 0 && is_in_group("bot"):
+	elif health <= 0 and get_team() == "bot":
 		get_parent().queue_free()
 		self.queue_free()
 	#else:
@@ -290,62 +290,41 @@ func reload_scene():
 func action_melee(): 
 	if not on_attack_cooldown and can_move:
 		animated_sprite_2d.play("melee-attack-uncharged")
-		$AnimatedSprite2D/HitBox.monitoring = true
+		hitbox_collision.disabled = false
 		on_attack_cooldown = true
 		attack_timer.start(ATTACK_COOLDOWN)
 	
 func _on_attack_timer_timeout() -> void:
-	$AnimatedSprite2D/HitBox.monitoring = false
+	hitbox_collision.disabled = true
 	on_attack_cooldown = false
 	
 func _on_range_timer_timeout() -> void:
 	on_range_cooldown=false
- 
-
-func _on_hit_box_area_entered(area: Area2D) -> void:
-	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
-	if area.is_in_group("hurtbox") and area.owner.get_team() != get_team():
-		area.owner.take_damage(MELEE_ATTACK_DAMAGE)
 		
 func action_ranged():
 	if(can_move and not on_range_cooldown):
 		animated_sprite_2d.play("ranged-attack-uncharged")
-		var instance = bullet.instantiate()
-		instance.team = get_team()
-		range_timer.start(RANGE_COOLDOWN)
-		instance.dir = facing_dir  # Set the bullet's direction to the last pressed direction
-		if get_team() == "player":
-			#print("player shot")
-			#instance.get_node("BulletHitbox").set_collision_layer(7)
-			instance.get_node("BulletHitbox").set_collision_layer_value(2, true)
-			instance.get_node("BulletHitbox").set_collision_layer_value(3, false)
-			instance.get_node("BulletHitbox").set_collision_mask_value(2, true)
-			instance.get_node("BulletHitbox").set_collision_mask_value(3, false)
-		else:
-			#print("bot shot")
-			#instance.get_node("BulletHitbox").set_collision_layer(7)
-			instance.get_node("BulletHitbox").set_collision_layer_value(3, true)
-			instance.get_node("BulletHitbox").set_collision_layer_value(2, false)
-			instance.get_node("BulletHitbox").set_collision_mask_value(3, true)
-			instance.get_node("BulletHitbox").set_collision_mask_value(2, false)
-		#instance.spawnPos = global_position  # Set the spawn position to the player's position
-		instance.spawnPos = global_position + spawn_offset * facing_dir
-		instance.spawnRot = rotation  # Set the spawn rotation to the player's rotation (optional)
-		main.add_child(instance)  # Add the bullet to the scene
 		
-		on_range_cooldown=true
+		var instance = bullet.instantiate()
+		
+		# Need to set properties before adding to scene so it shows
+		instance.dir = facing_dir  # Set to the last pressed direction
+		instance.spawnPos = global_position + spawn_offset * facing_dir
+		instance.spawnRot = rotation  # Set to the player's rotation (optional)
 
-func _on_hurt_box_area_entered(area: Area2D) -> void:
-	#print("something entered player hurtbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging
-	#print("hurtbox entered. I'm team" + get_team())
-	if area.is_in_group("hitbox") and area.owner.get_team() != get_team():
-		take_damage(RANGED_ATTACK_DAMAGE)
+		# Need to add to scene FIRST before initializing
+		main.add_child(instance)  
+
+		instance.initiateBullet(RANGED_ATTACK_DAMAGE, "ranged", get_team())
+		
+		range_timer.start(RANGE_COOLDOWN)
+		
+		on_range_cooldown = true
 
 func _on_dash_timer_timeout() -> void:
 	on_dash_cooldown = false # Replace with function body.
 	#print("dash is ready")
 
-	
 func action_shield():
 	animated_sprite_2d.play("shield-idle")
 	can_move=false
@@ -368,6 +347,7 @@ func action_shield():
 			#animated_sprite_2d.play("idle")  # Or whatever default idle animation you use
 			#is_shielding = false
 			#shield_up = false
+
 func action_shield_down():
 	animated_sprite_2d.play("shield-break")
 	can_move=true
@@ -389,29 +369,19 @@ func action_release_charged_attack():
 		print("charging cancelled")
 	elif charged_status == 2:
 		print("shot")
+		
 		var instance = bullet.instantiate()
-		instance.team = get_team()
-		instance.bullet_type = 1
-		instance.damage_dealt = CHARGED_ATTACK_DAMAGE
-		instance.dir = facing_dir  # Set the bullet's direction to the last pressed direction
-		if get_team() == "player":
-			#print("player shot")
-			#instance.get_node("BulletHitbox").set_collision_layer(7)
-			instance.get_node("BulletHitbox").set_collision_layer_value(2, true)
-			instance.get_node("BulletHitbox").set_collision_layer_value(3, false)
-			instance.get_node("BulletHitbox").set_collision_mask_value(2, true)
-			instance.get_node("BulletHitbox").set_collision_mask_value(3, false)
-		else:
-			#print("bot shot")
-			#instance.get_node("BulletHitbox").set_collision_layer(7)
-			instance.get_node("BulletHitbox").set_collision_layer_value(3, true)
-			instance.get_node("BulletHitbox").set_collision_layer_value(2, false)
-			instance.get_node("BulletHitbox").set_collision_mask_value(3, true)
-			instance.get_node("BulletHitbox").set_collision_mask_value(2, false)
-		#instance.spawnPos = global_position  # Set the spawn position to the player's position
+		
+		# Need to set properties before adding to scene so it shows
+		instance.dir = facing_dir  # Set to the last pressed direction
 		instance.spawnPos = global_position + spawn_offset * facing_dir
-		instance.spawnRot = rotation  # Set the spawn rotation to the player's rotation (optional)
-		main.add_child(instance)  # Add the bullet to the scene
+		instance.spawnRot = rotation  # Set to the player's rotation (optional)
+		
+		# Need to add to scene FIRST before initializing
+		main.add_child(instance)
+
+		instance.initiateBullet(CHARGED_ATTACK_DAMAGE, "charged", get_team())
+
 		if can_move == false:
 			can_move = true
 		print("movement re-enabled")

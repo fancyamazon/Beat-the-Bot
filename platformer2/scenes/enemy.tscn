@@ -2,8 +2,9 @@
 
 [ext_resource type="Script" uid="uid://50snnthk700j" path="res://scripts/enemy.gd" id="1_is05b"]
 [ext_resource type="Texture2D" uid="uid://bs04head3ey53" path="res://assets/Slime_32px_real.png" id="2_4aqqa"]
-[ext_resource type="PackedScene" uid="uid://hc6gcfko7dn2" path="res://scenes/killzone.tscn" id="3_g33v7"]
+[ext_resource type="PackedScene" uid="uid://cewe5w03ysyqm" path="res://scenes/hitbox.tscn" id="3_xwavj"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="4_fi21h"]
+[ext_resource type="PackedScene" uid="uid://bdopo78jbaqco" path="res://scenes/hurtbox.tscn" id="4_nenq2"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a71e5"]
 atlas = ExtResource("2_4aqqa")
@@ -60,14 +61,11 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_4o3l1"]
-size = Vector2(17, 13.5)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_n3n0j"]
 size = Vector2(8.45283, 16.9057)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2yjti"]
-size = Vector2(18, 33)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4o3l1"]
+size = Vector2(17, 13.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dkhp7"]
 size = Vector2(14, 28.5)
@@ -82,31 +80,20 @@ sprite_frames = SubResource("SpriteFrames_dwfk2")
 animation = &"running"
 autoplay = "idle"
 
-[node name="EnemyHurtBox" type="Area2D" parent="AnimatedSprite2D"]
-collision_layer = 6
-collision_mask = 6
+[node name="EnemyHitbox" parent="AnimatedSprite2D" instance=ExtResource("3_xwavj")]
+scale = Vector2(0.603774, 0.603774)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/EnemyHurtBox"]
-shape = SubResource("RectangleShape2D_4o3l1")
-
-[node name="EnemyHitBox" type="Area2D" parent="AnimatedSprite2D"]
-collision_layer = 6
-collision_mask = 6
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/EnemyHitBox"]
-position = Vector2(-1.15161e-06, -0.603774)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/EnemyHitbox"]
+position = Vector2(-1.90735e-06, -1)
+scale = Vector2(1.65625, 1.65625)
 shape = SubResource("RectangleShape2D_n3n0j")
 
-[node name="killzone" parent="." instance=ExtResource("3_g33v7")]
-visible = false
-monitoring = false
+[node name="EnemyHurtbox" parent="AnimatedSprite2D" instance=ExtResource("4_nenq2")]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="killzone"]
-visible = false
-position = Vector2(0, -0.5)
-shape = SubResource("RectangleShape2D_2yjti")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AnimatedSprite2D/EnemyHurtbox"]
+shape = SubResource("RectangleShape2D_4o3l1")
 
-[node name="scene-collision" type="CollisionShape2D" parent="."]
+[node name="SceneCollisionShape" type="CollisionShape2D" parent="."]
 position = Vector2(0, -1.25)
 shape = SubResource("RectangleShape2D_dkhp7")
 

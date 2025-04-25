@@ -29,7 +29,7 @@ func decide_actions():
 	if Input.is_action_just_released("charged_attack"):
 		action_release_charged_attack()
 	if health < 100:
-		health += 1
+		health += 0.5
 	health_bar.health = health
 	if Input.is_action_just_pressed("crouch"):
 		action_crouch()
