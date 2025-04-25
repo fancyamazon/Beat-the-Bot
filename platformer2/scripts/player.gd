@@ -21,7 +21,7 @@ func decide_actions():
 		# sus
 	if Input.is_action_just_released("shield"):
 		action_shield_down()
-	action_walk(Input.get_axis("left", "right"))
+	action_walk(roundi(Input.get_axis("left", "right")))
 	if Input.is_action_just_pressed("tp"):
 		action_teleport()
 	if Input.is_action_pressed("charged_attack"):
@@ -33,3 +33,5 @@ func decide_actions():
 	health_bar.health = health
 	if Input.is_action_just_pressed("crouch"):
 		action_crouch()
+	if Input.is_action_just_pressed("reset_game"):
+		call_deferred("reload_scene")

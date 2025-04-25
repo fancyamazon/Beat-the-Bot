@@ -74,13 +74,22 @@ public partial class NavigationAdvisor : Node2D
 		movements[1] = 0;
 		movements[2] = 0;
 		// Handle start hunt.
-		if (Input.IsActionJustPressed("ui_accept")) {
-			//GD.Print("started");
+		if (Input.IsActionJustPressed("left") || 
+			Input.IsActionJustPressed("right") ||
+			Input.IsActionJustPressed("jump") ||
+			Input.IsActionJustPressed("crouch")
+			) {
+			// GD.Print("started");
 			_startTime.Start();
-			//GD.Print("done");
+			// #GD.Print("done");
 		}
 
 		// if there is a target set
+		if (_bot == null) 
+		{
+			GD.Print("I just found out that the bot went bleh");
+			QueueFree();
+		}
 		if (_target != null)
 		{
 			// If the target is to the right of the current pusition
@@ -105,10 +114,12 @@ public partial class NavigationAdvisor : Node2D
 				if (_bot.IsOnFloor())
 				{
 					GoToNextPointInPath();
+					if (_target == null) return;
 					Jump();
 				}
 
 				// helps fall down ledges
+
 				if (_target.Position.Y > _bot.GlobalPosition.Y + 100) {
 					if (_target.Position.X < _bot.GlobalPosition.X)
 					{

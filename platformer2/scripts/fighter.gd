@@ -28,10 +28,9 @@ const DASH_DURATION = 0.2
 const DASH_COOLDOWN = 0.5
 
 var is_dashing = false
-var can_dash = true
 var dash_direction = Vector2.ZERO
-var dash_timer = 0.0
-@onready var timer: Timer = $DashTimer # Get the Timer node 
+var dash_duration_timer = 0.0
+@onready var dash_cooldown_timer: Timer = $DashTimer # Get the Timer node 
 
 ### Cooldowns
 var on_attack_cooldown = false
@@ -95,11 +94,11 @@ func _ready():
 	$AnimatedSprite2D/HitBox.add_to_group("hitbox")
 	health_bar._init_health(health)
 	if is_in_group("player"):
-		print("aligning <player> healthbar + label")
+		#print("aligning <player> healthbar + label")
 		health_bar.position.x = 200
 		character_label.position.x = 200
 		
-		print("aligning <player> collision layers")
+		#print("aligning <player> collision layers")
 		#set_collision_layer_value(3, true)
 		set_collision_mask_value(1, true)
 		#set_collision_mask_value(3, true)
@@ -110,11 +109,11 @@ func _ready():
 
 		#print("collision layer is 3 = " + str(get_collision_layer_value(3)))
 	else:
-		print("aligning <bot> healthbar + labelbot")
+		#print("aligning <bot> healthbar + labelbot")
 		health_bar.position.x = 700
 		character_label.position.x = 700
 		
-		print("aligning <bot> collision layers")
+		#print("aligning <bot> collision layers")
 		#set_collision_layer_value(2, true)
 		set_collision_mask_value(1, true)
 		#set_collision_mask_value(2, true)
@@ -130,7 +129,7 @@ func _ready():
 func _physics_process(delta: float) -> void:
 	#animations
 	# Dash
-	if is_on_floor() and jumps_used >0 and can_move:
+	if is_on_floor() and jumps_used > 0 and can_move:
 		#print("RESET!")
 		jumps_used = 0
 		animated_sprite_2d.play("jumping-landing")
@@ -145,11 +144,11 @@ func _physics_process(delta: float) -> void:
 		velocity = dash_direction * DASH_SPEED
 		#print(animated_sprite_2d.animation.is_p)
 		
-		dash_timer -= delta
-		if dash_timer <= 0:
+		dash_duration_timer -= delta
+		if dash_duration_timer <= 0:
 			is_dashing = false
 
-	set_sprite(direction)
+	set_sprite()
 	
 	if !movement_locked:
 		if direction:
@@ -171,7 +170,7 @@ func action_dash():
 		on_dash_cooldown = true
 		dash_direction = Vector2(velocity.x, 0).normalized()#velocity.normalized()  # Get direction of movement
 
-			# Check if the player isn't moving (using a threshold for precision)
+		# Check if the player isn't moving (using a threshold for precision)
 		if dash_direction.length() < 0.1:  # Effectively not moving
 				
 			if animated_sprite_2d.scale.x == -2:  # Facing left (scale.x < 0)
@@ -179,10 +178,10 @@ func action_dash():
 			else:  # Facing right (scale.x > 0)
 				dash_direction = Vector2(1, 0)   # Dash right
 		is_dashing = true
-		dash_timer = DASH_DURATION
+		dash_duration_timer = DASH_DURATION
 		
 		#print('dashed')
-		timer.start(DASH_COOLDOWN)
+		dash_cooldown_timer.start(DASH_COOLDOWN)
 		#print(timer.time_left)
 
 func action_jump():
@@ -251,7 +250,7 @@ func action_teleport():
 	jumps_used = 0
 	
 ### -------------------------------- SPRITE -------------------------------- ### 
-func set_sprite(direction: int):
+func set_sprite():
 	if direction >0:
 		facing_dir=1
 		spawn_offset= Vector2(20, -20)
@@ -277,11 +276,16 @@ func take_damage(amount: int) -> void:
 		health -= amount
 	health_bar.health = health
 	if health <= 0 && is_in_group("player") && !invincibility:
-		get_tree().reload_current_scene()
+		call_deferred("reload_scene")
 	elif health <= 0 && is_in_group("bot"):
+		get_parent().queue_free()
 		self.queue_free()
 	#else:
 	#	print("Player health left: ", health)
+
+func reload_scene():
+	if is_inside_tree():
+		get_tree().reload_current_scene()
 
 func action_melee(): 
 	if not on_attack_cooldown and can_move:
@@ -296,7 +300,7 @@ func _on_attack_timer_timeout() -> void:
 	
 func _on_range_timer_timeout() -> void:
 	on_range_cooldown=false
-
+ 
 
 func _on_hit_box_area_entered(area: Area2D) -> void:
 	#print("something entered player hitbox: ----\n", area, area.get_groups(), "\n----\n") # this was for debugging

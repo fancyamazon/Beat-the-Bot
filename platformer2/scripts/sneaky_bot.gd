@@ -49,7 +49,7 @@ func decide_movement():
 		if run_away:
 			action_strafe(-1)
 		if sneak_towards:
-			action_strafe(0.5)
+			action_strafe(1) ### TODO make this actually go slower
 	else:
 		if dist < 50:
 			run_away = true
@@ -63,7 +63,7 @@ func decide_movement():
 		if run_away:
 			action_strafe(1)
 		if sneak_towards:
-			action_strafe(-0.5)
+			action_strafe(-1) ### TODO make this go slower
 
 	shooting = true
 	

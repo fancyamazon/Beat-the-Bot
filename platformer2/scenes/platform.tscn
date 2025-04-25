@@ -10,6 +10,7 @@ size = Vector2(96, 8)
 size = Vector2(96, 8)
 
 [node name="platform" type="AnimatableBody2D"]
+position = Vector2(-497, -69)
 script = ExtResource("1_noksq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
