@@ -15,23 +15,16 @@ func decide_actions():
 		action_grapple_retract()
 	if Input.is_action_just_pressed("shield"):
 		action_shield()
-		health = 100
-		health_bar.health = 100
-		# bruh ☠️ ok mr christoph023032er 
-		# sus
 	if Input.is_action_just_released("shield"):
 		action_shield_down()
-	action_walk(roundi(Input.get_axis("left", "right")))
 	if Input.is_action_just_pressed("tp"):
 		action_teleport()
 	if Input.is_action_pressed("charged_attack"):
 		action_charged_attack()
 	if Input.is_action_just_released("charged_attack"):
 		action_release_charged_attack()
-	if health < 100:
-		health += 0.5
-	health_bar.health = health
 	if Input.is_action_just_pressed("crouch"):
 		action_crouch()
 	if Input.is_action_just_pressed("reset_game"):
 		call_deferred("reload_scene")
+	action_walk(roundi(Input.get_axis("left", "right")))

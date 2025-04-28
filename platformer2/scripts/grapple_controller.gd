@@ -4,7 +4,6 @@ extends Node2D
 @export var REST_LENGTH = 0
 @export var STIFFNESS = 20.0
 @export var DAMPING = 5
-const LIMITED_TO_SCREEN = true # Whether grappling is limited to on-screen walls
 
 ### Hit detection
 @onready var player := get_parent()
@@ -60,7 +59,7 @@ func launch(looking_at: Vector2):
 		#print("Canvas inv * target:", get_viewport().get_canvas_transform().affine_inverse() * target)
 		#print("Visible rect:", get_viewport().get_visible_rect())
 		
-		if is_point_on_screen(target) and LIMITED_TO_SCREEN: # Check that the target is within screen bounds
+		if is_point_on_screen(target) and GAME.GRAPPLE_LIMITED_TO_SCREEN: # Check that the target is within screen bounds
 			launched = true
 			#print("target is on screen")
 			collider = ray.get_collider()

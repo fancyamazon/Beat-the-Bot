@@ -37,12 +37,13 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	# Detect hitting wall
-	wall_hit_detection.force_raycast_update()
-	if wall_hit_detection.is_colliding() and DELETE_WHEN_HIT_WALL:
-		var collider = wall_hit_detection.get_collider()
-		#print("Collider:", collider, " | Type: ", typeof(collider))
-		if collider is TileMapLayer:
-			self.queue_free()
+	if not GAME.BULLETS_GO_THROUGH_WALLS:
+		wall_hit_detection.force_raycast_update()
+		if wall_hit_detection.is_colliding() and DELETE_WHEN_HIT_WALL:
+			var collider = wall_hit_detection.get_collider()
+			#print("Collider:", collider, " | Type: ", typeof(collider))
+			if collider is TileMapLayer:
+				self.queue_free()
 		
 	animated_sprite_2d.scale.x = dir * 2
 	velocity = Vector2(SPEED * dir, 0)  # Only move horizontally, no vertical movement

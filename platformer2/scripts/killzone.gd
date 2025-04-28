@@ -4,7 +4,7 @@ extends Area2D
 
 func _on_body_entered(body: Fighter) -> void:
 	#print("Body: ", body, " just fell into the void")		
-	if body.get_team() == "player" and body.INVINCIBILITY == false and body.DIE_FROM_VOID == true:
+	if body.get_team() == "player" and GAME.INVINCIBILITY == false and GAME.DIE_FROM_VOID == true:
 		print("Player fell into the void.")
 		Engine.time_scale = 2
 		timer.start()
