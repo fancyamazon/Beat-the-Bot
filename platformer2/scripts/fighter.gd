@@ -9,7 +9,7 @@ const JUMPS_MAX = 2
 var jumps_used = 0
 
 ### Attack damages
-const MELEE_ATTACK_DAMAGE = 40
+const MELEE_ATTACK_DAMAGE = 30
 const RANGED_ATTACK_DAMAGE = 5
 const CHARGED_ATTACK_DAMAGE = 35
 
@@ -112,9 +112,9 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	if get_team() == "bot":
-		health += GAME.BOTS_PASSIVE_HEALING
+		health = min(100, health + GAME.BOTS_PASSIVE_HEALING)
 	elif get_team() == "player":
-		health += GAME.PLAYER_PASSIVE_HEALING
+		health = min(100, health + GAME.PLAYER_PASSIVE_HEALING)
 	health_bar.health = health
 
 	# Dash
@@ -299,29 +299,6 @@ func action_melee():
 func _on_attack_timer_timeout() -> void:
 	hitbox_collision.disabled = true
 	on_attack_cooldown = false
-	
-func _on_range_timer_timeout() -> void:
-	on_range_cooldown=false
-		
-func action_ranged():
-	if(can_move and not on_range_cooldown):
-		animated_sprite_2d.play("ranged-attack-uncharged")
-		
-		var instance = bullet.instantiate()
-		
-		# Need to set properties before adding to scene so it shows
-		instance.dir = facing_dir  # Set to the last pressed direction
-		instance.spawnPos = global_position + spawn_offset * facing_dir
-		instance.spawnRot = rotation  # Set to the player's rotation (optional)
-
-		# Need to add to scene FIRST before initializing
-		main.add_child(instance)  
-
-		instance.initiateBullet(RANGED_ATTACK_DAMAGE, "ranged", get_team())
-		
-		range_timer.start(RANGE_COOLDOWN)
-		
-		on_range_cooldown = true
 
 func _on_dash_timer_timeout() -> void:
 	on_dash_cooldown = false # Replace with function body.
@@ -348,6 +325,19 @@ func action_shield_down():
 	can_move=true
 	is_shielding=false
 
+func _on_range_timer_timeout() -> void:
+	on_range_cooldown=false
+		
+func action_ranged():
+	if(can_move and not on_range_cooldown):
+		animated_sprite_2d.play("ranged-attack-uncharged")
+		
+		create_bullet(RANGED_ATTACK_DAMAGE, "ranged", get_team())
+		
+		range_timer.start(RANGE_COOLDOWN)
+		
+		on_range_cooldown = true
+
 func action_charged_attack():
 	if movement_locked:
 		return
@@ -356,7 +346,7 @@ func action_charged_attack():
 		### animated_sprite_2d.play("ranged-attack-uncharged") REPLACE WITH SHOOTING ANIMATION
 		charged_status = 1
 		charged_attack_timer.start(charging_duration)
-		print("charging started")
+		#print("charging started")
 	elif charged_status == 1 || charged_status == 2:
 		pass
 		
@@ -364,33 +354,32 @@ func action_release_charged_attack():
 	if charged_status == 0 || charged_status == 1:
 		charged_status = 0
 		charged_attack_timer.stop()
-		print("charging cancelled")
-	elif charged_status == 2:
-		print("shot")
-		
-		var instance = bullet.instantiate()
-		
-		# Need to set properties before adding to scene so it shows
-		instance.dir = facing_dir  # Set to the last pressed direction
-		instance.spawnPos = global_position + spawn_offset * facing_dir
-		instance.spawnRot = rotation  # Set to the player's rotation (optional)
-		
-		# Need to add to scene FIRST before initializing
-		main.add_child(instance)
-
-		instance.initiateBullet(CHARGED_ATTACK_DAMAGE, "charged", get_team())
+	elif charged_status == 2:		
+		create_bullet(CHARGED_ATTACK_DAMAGE, "charged", get_team())
 
 		if can_move == false:
 			can_move = true
-		print("movement re-enabled")
 		charged_status = 0
 		# TODO: reset animation
 
 func _on_charged_attack_timer_timeout() -> void:
 	charged_status = 2
-	print("charging complete")
+	#print("charging complete")
 	can_move = false
-	print("movement disabled")
+	#print("movement disabled")
+
+func create_bullet(damage, type, team) -> void:
+	var instance = bullet.instantiate()
+	
+	# Need to set properties before adding to scene so it shows
+	instance.dir = facing_dir  # Set to the last pressed direction
+	instance.spawnPos = global_position + spawn_offset * facing_dir
+	instance.spawnRot = rotation  # Set to the player's rotation (optional)
+	
+	# Need to add to scene FIRST before initializing
+	main.add_child(instance)
+
+	instance.initiateBullet(damage, type, team)
 
 ### -------------------------------- GRAPPLING -------------------------------- ### 
 	
