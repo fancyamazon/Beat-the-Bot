@@ -70,7 +70,7 @@ public partial class TileMapPathFind : TileMapLayer
 	}
 
 
-	private PointInfo GetPointInfoAtPosition(Vector2 position)
+	public PointInfo GetPointInfoAtPosition(Vector2 position)
 	{
 		var newInfoPoint = new PointInfo(-10000, position);     // Create a new PointInfo with the position
 		newInfoPoint.IsPositionPoint = true;                    // Mark it as a position point

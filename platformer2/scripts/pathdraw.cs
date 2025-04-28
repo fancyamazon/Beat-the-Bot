@@ -27,10 +27,18 @@ public partial class pathdraw : Node2D
 			DrawLine(_navbottest.pathArray[i].Position - _navbottest.Position, _navbottest.pathArray[i+1].Position - _navbottest.Position, myColor);
 
 		}
-		DrawLine(_navbottest.search_point - _navbottest.Position - new Vector2(30,-30), _navbottest.search_point - _navbottest.Position + new Vector2(30,-30), myColor);
-		DrawLine(_navbottest.search_point - _navbottest.Position - new Vector2(30,30), _navbottest.search_point - _navbottest.Position + new Vector2(30,30), myColor);
+		if (_navbottest._target != null) {
+			DrawX(_navbottest._target.Position);
+		}
+		DrawX(_navbottest.search_point);
 	}
 	public override void _PhysicsProcess(double delta) {
 		QueueRedraw();
+	}
+
+	public void DrawX(Vector2 pos) {
+		DrawLine(pos - _navbottest.Position - new Vector2(30,-30), pos - _navbottest.Position + new Vector2(30,-30), myColor);
+		DrawLine(pos - _navbottest.Position - new Vector2(30,30), pos - _navbottest.Position + new Vector2(30,30), myColor);
+	
 	}
 }

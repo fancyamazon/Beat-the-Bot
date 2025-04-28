@@ -9,16 +9,18 @@ public partial class NavigationAdvisor : Node2D
 	private Stack<PointInfo> _path = new Stack<PointInfo>();
 	private float JumpDistanceHeightThreshold = 120.0f;
 	public PointInfo[] pathArray = {};
-	private PointInfo _target = null;
+	public PointInfo _target = null;
 	private PointInfo _prevTarget = null;
 	private Timer _startTime;
 	private CharacterBody2D _player;
 	private CharacterBody2D _bot;
 	private Sprite2D my_sprite;
 
+	private int last_move_direc = 0;
+
 	public Vector2 search_point;
 
-	private int[] movements = new int[2]; // direction, number of jumps, melee attack
+	private int[] movements = new int[3]; // direction, number of jumps, dash
 	public override void _Ready()
 	{
 		_pathFind2D = FindParent("Game").FindChild("TileMapPathFind") as TileMapPathFind;
@@ -54,7 +56,6 @@ public partial class NavigationAdvisor : Node2D
 
 		_prevTarget = _target;  // Set the previous target to the current target
 		_target = _path.Pop();  // Set the target node to the next target in the stack
-		my_sprite.Position = _target.Position;
 	}
 
 
@@ -71,49 +72,110 @@ public partial class NavigationAdvisor : Node2D
 	public override void _PhysicsProcess(double delta)
 	{
 		
-		movements[0] = 0;
+		//movements[0] = 0;
 		movements[1] = 0;
+		movements[2] = 0;
 		// Handle start hunt.
-		if (Input.IsActionJustPressed("ui_accept")) {
-			//GD.Print("started");
+		if (Input.IsActionJustPressed("left") || 
+			Input.IsActionJustPressed("right") ||
+			Input.IsActionJustPressed("jump") ||
+			Input.IsActionJustPressed("crouch")
+			) {
+			// GD.Print("started");
 			_startTime.Start();
-			//GD.Print("done");
+			// #GD.Print("done");
 		}
 
 		// if there is a target set
+		if (_bot == null) 
+		{
+			GD.Print("I just found out that the bot went bleh");
+			QueueFree();
+		}
 		if (_target != null)
 		{
 			// If the target is to the right of the current pusition
-			if (_target.Position.X - 5 > _bot.GlobalPosition.X)
+
+
+			if (_target.Position.X - 5> _bot.GlobalPosition.X)
 			{
-				//direction.X = 1f;
 				movements[0] = 1;
 			}
 			// If the target is to the left of the current pusition
-			else if (_target.Position.X + 5 < _bot.GlobalPosition.X)
+			else if (_target.Position.X  + 5< _bot.GlobalPosition.X)
 			{
 				//direction.X = -1f;
 				movements[0] = -1;
 			}
 
 			// so we don't miss double jumps
-			if (_target.Position.Y > _bot.GlobalPosition.Y + 100) {
+			/*else if (_target.Position.Y > _bot.GlobalPosition.Y + 100) {
 				movements[0] = 0;
-			} 
+			} */
 
 			else
 			{
 				if (_bot.IsOnFloor())
 				{
 					GoToNextPointInPath();
+					if (_target == null) return;
 					Jump();
 				}
+
+				// helps fall down ledges
+
+				// falling
+				if (_target.Position.Y - _bot.GlobalPosition.Y < 32 && _target.Position.Y - _bot.GlobalPosition.Y >= 0 && _bot.Velocity.Y > 0) {
+
+					movements[0] = 0;
+				}
 			}
+
+			if(_target.Position.Y == _prevTarget.Position.Y && Mathf.Abs(_target.Position.X - _prevTarget.Position.X) >= 32 * 4){
+				GD.Print("considering dash");
+				if (_target.Position.X > _bot.GlobalPosition.X){
+					movements[0] = 1;
+					if (can_dash(1)){
+						movements[2] = 1;
+					} else{
+						movements[2] = 0;
+					}
+				}
+				if (_target.Position.X < _bot.GlobalPosition.X){
+					movements[0] = -1;
+					if (can_dash(-1)){
+						movements[2] = 1;
+					} else{
+						movements[2] = 0;
+					}
+				}
+			} else {
+				movements[2] = 0;
+			}
+		
+			
 		}
 		//GD.Print(movements[0].ToString() + ", " +movements[1].ToString());
 
 	}
 
+	private bool can_dash(int direction) {
+		// check for ground when you land
+		if (_pathFind2D.GetCellSourceId(_pathFind2D.LocalToMap(_bot.GlobalPosition + new Vector2(32 * 8 * direction, 16))) == -1) {
+			return false;
+		} 
+		// check for passing through
+		for (int i = 1; i <= 8; i++) {
+			if (_pathFind2D.GetCellSourceId(_pathFind2D.LocalToMap(_bot.GlobalPosition + new Vector2(32 * i * direction, -16))) != -1) {
+				return false;
+			} 
+			if (_pathFind2D.GetCellSourceId(_pathFind2D.LocalToMap(_bot.GlobalPosition + new Vector2(32 * i * direction, -48))) != -1) {
+				return false;
+			} 
+		}
+		
+		return true;
+	}
 	public int[] get_movements() {
 		return movements;
 	}

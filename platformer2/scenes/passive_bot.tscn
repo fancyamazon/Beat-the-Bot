@@ -7,7 +7,7 @@
 [ext_resource type="FontFile" uid="uid://ba46rbpxu84gj" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="3_vbo1x"]
 [ext_resource type="PackedScene" uid="uid://vhediblqaylo" path="res://scenes/pathdraw.tscn" id="6_2787x"]
 
-[node name="Node2D" type="Node2D"]
+[node name="PassiveBot" type="Node2D"]
 script = ExtResource("1_gjkjt")
 
 [node name="Fighter" parent="." instance=ExtResource("1_ple6w")]
@@ -48,6 +48,6 @@ grow_vertical = 2
 wait_time = 0.3
 
 [node name="pathdraw" parent="." instance=ExtResource("6_2787x")]
-myColor = Color(0.210117, 0.510445, 1, 1)
+myColor = Color(0, 0.537486, 0.963022, 1)
 
 [connection signal="timeout" from="PathFindTimer" to="." method="OnPathFindTimerTimeout"]

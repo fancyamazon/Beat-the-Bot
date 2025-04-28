@@ -9,7 +9,8 @@ size = Vector2(96, 8)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_axiur"]
 size = Vector2(96, 8)
 
-[node name="platform" type="AnimatableBody2D"]
+[node name="Platform" type="AnimatableBody2D"]
+position = Vector2(-497, -69)
 script = ExtResource("1_noksq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

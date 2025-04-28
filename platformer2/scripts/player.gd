@@ -10,18 +10,18 @@ func decide_actions():
 	if(Input.is_action_just_pressed("ranged")):
 		action_ranged()
 	if Input.is_action_just_pressed("grapple"):
-		action_grapple()
+		call_deferred("action_grapple_deferred")
 	if Input.is_action_just_released("grapple"):
 		action_grapple_retract()
 	if Input.is_action_just_pressed("shield"):
 		action_shield()
 		health = 100
 		health_bar.health = 100
+		print(global_position)
 		# bruh ☠️ ok mr christoph023032er 
 		# sus
 	if Input.is_action_just_released("shield"):
 		action_shield_down()
-	action_walk(Input.get_axis("left", "right"))
 	if Input.is_action_just_pressed("tp"):
 		action_teleport()
 	if Input.is_action_pressed("charged_attack"):
@@ -30,3 +30,6 @@ func decide_actions():
 		action_release_charged_attack()
 	if Input.is_action_just_pressed("crouch"):
 		action_crouch()
+	if Input.is_action_just_pressed("reset_game"):
+		call_deferred("reload_scene")
+	action_walk(roundi(Input.get_axis("left", "right")))

@@ -1,18 +1,30 @@
 extends Node2D
+class_name GAME
 
-@onready var main=get_tree().get_root().get_node("Game")
+### ---------------------------------- DEV TOOLS FOR DEBUGGING ----------------------------------
+const INVINCIBILITY = false
+const DIE_FROM_VOID = true 
+const CAN_TELEPORT = true
+const GRAPPLE_LIMITED_TO_SCREEN = true # Whether grappling is limited to on-screen walls
+const BULLETS_GO_THROUGH_WALLS = false
 
-@onready var enemy=load("res://scenes/enemy.tscn")
+## Easy mode preset
+const PLAYER_SHIELD_RESETS_HEALTH = true
+const PLAYER_PASSIVE_HEALING = 0.3 # per frame # Easy mode: 0.3 # Non-easy: 0.1
+const BOTS_PASSIVE_HEALING = 0.05 # per frame # Easy mode: 0.02 # Non-easy: 0.05
+
+@onready var main = get_tree().get_root().get_node("Game")
+
+@onready var enemy = load("res://scenes/enemy.tscn")
 
 func _ready() -> void:
-	pass 
-
-func _process(delta: float) -> void:
+	pass
+	
+func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("spawn"): 
 		var instance = enemy.instantiate()
 		instance.global_position = get_global_mouse_position()
 		main.add_child(instance) 
-		print(main.get_node("Player").get_child(0).position)
 	
 	if Input.is_action_just_pressed("mass_spawn"): 
 		var instance = null
