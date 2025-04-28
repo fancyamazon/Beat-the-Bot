@@ -55,8 +55,6 @@ var charging_duration = 1.0 # seconds
 ### Grappling
 const GRAPPLE_LENGTH = 200.0  # Ad$ChargedAttackTimerjust as needed
 @onready var grapple_point = null #point where the player is grappling to
-var is_grappling = false
-var gravity_affected = true
 @onready var grapple_controller: Node2D = $GrappleController
 @onready var grappling_line_2d: Line2D = $GrappleController/Line2D
 	
@@ -83,10 +81,6 @@ var remaining_shield_health = SHIELD_HEALTH
 var is_falling_through = false
 const FALL_TIMER_SEC = 0.1 # seconds
 
-### Dev tools for debugging
-const INVINCIBILITY = false # Unable to die when true
-const DIE_FROM_VOID = true 
-const CAN_TELEPORT = true
 
 ### ------------------------------ BEGIN FUNCTIONS ---------------------------------- ###
 # Globally announce that this is the player. 
@@ -117,14 +111,19 @@ func _ready():
 ### -------------------------------- PHYSICS, MOVEMENT OV -------------------------------- ### 
 
 func _physics_process(delta: float) -> void:
-	#animations
+	if get_team() == "bot":
+		health += GAME.BOTS_PASSIVE_HEALING
+	elif get_team() == "player":
+		health += GAME.PLAYER_PASSIVE_HEALING
+	health_bar.health = health
+
 	# Dash
 	if is_on_floor() and jumps_used > 0 and can_move:
 		#print("RESET!")
 		jumps_used = 0
 		animated_sprite_2d.play("jumping-landing")
 	
-	if not is_on_floor() and gravity_affected:
+	if not is_on_floor():
 		velocity += get_gravity() * delta
 	
 	decide_actions()
@@ -208,14 +207,17 @@ func action_walk(input_dir: int):
 	direction = input_dir
 	#set_sprite(direction)
 	
-	if(!can_move or movement_locked):
+	if !can_move or movement_locked:
 		return
-	if input_dir == 0 && direction != 0:
+	if input_dir == 0 and direction != 0:
 		animated_sprite_2d.play("idle")
-	elif input_dir != 0 && direction == 0:
+	elif input_dir != 0 and direction == 0:
 		animated_sprite_2d.play("running")
 
 func action_crouch():
+	if movement_locked:
+		return
+	
 	animated_sprite_2d.play("crouch")
 	if is_on_floor():
 		floor_ray_left.force_raycast_update()
@@ -237,7 +239,7 @@ func action_crouch():
 			is_falling_through = false
 			
 func action_teleport():
-	if not CAN_TELEPORT:
+	if not GAME.CAN_TELEPORT or movement_locked:
 		return
 		
 	global_position = get_global_mouse_position()
@@ -261,7 +263,7 @@ func set_sprite():
 ### -------------------------------- DAMAGE (taking damage, melee, ranged, charged, shielding) -------------------------------- ### 
 
 func take_damage(amount: int) -> void:
-	if INVINCIBILITY:
+	if GAME.INVINCIBILITY:
 		return
 		
 	if(is_shielding):
@@ -326,34 +328,30 @@ func _on_dash_timer_timeout() -> void:
 	#print("dash is ready")
 
 func action_shield():
+	if movement_locked:
+		return
+	
+	if GAME.PLAYER_SHIELD_RESETS_HEALTH:
+		health = 100
+		health_bar.health = health
+	
 	animated_sprite_2d.play("shield-idle")
 	can_move=false
 	is_shielding=true
 	remaining_shield_health = SHIELD_HEALTH
-		
-	#if not is_shielding:
-		## Start the "shielding up" animation
-		#animated_sprite_2d.play("shield-up")
-		#is_shielding = true  # Mark that we are now in the shielding-up state
-	#elif is_shielding and not shield_up:
-		## If the shielding-up animation has finished and we are still holding the shield
-		#if animated_sprite_2d.animation == "shield-up" and animated_sprite_2d.animation_position >= animated_sprite_2d.animation_length:
-			## Transition to "shield-idle" once the "shielding-up" animation is complete
-			#animated_sprite_2d.play("shield-idle")
-			#shield_up = true  # Set shield to up state
-	#elif shield_up:
-		## If the shield button is released, reset to idle animation
-		#if not Input.is_action_pressed("shield"):
-			#animated_sprite_2d.play("idle")  # Or whatever default idle animation you use
-			#is_shielding = false
-			#shield_up = false
 
 func action_shield_down():
+	if movement_locked:
+		return
+	
 	animated_sprite_2d.play("shield-break")
 	can_move=true
 	is_shielding=false
 
 func action_charged_attack():
+	if movement_locked:
+		return
+		
 	if charged_status == 0:
 		### animated_sprite_2d.play("ranged-attack-uncharged") REPLACE WITH SHOOTING ANIMATION
 		charged_status = 1
@@ -400,14 +398,12 @@ func action_grapple(target: Vector2):
 	if(can_move):
 		animated_sprite_2d.play("grappling")
 		grapple_controller.launch(target)
-		#gravity_affected = false
 		movement_locked = true
 
 func action_grapple_retract():
 	if(can_move):
 		animated_sprite_2d.play("idle")
 		grapple_controller.retract()
-		gravity_affected = true
 		movement_locked = false
 
 func action_grapple_deferred():
@@ -416,3 +412,4 @@ func action_grapple_deferred():
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if animated_sprite_2d.animation not in ["grappling", "crouching"]:
 		animated_sprite_2d.play("idle") # Replace with function body.func _on_player_animation_finished() -> void:
+		pass
