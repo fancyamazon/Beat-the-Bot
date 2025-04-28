@@ -15,6 +15,11 @@ func decide_actions():
 		action_grapple_retract()
 	if Input.is_action_just_pressed("shield"):
 		action_shield()
+		health = 100
+		health_bar.health = 100
+		print(global_position)
+		# bruh ☠️ ok mr christoph023032er 
+		# sus
 	if Input.is_action_just_released("shield"):
 		action_shield_down()
 	if Input.is_action_just_pressed("tp"):
