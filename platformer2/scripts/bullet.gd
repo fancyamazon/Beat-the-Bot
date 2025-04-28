@@ -16,6 +16,9 @@ var velocity: Vector2
 ### Team
 var team = "N/A: No Team Error" # This is set after being instantiated in fighter.gd
 
+### Charged or regular
+var bullet_type
+
 ### Delete upon hitting wall
 const DELETE_WHEN_HIT_WALL = true
 @onready var wall_hit_detection: RayCast2D = $AnimatedSprite2D/WallHitDetection
@@ -23,10 +26,11 @@ const DELETE_WHEN_HIT_WALL = true
 func get_team():
 	return team
 
-func initiateBullet(damage_dealt: int, bullet_type: String, which_team: String) -> void:
+func initiateBullet(damage_dealt: int, type: String, which_team: String) -> void:
 	bullet_hitbox.damage = damage_dealt
 	team = which_team
 	
+	bullet_type = type
 	if bullet_type == "charged":
 		animated_sprite_2d.animation = "charged"
 		self.scale = Vector2(2,2)
@@ -37,7 +41,7 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	# Detect hitting wall
-	if not GAME.BULLETS_GO_THROUGH_WALLS:
+	if not GAME.BULLETS_GO_THROUGH_WALLS and bullet_type == "regular":
 		wall_hit_detection.force_raycast_update()
 		if wall_hit_detection.is_colliding() and DELETE_WHEN_HIT_WALL:
 			var collider = wall_hit_detection.get_collider()
