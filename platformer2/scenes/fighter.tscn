@@ -570,7 +570,7 @@ script = ExtResource("1_38ety")
 position = Vector2(0, -30)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sydby")
-animation = &"shield-up"
+animation = &"crouch"
 autoplay = "idle"
 
 [node name="HitBox" type="Area2D" parent="AnimatedSprite2D"]

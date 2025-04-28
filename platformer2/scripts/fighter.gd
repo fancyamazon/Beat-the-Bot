@@ -64,7 +64,7 @@ var health = 100
 
 ### Shielding
 var is_shielding=false
-const SHIELD_REDUCTION=0.1
+const SHIELD_REDUCTION=0.9
 const SHIELD_HEALTH=50
 
 ### Falling through platform while crouching
