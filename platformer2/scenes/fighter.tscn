@@ -561,7 +561,7 @@ size = Vector2(31, 20.5)
 size = Vector2(12, 25.5)
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0xs8g"]
-radius = 20.0
+radius = 16.0
 height = 62.0
 
 [node name="Fighter" type="CharacterBody2D"]

@@ -12,6 +12,8 @@ func decide_actions():
 	nav.search_point = player.global_position 
 	if should_move:
 		action_walk(nav.get_movements()[0])
+	else:
+		action_walk(0)
 	
 	# on timer end, jump
 	# while timer is running, do not jump
@@ -22,10 +24,11 @@ func decide_actions():
 			setup_double_jump()
 	if nav.get_movements()[2] == 1:
 		#print('lowkey wanna dash')
-		pass
+		action_dash()
 		
 	if abs(nav.get_vector_to_player().x) < 100:
 		action_melee()
+	
 	
 func setup_double_jump():
 	should_move = false

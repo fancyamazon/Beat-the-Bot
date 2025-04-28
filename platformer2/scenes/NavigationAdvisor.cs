@@ -16,6 +16,8 @@ public partial class NavigationAdvisor : Node2D
 	private CharacterBody2D _bot;
 	private Sprite2D my_sprite;
 
+	private int last_move_direc = 0;
+
 	public Vector2 search_point;
 
 	private int[] movements = new int[3]; // direction, number of jumps, dash
@@ -70,7 +72,7 @@ public partial class NavigationAdvisor : Node2D
 	public override void _PhysicsProcess(double delta)
 	{
 		
-		movements[0] = 0;
+		//movements[0] = 0;
 		movements[1] = 0;
 		movements[2] = 0;
 		// Handle start hunt.
@@ -93,6 +95,8 @@ public partial class NavigationAdvisor : Node2D
 		if (_target != null)
 		{
 			// If the target is to the right of the current pusition
+
+
 			if (_target.Position.X - 5> _bot.GlobalPosition.X)
 			{
 				movements[0] = 1;
@@ -120,29 +124,58 @@ public partial class NavigationAdvisor : Node2D
 
 				// helps fall down ledges
 
-				if (_target.Position.Y > _bot.GlobalPosition.Y + 100) {
-					if (_target.Position.X < _bot.GlobalPosition.X)
-					{
-						//direction.X = -1f;
-						movements[0] = -1;
-					} else if (_target.Position.X  > _bot.GlobalPosition.X)
-					{
-						//direction.X = -1f;
-						movements[0] = 1;
-					}
+				// falling
+				if (_target.Position.Y - _bot.GlobalPosition.Y < 32 && _target.Position.Y - _bot.GlobalPosition.Y >= 0 && _bot.Velocity.Y > 0) {
+
+					movements[0] = 0;
 				}
 			}
 
-			if (_target.Position.Y < _bot.GlobalPosition.Y - 100) {
-				movements[0] = 0;
-			} else if (_target.Position.Y < _bot.GlobalPosition.Y + 20 && Mathf.Abs(_target.Position.X - _bot.GlobalPosition.Y) > 100) {
-				movements[2] = 1;
+			if(_target.Position.Y == _prevTarget.Position.Y && Mathf.Abs(_target.Position.X - _prevTarget.Position.X) >= 32 * 4){
+				GD.Print("considering dash");
+				if (_target.Position.X > _bot.GlobalPosition.X){
+					movements[0] = 1;
+					if (can_dash(1)){
+						movements[2] = 1;
+					} else{
+						movements[2] = 0;
+					}
+				}
+				if (_target.Position.X < _bot.GlobalPosition.X){
+					movements[0] = -1;
+					if (can_dash(-1)){
+						movements[2] = 1;
+					} else{
+						movements[2] = 0;
+					}
+				}
+			} else {
+				movements[2] = 0;
 			}
+		
+			
 		}
 		//GD.Print(movements[0].ToString() + ", " +movements[1].ToString());
 
 	}
 
+	private bool can_dash(int direction) {
+		// check for ground when you land
+		if (_pathFind2D.GetCellSourceId(_pathFind2D.LocalToMap(_bot.GlobalPosition + new Vector2(32 * 8 * direction, 16))) == -1) {
+			return false;
+		} 
+		// check for passing through
+		for (int i = 1; i <= 8; i++) {
+			if (_pathFind2D.GetCellSourceId(_pathFind2D.LocalToMap(_bot.GlobalPosition + new Vector2(32 * i * direction, -16))) != -1) {
+				return false;
+			} 
+			if (_pathFind2D.GetCellSourceId(_pathFind2D.LocalToMap(_bot.GlobalPosition + new Vector2(32 * i * direction, -48))) != -1) {
+				return false;
+			} 
+		}
+		
+		return true;
+	}
 	public int[] get_movements() {
 		return movements;
 	}
