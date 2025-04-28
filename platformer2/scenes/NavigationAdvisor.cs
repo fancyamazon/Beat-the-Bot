@@ -130,9 +130,11 @@ public partial class NavigationAdvisor : Node2D
 					movements[0] = 0;
 				}
 			}
+			
+			if(_target == null || _prevTarget == null) return;
 
 			if(_target.Position.Y == _prevTarget.Position.Y && Mathf.Abs(_target.Position.X - _prevTarget.Position.X) >= 32 * 4){
-				GD.Print("considering dash");
+				//GD.Print("considering dash");
 				if (_target.Position.X > _bot.GlobalPosition.X){
 					movements[0] = 1;
 					if (can_dash(1)){
