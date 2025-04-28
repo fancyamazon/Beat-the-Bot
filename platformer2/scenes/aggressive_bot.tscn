@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/health_bar.tscn" id="5_wjf1l"]
 [ext_resource type="PackedScene" uid="uid://vhediblqaylo" path="res://scenes/pathdraw.tscn" id="6_63yym"]
 
-[node name="AggressiveBot" type="Node2D"]
+[node name="Node2D" type="Node2D"]
 script = ExtResource("1_44xh6")
 
 [node name="Fighter" parent="." instance=ExtResource("2_63yym")]

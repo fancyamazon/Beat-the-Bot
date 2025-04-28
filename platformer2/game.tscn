@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://d07nvyd5qem1x"]
+[gd_scene load_steps=22 format=4 uid="uid://d07nvyd5qem1x"]
 
 [ext_resource type="Script" uid="uid://db25rkl7nijpv" path="res://game.gd" id="1_w04m8"]
 [ext_resource type="Texture2D" uid="uid://lp3tjt6016tn" path="res://assets/Free/Terrain/Terrain (16x16).png" id="2_8mj6l"]
@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" uid="uid://myphnaj3lltv" path="res://scenes/sneaky_bot.tscn" id="14_tjcyu"]
 [ext_resource type="PackedScene" uid="uid://hc6gcfko7dn2" path="res://scenes/killzone.tscn" id="16_80cx4"]
 [ext_resource type="PackedScene" uid="uid://bt0qx32gkk3dp" path="res://scenes/aggressive_bot.tscn" id="17_e8heu"]
+[ext_resource type="PackedScene" uid="uid://ca68kqq3xpj4i" path="res://scenes/camper_bot.tscn" id="17_rvswv"]
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_7obcx"]
 frames = 4
@@ -354,6 +355,9 @@ position = Vector2(1023, -248)
 
 [node name="AggressiveBot" parent="Characters" instance=ExtResource("17_e8heu")]
 position = Vector2(668, -208)
+
+[node name="CamperBot" parent="Characters" instance=ExtResource("17_rvswv")]
+position = Vector2(1413, -233)
 
 [node name="Enemy" parent="Characters" instance=ExtResource("5_dp0s8")]
 position = Vector2(677, -551)
