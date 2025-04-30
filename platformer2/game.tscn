@@ -348,16 +348,16 @@ moving = true
 position = Vector2(482, -367)
 
 [node name="PassiveBot" parent="Characters" instance=ExtResource("13_sni34")]
-position = Vector2(443, -58)
+position = Vector2(704, -723)
 
 [node name="SneakyBot" parent="Characters" instance=ExtResource("14_tjcyu")]
 position = Vector2(1023, -248)
 
 [node name="AggressiveBot" parent="Characters" instance=ExtResource("17_e8heu")]
-position = Vector2(668, -208)
+position = Vector2(929, -873)
 
 [node name="CamperBot" parent="Characters" instance=ExtResource("17_rvswv")]
-position = Vector2(1413, -233)
+position = Vector2(1055, -689)
 
 [node name="Enemy" parent="Characters" instance=ExtResource("5_dp0s8")]
 position = Vector2(677, -551)
