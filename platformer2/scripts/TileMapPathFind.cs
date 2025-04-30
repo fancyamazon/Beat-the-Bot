@@ -572,6 +572,9 @@ public partial class TileMapPathFind : TileMapLayer
 		}
 	}
 
+	public bool isCellEmpty(Vector2 pos) {
+		return GetCellSourceId(LocalToMap(pos)) == -1;
+	}
 	private void AddLeftWallPoint(Vector2I tile)
 	{
 		// If a tile exist above, it's not an edge

@@ -111,10 +111,11 @@ func _ready():
 ### -------------------------------- PHYSICS, MOVEMENT OV -------------------------------- ### 
 
 func _physics_process(delta: float) -> void:
-	if get_team() == "bot":
-		health = min(100, health + GAME.BOTS_PASSIVE_HEALING)
-	elif get_team() == "player":
-		health = min(100, health + GAME.PLAYER_PASSIVE_HEALING)
+	if health < 100:
+		if get_team() == "bot":
+			health += GAME.BOTS_PASSIVE_HEALING
+		elif get_team() == "player":
+			health += GAME.PLAYER_PASSIVE_HEALING
 	health_bar.health = health
 
 	# Dash
