@@ -9,7 +9,7 @@ var mode = "nav"
 
 var BEST_DIST = 12
 var X_FLEX = 5 #searches 2 * X_FLEX +1 values of x
-var Y_FLEX = 3 # how much below the player
+var Y_FLEX = 5 # how much below the player
 
 var grapple_allowed = false
 
@@ -25,6 +25,9 @@ func isEmpty(player_pos, i, offset):
 func isStandable(player_pos, i, offset):
 	return (not isEmpty(player_pos, i, offset + 1)) and isEmpty(player_pos, i, offset) and isEmpty(player_pos, i, offset - 1)
 
+func shootingBlocked(player_pos, i, offset):
+	return (not isEmpty(player_pos, i, offset))
+
 func searchGrapples(player_pos, i, offset):
 	var grapple_search = [[1,0], [1,-1], [0,-2], [-1,-1], [-1,0], [0, 1]]
 	if not (isEmpty(player_pos, i, offset) and isEmpty(player_pos, i, offset - 1)):
@@ -38,7 +41,7 @@ func searchGrapples(player_pos, i, offset):
 
 func _draw():
 	for i in range(-X_FLEX, X_FLEX):
-		for offset in range(Y_FLEX):
+		for offset in range(-1, Y_FLEX):
 			if (isEmpty(player.global_position,i,offset)):
 				draw_rect(Rect2(calc_bot_pos(player.global_position, i, offset) - global_position, Vector2(10,10)), Color.GREEN)
 			else:
@@ -54,11 +57,24 @@ func determine_search_point(player_pos, bot_pos):
 		search_direc = -1
 	else:
 		search_direc = 1
-	for j in range(Y_FLEX):
-		for i in range(- X_FLEX, X_FLEX):
-			if (isStandable(player_pos,i, j)):
-				return calc_bot_pos(player_pos, i, j)
-	return player_pos + Vector2(search_direc * 400, 0) #backup if no suitable spots are found
+	var best_spot = Vector2(0, 0)
+	var found_spot = false
+	
+	for j in range(-1, Y_FLEX):
+		for i in range(- BEST_DIST, X_FLEX):
+			if (shootingBlocked (player_pos,i,j)):
+				break #shooting blocked, no need to search other tiles
+				#if shooting blocked, also is not standable
+			if (found_spot and j >= best_spot.y + best_spot.x):
+				break #break if all spots on this row are suboptimal
+			if (i >= -X_FLEX and isStandable(player_pos,i, j)): #look for standable tiles
+				if 	(i + j < best_spot.x + best_spot.y) or not found_spot:
+					best_spot.x = i
+					best_spot.y = j
+					found_spot = true
+	
+	return calc_bot_pos(player_pos, best_spot.x, best_spot.y)
+	#return player_pos + Vector2(search_direc * 400, 0) #backup if no suitable spots are found
 	
 
 func decide_actions():
@@ -72,12 +88,7 @@ func decide_actions():
 		mode = "atk"
 	
 	if mode == "atk":
-		if player.global_position.x < global_position.x and facing_dir != -1:
-			action_walk(-1)
-		elif player.global_position.x > global_position.x and facing_dir != 1:
-			action_walk(1)
-		else:
-			action_walk(0)
+		face_player()
 		if player.global_position.y < global_position.y - 32:
 			action_jump()
 	elif mode == "nav":
@@ -108,3 +119,11 @@ func setup_double_jump():
 	await get_tree().create_timer(0.3).timeout
 	action_jump()
 	should_move = true
+	
+func face_player():
+	if player.global_position.x < global_position.x and facing_dir != -1:
+		action_walk(-1)
+	elif player.global_position.x > global_position.x and facing_dir != 1:
+		action_walk(1)
+	else:
+		action_walk(0)

@@ -25,8 +25,10 @@ func decide_actions():
 	if nav.get_movements()[2] == 1:
 		#print('lowkey wanna dash')
 		action_dash()
-		
+	
+	
 	if abs(nav.get_vector_to_player().x) < 100:
+		face_player()
 		action_melee()
 	
 	
@@ -35,3 +37,11 @@ func setup_double_jump():
 	await get_tree().create_timer(0.3).timeout
 	action_jump()
 	should_move = true
+
+func face_player():
+	if player.global_position.x < global_position.x and facing_dir != -1:
+		action_walk(-1)
+	elif player.global_position.x > global_position.x and facing_dir != 1:
+		action_walk(1)
+	else:
+		action_walk(0)
