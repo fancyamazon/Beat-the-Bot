@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 
 public partial class NavigationAdvisor : Node2D
@@ -16,16 +17,20 @@ public partial class NavigationAdvisor : Node2D
 	private CharacterBody2D _bot;
 	private Sprite2D my_sprite;
 
+	private RayCast2D _grapple_ray;
+	private Vector2 grapple_direction;
+
 	private int last_move_direc = 0;
 
 	public Vector2 search_point;
 
-	private int[] movements = new int[3]; // direction, number of jumps, dash
+	private int[] movements = new int[4]; // direction, number of jumps, dash, grapple
 	public override void _Ready()
 	{
 		_pathFind2D = FindParent("Game").FindChild("TileMapPathFind") as TileMapPathFind;
 		_player = FindParent("Game").FindChild("Player").FindChild("Fighter") as CharacterBody2D;
 		_bot = GetNode<CharacterBody2D>("Fighter");
+		_grapple_ray = _bot.GetNode<Node2D>("GrappleController").GetNode<RayCast2D>("RayCast2D");
 		my_sprite = FindParent("Game").FindChild("MySprite2") as Sprite2D;
 		_startTime = GetNode<Timer>("PathFindTimer");
 		search_point = Vector2.Zero;
@@ -69,9 +74,15 @@ public partial class NavigationAdvisor : Node2D
 		GoToNextPointInPath();
 	}
 
+	public Vector2 get_target() {
+		return _target.Position;
+	}
+
+
 	public override void _PhysicsProcess(double delta)
 	{
 		
+
 		//movements[0] = 0;
 		movements[1] = 0;
 		movements[2] = 0;
@@ -94,15 +105,25 @@ public partial class NavigationAdvisor : Node2D
 		}
 		if (_target != null)
 		{
+			_grapple_ray.TargetPosition = _target.Position - _bot.GlobalPosition;
+
+			if (_grapple_ray.IsColliding()) {
+				movements[3] = 0;
+			} else {
+				movements[3] = 1;
+			}
+			//preliminary grapple handling: 0 (no action) if grapple is blocked, 1 if not blocked
+
+
 			// If the target is to the right of the current pusition
 
 
-			if (_target.Position.X - 5> _bot.GlobalPosition.X)
+			if (_target.Position.X - 16> _bot.GlobalPosition.X)
 			{
 				movements[0] = 1;
 			}
 			// If the target is to the left of the current pusition
-			else if (_target.Position.X  + 5< _bot.GlobalPosition.X)
+			else if (_target.Position.X  + 16< _bot.GlobalPosition.X)
 			{
 				//direction.X = -1f;
 				movements[0] = -1;
@@ -115,6 +136,8 @@ public partial class NavigationAdvisor : Node2D
 
 			else
 			{
+				movements[3] = -1; // handle grappling straight up/down separately
+				
 				if (_bot.IsOnFloor())
 				{
 					GoToNextPointInPath();
@@ -156,6 +179,8 @@ public partial class NavigationAdvisor : Node2D
 			}
 		
 			
+		} else {
+			movements[3] = -1;
 		}
 		//GD.Print(movements[0].ToString() + ", " +movements[1].ToString());
 
@@ -178,9 +203,21 @@ public partial class NavigationAdvisor : Node2D
 		
 		return true;
 	}
+
+
+	public bool isEmpty(Vector2 pos) {
+		return _pathFind2D.isCellEmpty(pos);
+
+	}
+		//Vector2[] my_arr= {new Vector2(0,0)};
+		//return my_arr;//new ArrayList();
+	
 	public int[] get_movements() {
 		return movements;
 	}
+
+
+
 
 	public Vector2 get_vector_to_player(){
 		return _player.GlobalPosition - _bot.GlobalPosition;
