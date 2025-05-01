@@ -1,4 +1,5 @@
 extends ProgressBar
+class_name Healthbar
 
 ### "Flash" animation
 @onready var flash_timer: Timer = $FlashTimer

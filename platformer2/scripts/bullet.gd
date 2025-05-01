@@ -1,4 +1,5 @@
 extends Area2D
+class_name Bullet
 
 @onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
 @onready var bullet_hitbox: Hitbox = $BulletHitbox
@@ -41,7 +42,7 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	# Detect hitting wall
-	if not GAME.BULLETS_GO_THROUGH_WALLS and bullet_type == "regular":
+	if not GAME.BULLETS_GO_THROUGH_WALLS and bullet_type == "ranged":
 		wall_hit_detection.force_raycast_update()
 		if wall_hit_detection.is_colliding() and DELETE_WHEN_HIT_WALL:
 			var collider = wall_hit_detection.get_collider()

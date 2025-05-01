@@ -1,4 +1,4 @@
-extends Fighter
+class_name Player extends Fighter
 
 func decide_actions():
 	if Input.is_action_just_pressed("dash"):

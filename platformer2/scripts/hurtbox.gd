@@ -21,6 +21,14 @@ func _on_area_entered(hitbox: Area2D) -> void:
 		owner.take_damage(hitbox.damage)
 		hit_by = hitbox
 		
+		# For sneaky bot behavior:
+		if owner.get_team() == "player" and hitbox.owner.get_team() == "bot" and "after_i_hit" in hitbox.owner:
+			hitbox.owner.after_i_hit = true
+			
+		if owner.get_team() == "bot" and "after_i_hit" in owner:
+			owner.mode = "run"
+			owner.after_i_hit = false
+		
 		# Slight invulnerability ONLY for the hitbox that just hit you
 		await get_tree().create_timer(INVULN_TIME).timeout
 		
