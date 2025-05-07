@@ -1,10 +1,17 @@
-[gd_scene load_steps=75 format=3 uid="uid://c740fnyl8cfxb"]
+[gd_scene load_steps=81 format=3 uid="uid://c740fnyl8cfxb"]
 
 [ext_resource type="Script" uid="uid://dmxssb186uj1f" path="res://scripts/fighter.gd" id="1_38ety"]
+[ext_resource type="Shader" uid="uid://cnutwusknelbm" path="res://scenes/blink.gdshader" id="2_1bj3w"]
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_toxlr"]
 [ext_resource type="PackedScene" uid="uid://cewe5w03ysyqm" path="res://scenes/hitbox.tscn" id="3_tlqsq"]
 [ext_resource type="Script" uid="uid://dgmr0dwn1k1of" path="res://scripts/grapple_controller.gd" id="3_yxhgq"]
 [ext_resource type="PackedScene" uid="uid://bdopo78jbaqco" path="res://scenes/hurtbox.tscn" id="4_eelhu"]
+[ext_resource type="Texture2D" uid="uid://fdkngdn1xlo4" path="res://assets/gear.png" id="6_eelhu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ql5yn"]
+shader = ExtResource("2_1bj3w")
+shader_parameter/blink_color = Color(1, 1, 1, 1)
+shader_parameter/blink_intensity = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_x3e6b"]
 atlas = ExtResource("2_toxlr")
@@ -564,11 +571,34 @@ size = Vector2(12, 25.5)
 radius = 16.0
 height = 62.0
 
+[sub_resource type="Gradient" id="Gradient_1bj3w"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ql5yn"]
+gradient = SubResource("Gradient_1bj3w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_3wvek"]
+lifetime_randomness = 1.0
+particle_flag_disable_z = true
+emission_shape = 1
+emission_sphere_radius = 35.0
+direction = Vector3(0, -0.1, 0)
+spread = 75.0
+initial_velocity_min = 300.0
+initial_velocity_max = 400.0
+gravity = Vector3(0, 700, 0)
+damping_min = 100.0
+damping_max = 800.0
+scale_min = 0.4
+scale_max = 0.6
+color_ramp = SubResource("GradientTexture1D_ql5yn")
+
 [node name="Fighter" type="CharacterBody2D"]
 collision_layer = 0
 script = ExtResource("1_38ety")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+material = SubResource("ShaderMaterial_ql5yn")
 position = Vector2(0, -30)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sydby")
@@ -626,6 +656,16 @@ target_position = Vector2(0, 12)
 [node name="FloorRayRight" type="RayCast2D" parent="."]
 position = Vector2(11, 0)
 target_position = Vector2(0, 12)
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(0, -29)
+emitting = false
+amount = 10
+texture = ExtResource("6_eelhu")
+lifetime = 0.8
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_3wvek")
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
