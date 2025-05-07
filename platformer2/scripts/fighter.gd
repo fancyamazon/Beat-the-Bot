@@ -81,6 +81,8 @@ var remaining_shield_health = SHIELD_HEALTH
 var is_falling_through = false
 const FALL_TIMER_SEC = 0.1 # seconds
 
+### Particle/Effects
+@onready var gear_particles=$GPUParticles2D
 
 ### ------------------------------ BEGIN FUNCTIONS ---------------------------------- ###
 # Globally announce that this is the player. 
@@ -264,6 +266,9 @@ func set_sprite():
 ### -------------------------------- DAMAGE (taking damage, melee, ranged, charged, shielding) -------------------------------- ### 
 
 func take_damage(amount: int) -> void:
+	var tween=get_tree().create_tween() #for blink effect
+	tween.tween_method(set_shader_blink_intensity,1.0,0.0,0.5)
+	
 	if GAME.INVINCIBILITY:
 		return
 		
@@ -278,6 +283,10 @@ func take_damage(amount: int) -> void:
 	else:
 		health -= amount
 	health_bar.health = health
+	#particle effect on hit
+	gear_particles.restart()
+	gear_particles.emitting=true
+	
 	if health <= 0 and get_team() == "player":
 		call_deferred("reload_scene")
 	elif health <= 0 and get_team() == "bot":
@@ -285,6 +294,10 @@ func take_damage(amount: int) -> void:
 		self.queue_free()
 	#else:
 	#	print("Player health left: ", health)
+
+func set_shader_blink_intensity(newValue : float):
+	#func for blink effect
+	animated_sprite_2d.material.set_shader_parameter("blink_intensity",newValue)
 
 func reload_scene():
 	if is_inside_tree():
