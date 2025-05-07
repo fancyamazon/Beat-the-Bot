@@ -27,7 +27,7 @@ func decide_actions():
 		action_dash()
 	
 	
-	if abs(nav.get_vector_to_player().x) < 100:
+	if abs(nav.get_vector_to_player().x) < 100 and abs(nav.get_vector_to_player().y) < 32:
 		face_player()
 		action_melee()
 	

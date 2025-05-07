@@ -107,10 +107,14 @@ public partial class NavigationAdvisor : Node2D
 		{
 			_grapple_ray.TargetPosition = _target.Position - _bot.GlobalPosition;
 
-			if (_grapple_ray.IsColliding()) {
-				movements[3] = 0;
+			if (_grapple_ray.TargetPosition.Length() >= 64) {
+				if (_grapple_ray.IsColliding()) {
+					movements[3] = 0;
+				} else {
+					movements[3] = 1;
+				}
 			} else {
-				movements[3] = 1;
+				movements[3] = -1;
 			}
 			//preliminary grapple handling: 0 (no action) if grapple is blocked, 1 if not blocked
 
@@ -118,12 +122,12 @@ public partial class NavigationAdvisor : Node2D
 			// If the target is to the right of the current pusition
 
 
-			if (_target.Position.X - 16> _bot.GlobalPosition.X)
+			if (_target.Position.X - 8> _bot.GlobalPosition.X)
 			{
 				movements[0] = 1;
 			}
 			// If the target is to the left of the current pusition
-			else if (_target.Position.X  + 16< _bot.GlobalPosition.X)
+			else if (_target.Position.X  + 8< _bot.GlobalPosition.X)
 			{
 				//direction.X = -1f;
 				movements[0] = -1;
@@ -156,7 +160,7 @@ public partial class NavigationAdvisor : Node2D
 			
 			if(_target == null || _prevTarget == null) return;
 
-			if(_target.Position.Y == _prevTarget.Position.Y && Mathf.Abs(_target.Position.X - _prevTarget.Position.X) >= 32 * 4){
+			if(_target.Position.Y >= _prevTarget.Position.Y && Mathf.Abs(_target.Position.X - _prevTarget.Position.X) >= 32 * 4){
 				//GD.Print("considering dash");
 				if (_target.Position.X > _bot.GlobalPosition.X){
 					movements[0] = 1;
@@ -179,9 +183,7 @@ public partial class NavigationAdvisor : Node2D
 			}
 		
 			
-		} else {
-			movements[3] = -1;
-		}
+		} 
 		//GD.Print(movements[0].ToString() + ", " +movements[1].ToString());
 
 	}
@@ -204,6 +206,19 @@ public partial class NavigationAdvisor : Node2D
 		return true;
 	}
 
+
+	private Vector2 get_searchpoint_from_grapplepoint(Vector2 pos) {
+		// check for ground when you land
+		for (int i = 0; i < 100; i++) {
+			if (isEmpty(pos)) {
+				pos.Y = pos.Y + 32; // search down
+			} else {
+				return new Vector2(pos.X, pos.Y - 32);
+			}
+			
+		}
+		return pos;
+	}
 
 	public bool isEmpty(Vector2 pos) {
 		return _pathFind2D.isCellEmpty(pos);
