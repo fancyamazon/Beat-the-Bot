@@ -1,4 +1,4 @@
-extends Fighter
+class_name PassiveBot extends Fighter
 
 @onready var nav = get_parent()
 @onready var player = get_parent().get_parent().get_node("Player").get_node("Fighter")
@@ -40,7 +40,7 @@ func searchGrapples(player_pos, i, offset):
 	#check 6 adjacent tiles for being grapplable
 
 func _draw():
-	for i in range(-X_FLEX, X_FLEX):
+	for i in range(-X_FLEX, X_FLEX + 1):
 		for offset in range(-1, Y_FLEX):
 			if (isEmpty(player.global_position,i,offset)):
 				draw_rect(Rect2(calc_bot_pos(player.global_position, i, offset) - global_position, Vector2(10,10)), Color.GREEN)
@@ -57,23 +57,38 @@ func determine_search_point(player_pos, bot_pos):
 		search_direc = -1
 	else:
 		search_direc = 1
-	var best_spot = Vector2(0, 0)
-	var found_spot = false
+	var best_spot = Vector2(0, 0) #shootable spot
+	var found_shootable_spot = false
+	
+	var search_best_in_this_row = true
+	var backup_spot = Vector2(0, 0) #standable spot
+	var found_backup_spot = false
 	
 	for j in range(-1, Y_FLEX):
-		for i in range(- BEST_DIST, X_FLEX):
+		search_best_in_this_row = true
+		for i in range(- BEST_DIST, X_FLEX + 1):
 			if (shootingBlocked (player_pos,i,j)):
-				break #shooting blocked, no need to search other tiles
+				search_best_in_this_row = false
 				#if shooting blocked, also is not standable
-			if (found_spot and j >= best_spot.y + best_spot.x):
-				break #break if all spots on this row are suboptimal
+			if (found_shootable_spot and abs(j) >= abs(best_spot.y) + abs(best_spot.x)):
+				search_best_in_this_row = false
 			if (i >= -X_FLEX and isStandable(player_pos,i, j)): #look for standable tiles
-				if 	(i + j < best_spot.x + best_spot.y) or not found_spot:
-					best_spot.x = i
-					best_spot.y = j
-					found_spot = true
-	
-	return calc_bot_pos(player_pos, best_spot.x, best_spot.y)
+				if 	(abs(i) + abs(j) < abs(best_spot.x) + abs(best_spot.y)) or (not found_shootable_spot):
+					if search_best_in_this_row:
+						best_spot.x = i
+						best_spot.y = j
+						found_shootable_spot = true
+				# only search for backups if no shootable spots found
+				if ((not found_shootable_spot) and (abs(i) + abs(j) < abs(backup_spot.x) + abs(backup_spot.y)) or not found_backup_spot):
+					backup_spot.x = i
+					backup_spot.y = j
+					found_backup_spot = true
+	if found_shootable_spot:
+		return calc_bot_pos(player_pos, best_spot.x, best_spot.y)
+	elif found_backup_spot:
+		return calc_bot_pos(player_pos, backup_spot.x, backup_spot.y)
+	else:
+		return calc_bot_pos(player_pos, 0, 0)
 	#return player_pos + Vector2(search_direc * 400, 0) #backup if no suitable spots are found
 	
 
@@ -82,12 +97,14 @@ func decide_actions():
 	nav.search_point = determine_search_point(player.global_position, global_position)
 	#print(nav.actions)
 	
-	if (nav.search_point - global_position).length_squared() > 3600 and mode == "atk" and is_on_floor():
+	if (nav.search_point - global_position).length_squared() > 900 and mode == "atk" and is_on_floor():
 		mode = "nav"
-	if (nav.search_point - global_position).length_squared() < 1600 and mode == "nav" and is_on_floor():
+	if (nav.search_point - global_position).length_squared() < 100 and mode == "nav" and is_on_floor():
 		mode = "atk"
-	
+	#print(mode)
+	#print(nav.get_movements())
 	if mode == "atk":
+		action_grapple_retract()
 		face_player()
 		if player.global_position.y < global_position.y - 32:
 			action_jump()
@@ -105,8 +122,12 @@ func decide_actions():
 			if nav.get_movements()[1] == 2:
 				setup_double_jump()
 		if nav.get_movements()[2] == 1:
-			#print('lowkey wanna dash')
-			pass
+			action_dash()
+		if nav.get_movements()[3] == 1:
+			action_grapple(nav.get_target())
+		elif nav.get_movements()[3] == -1:
+			action_grapple_retract()
+		#print(nav.get_movements())
 	
 	if player.global_position.y - global_position.y < 400 and player.global_position.y - global_position.y >= -100:
 		action_ranged()
