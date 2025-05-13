@@ -154,7 +154,14 @@ func decide_actions():
 		else:
 			mode = "atk"
 		print(mode)
-		
+	
+	if abs(player.global_position.x - global_position.x) <= 32:
+		mode = "nav"
+		action_grapple_retract()
+		action_dash()
+		print(mode)
+
+
 	if mode == "atk":
 		face_player()
 		
@@ -199,6 +206,8 @@ func decide_actions():
 	
 	if (nav.get_vector_to_player().x > -100 and nav.get_vector_to_player().x < 100):
 		action_melee()
+
+
 
 func setup_double_jump():
 	should_move = false
