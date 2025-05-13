@@ -17,7 +17,10 @@ func decide_actions():
 	
 	# on timer end, jump
 	# while timer is running, do not jump
-	
+	if nav.get_movements()[3] == 1:
+		action_grapple(nav.get_target())
+	elif nav.get_movements()[3] == -1:
+		action_grapple_retract()
 	if nav.get_movements()[1] > 0 and is_on_floor(): 
 		action_jump()
 		if nav.get_movements()[1] == 2:

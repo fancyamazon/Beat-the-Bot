@@ -18,7 +18,9 @@ public partial class NavigationAdvisor : Node2D
 	private Sprite2D my_sprite;
 
 	private RayCast2D _grapple_ray;
-	private Vector2 grapple_direction;
+	private Vector2 grapple_target;
+
+	public bool grapple_for_navigation = true;
 
 	private int last_move_direc = 0;
 
@@ -105,17 +107,30 @@ public partial class NavigationAdvisor : Node2D
 		}
 		if (_target != null)
 		{
-			_grapple_ray.TargetPosition = _target.Position - _bot.GlobalPosition;
+			if (grapple_target != null) {
+				if (grapple_for_navigation) {
+					grapple_target = _target.Position;
+				} // override user input
+				_grapple_ray.TargetPosition = grapple_target - _bot.GlobalPosition;
 
-			if (_grapple_ray.TargetPosition.Length() >= 64) {
-				if (_grapple_ray.IsColliding()) {
-					movements[3] = 0;
+				if (_grapple_ray.TargetPosition.Length() >= 64) {
+					if (!_grapple_ray.IsColliding() && !isEmpty(grapple_target + new Vector2(0, 32))) {
+						movements[3] = 1;
+					} else {
+
+						movements[3] = 0;
+					}
 				} else {
-					movements[3] = 1;
+					movements[3] = -1;
+				}
+
+				if (_bot.IsOnWall()) {
+					movements[3] = -1;
 				}
 			} else {
-				movements[3] = -1;
+				movements[3] = 0;
 			}
+			
 			//preliminary grapple handling: 0 (no action) if grapple is blocked, 1 if not blocked
 
 

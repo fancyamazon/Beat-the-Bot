@@ -15,6 +15,9 @@ var Y_FLEX = 5 # how much below the player
 
 var grapple_allowed = false
 
+func ready():
+	nav.grapple_for_navigation = false
+
 func get_team():
 	return "bot"
 
@@ -110,7 +113,6 @@ func determine_search_point(player_pos, bot_pos):
 							backup_spot.x = i
 							backup_spot.y = j
 							found_spot_score = 1
-	print(found_spot_score)
 	if found_spot_score == 3:
 		will_grapple = false
 		return calc_bot_pos(player_pos, best_spot.x, best_spot.y)
@@ -129,33 +131,50 @@ func determine_search_point(player_pos, bot_pos):
 func dist_to_target():
 	if will_grapple:
 		return (grapplePoint - global_position).length_squared()
-	else:
-		return (nav.search_point - global_position).length_squared()
+	return (nav.search_point - global_position).length_squared()
+
 		
 
-func decide_actions():
-	print(mode)
+func decide_actions():																									
 	queue_redraw()
 	nav.search_point = determine_search_point(player.global_position, global_position)
-	#print(nav.actions)
-	if ((dist_to_target() > 900) and mode == "atk" and is_on_floor()):
+	#print(nav.actions
+	if ((dist_to_target() > 900) and mode == "atk"):
 		mode = "nav"
 		action_grapple_retract()
-	if (dist_to_target() < 100 and mode == "nav" and is_on_floor()):
-		mode = "atk"
+		print(mode)
+	if mode == "grapple" and (velocity.length_squared() < 0.1 and is_on_wall()) and (dist_to_target() > 900):
+		mode = "nav"
 		action_grapple_retract()
-	#print(mode)
-	#print(nav.get_movements())
+		print(mode)
+	if ((nav.search_point - global_position).length_squared() < 100 and mode == "nav" and is_on_floor()):
+		if will_grapple:
+			#action_grapple(grapplePoint)
+			mode = "grapple"
+		else:
+			mode = "atk"
+		print(mode)
+		
 	if mode == "atk":
 		face_player()
+		
 		if player.global_position.y < global_position.y - 32:
 			action_jump()
+	elif mode == "grapple":
+		action_grapple(grapplePoint)
 	elif mode == "nav":
 		if should_move:
 			action_walk(nav.get_movements()[0])
 		else:
 			action_walk(0)
-	
+		
+		#if will_grapple and (nav.search_point - global_position).length_squared() < 256:
+		#	action_walk(0)
+		#	if true: #nav.get_movements()[3] == 1:
+		#		action_grapple(grapplePoint)
+		#if (grapplePoint - global_position).length_squared() < 256: #TO DO: FIX THIS
+		#	print("huh")
+		#	action_grapple_retract()
 	# on timer end, jump
 	# while timer is running, do not jump
 	
@@ -163,16 +182,16 @@ func decide_actions():
 			action_jump()
 			if nav.get_movements()[1] == 2:
 				setup_double_jump()
-		if nav.get_movements()[2] == 1:
-			action_dash()
+		#if nav.get_movements()[2] == 1:
+		#	action_dash()
 			
-		if will_grapple and (nav.search_point - global_position).length_squared() < 256:
-			action_grapple(grapplePoint)
-		else:
-			if nav.get_movements()[3] == 1:
-				action_grapple(nav.get_target())
-			elif nav.get_movements()[3] == -1:
-				action_grapple_retract()
+		#if will_grapple and (nav.search_point - global_position).length_squared() < 256:
+		#	action_grapple(grapplePoint)
+		#else:
+		#	if nav.get_movements()[3] == 1:
+		#		action_grapple(nav.get_target())
+		#	elif nav.get_movements()[3] == -1:
+		#		action_grapple_retract()
 		#print(nav.get_movements())
 	
 	if player.global_position.y - global_position.y < 400 and player.global_position.y - global_position.y >= -100:
