@@ -109,6 +109,10 @@ func _ready():
 	hitbox.damage = MELEE_ATTACK_DAMAGE # Set the damage of the melee attack
 	hitbox_collision.disabled = true
 	
+	# New instantiation of the material so it doesn't share it across fighter.gd
+	if animated_sprite_2d.material:
+		animated_sprite_2d.material = animated_sprite_2d.material.duplicate()
+	
 
 ### -------------------------------- PHYSICS, MOVEMENT OV -------------------------------- ### 
 
