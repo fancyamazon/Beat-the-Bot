@@ -56,9 +56,6 @@ func _draw():
 	draw_rect(Rect2(determine_search_point(player.global_position, global_position) - global_position + Vector2(5,5), Vector2(5,5)), Color.BLUE)
 	#draw_rect(Rect2(determine_search_point(player.global_position, global_position) + Vector2(0,-32) - global_position, Vector2(5,5)), Color.YELLOW)
 
-func get_grapple_points(player_pos, i, j, shoot_direc):
-	pass
-
 func determine_search_point(player_pos, bot_pos):
 	if bot_pos.x < player_pos.x:
 		search_direc = -1

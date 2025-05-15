@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=4 uid="uid://d07nvyd5qem1x"]
+[gd_scene load_steps=19 format=4 uid="uid://d07nvyd5qem1x"]
 
 [ext_resource type="Script" uid="uid://db25rkl7nijpv" path="res://game.gd" id="1_w04m8"]
 [ext_resource type="Texture2D" uid="uid://lp3tjt6016tn" path="res://assets/Free/Terrain/Terrain (16x16).png" id="2_8mj6l"]
@@ -12,11 +12,8 @@
 [ext_resource type="AudioStream" uid="uid://bwg4xr4tb87lb" path="res://assets/BeatTheBot_3-11.wav" id="10_jehyl"]
 [ext_resource type="PackedScene" uid="uid://c3ja3raqyfvcq" path="res://scenes/player.tscn" id="10_w85to"]
 [ext_resource type="FontFile" uid="uid://b8wcbm5ximtu5" path="res://assets/fonts/PixelOperator8.ttf" id="11_50rtv"]
-[ext_resource type="PackedScene" uid="uid://b3bfx4ocxi8yq" path="res://scenes/passive_bot.tscn" id="13_sni34"]
-[ext_resource type="PackedScene" uid="uid://myphnaj3lltv" path="res://scenes/sneaky_bot.tscn" id="14_tjcyu"]
+[ext_resource type="PackedScene" uid="uid://l2wjmv2fkw6m" path="res://scenes/bot.tscn" id="12_215e1"]
 [ext_resource type="PackedScene" uid="uid://hc6gcfko7dn2" path="res://scenes/killzone.tscn" id="16_80cx4"]
-[ext_resource type="PackedScene" uid="uid://bt0qx32gkk3dp" path="res://scenes/aggressive_bot.tscn" id="17_e8heu"]
-[ext_resource type="PackedScene" uid="uid://ca68kqq3xpj4i" path="res://scenes/camper_bot.tscn" id="17_rvswv"]
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_7obcx"]
 frames = 4
@@ -347,20 +344,11 @@ moving = true
 [node name="Player" parent="Characters" instance=ExtResource("10_w85to")]
 position = Vector2(482, -367)
 
-[node name="PassiveBot" parent="Characters" instance=ExtResource("13_sni34")]
-position = Vector2(704, -723)
-
-[node name="SneakyBot" parent="Characters" instance=ExtResource("14_tjcyu")]
-position = Vector2(1023, -248)
-
-[node name="AggressiveBot" parent="Characters" instance=ExtResource("17_e8heu")]
-position = Vector2(929, -873)
-
-[node name="CamperBot" parent="Characters" instance=ExtResource("17_rvswv")]
-position = Vector2(1055, -689)
-
 [node name="Enemy" parent="Characters" instance=ExtResource("5_dp0s8")]
 position = Vector2(677, -551)
+
+[node name="Bot" parent="Characters" instance=ExtResource("12_215e1")]
+position = Vector2(764, -405)
 
 [node name="Instructions" type="Node" parent="."]
 
