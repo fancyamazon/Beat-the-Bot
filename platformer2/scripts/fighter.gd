@@ -84,6 +84,8 @@ const FALL_TIMER_SEC = 0.1 # seconds
 ### Particle/Effects
 @onready var gear_particles=$GPUParticles2D
 
+signal on_damage_taken(dmg_amt)
+
 ### ------------------------------ BEGIN FUNCTIONS ---------------------------------- ###
 # Globally announce that this is the player. 
 # Bots override this in their own function
@@ -147,7 +149,6 @@ func _physics_process(delta: float) -> void:
 	if is_dashing: 
 		velocity.y = 0 #no grav/fall during dash
 		velocity = dash_direction * DASH_SPEED
-		#print(animated_sprite_2d.animation.is_p)
 		
 		dash_duration_timer -= delta
 		if dash_duration_timer <= 0:
@@ -270,6 +271,7 @@ func set_sprite():
 ### -------------------------------- DAMAGE (taking damage, melee, ranged, charged, shielding) -------------------------------- ### 
 
 func take_damage(amount: int) -> void:
+	on_damage_taken.emit(amount)
 	var tween=get_tree().create_tween() #for blink effect
 	tween.tween_method(set_shader_blink_intensity,1.0,0.0,0.5)
 	

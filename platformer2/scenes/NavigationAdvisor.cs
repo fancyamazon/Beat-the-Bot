@@ -162,15 +162,15 @@ public partial class NavigationAdvisor : Node2D
 					GoToNextPointInPath();
 					if (_target == null) return;
 					Jump();
-				}
+				} 
 
 				// helps fall down ledges
 
 				// falling
-				if (_target.Position.Y - _bot.GlobalPosition.Y < 32 && _target.Position.Y - _bot.GlobalPosition.Y >= 0 && _bot.Velocity.Y > 0) {
+				/*if (_target.Position.Y - _bot.GlobalPosition.Y < 32 && _target.Position.Y - _bot.GlobalPosition.Y >= 0 && _bot.Velocity.Y > 0) {
 
 					movements[0] = 0;
-				}
+				}*/
 			}
 			
 			if(_target == null || _prevTarget == null) return;
@@ -196,6 +196,11 @@ public partial class NavigationAdvisor : Node2D
 			} else {
 				movements[2] = 0;
 			}
+
+			if (!_bot.IsOnFloor()) {
+				//GD.Print(_target.Position.X - _bot.GlobalPosition.X);
+				movements[0] = 0;
+			} // move somewhere else??
 		
 			
 		} 
