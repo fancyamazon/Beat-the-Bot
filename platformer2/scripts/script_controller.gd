@@ -18,7 +18,7 @@ func _ready():
 	bot.set_process(true)
 	bot.set_physics_process(true)
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("spawn-aggressive"): 
 		bot.set_script(script_aggro)
 		bot._ready()
@@ -34,4 +34,4 @@ func _process(delta):
 
 
 func _on_fighter_on_damage_taken(dmg_amt: Variant) -> void:
-	print("damage taken") # Replace with function body.
+	print("damage taken: ", dmg_amt) # Replace with function body.
