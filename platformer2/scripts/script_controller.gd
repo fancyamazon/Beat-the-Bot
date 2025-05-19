@@ -22,6 +22,7 @@ func change_behavior(i):
 	
 func _ready():
 	change_behavior(current_script)
+	bot._ready()
 	bot.set_process(true)
 	bot.set_physics_process(true)
 
@@ -51,9 +52,14 @@ func _process(_delta):
 
 
 func _on_fighter_on_damage_taken(dmg_amt: Variant) -> void:
-
-	behavior_scores[current_script] += dmg_amt
-	print(behavior_scores)
-	if current_script != best_behavior():
-		change_behavior(best_behavior())
-		print("behavior is now " + str(best_behavior()))
+	if will_swap:
+		behavior_scores[current_script] += dmg_amt
+		print(behavior_scores)
+		if current_script != best_behavior():
+			change_behavior(best_behavior())
+			print("behavior is now " + str(best_behavior()))
+		will_swap = false
+		await get_tree().create_timer(1).timeout
+		will_swap = true
+	else:
+		print("not swap enough")
