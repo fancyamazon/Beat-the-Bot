@@ -34,7 +34,8 @@ func best_behavior(): #minimum damage taken
 			best_score = behavior_scores[i]
 	return best_behavior
 	
-func _process(delta):
+
+func _process(_delta):
 	if Input.is_action_just_pressed("spawn-aggressive"): 
 		bot.set_script(script_aggro)
 		bot._ready()
@@ -50,6 +51,7 @@ func _process(delta):
 
 
 func _on_fighter_on_damage_taken(dmg_amt: Variant) -> void:
+
 	behavior_scores[current_script] += dmg_amt
 	print(behavior_scores)
 	if current_script != best_behavior():
