@@ -271,7 +271,6 @@ func set_sprite():
 ### -------------------------------- DAMAGE (taking damage, melee, ranged, charged, shielding) -------------------------------- ### 
 
 func take_damage(amount: int) -> void:
-	on_damage_taken.emit(amount)
 	var tween=get_tree().create_tween() #for blink effect
 	tween.tween_method(set_shader_blink_intensity,1.0,0.0,0.5)
 	
@@ -300,6 +299,7 @@ func take_damage(amount: int) -> void:
 		self.queue_free()
 	#else:
 	#	print("Player health left: ", health)
+	on_damage_taken.emit(amount)
 
 func set_shader_blink_intensity(newValue : float):
 	#func for blink effect
