@@ -1,0 +1,64 @@
+[gd_scene load_steps=5 format=3 uid="uid://c6m0af6r304rd"]
+
+[ext_resource type="Script" uid="uid://cbkolqhsy2r0p" path="res://scripts/graphics/bouncing_png.gd" id="1_f1cv4"]
+[ext_resource type="Texture2D" uid="uid://lm8s57nmlhgp" path="res://assets/christopher_wallpaper_plus_text.png" id="2_f8opt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wq1i0"]
+size = Vector2(2381, 303.002)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f1cv4"]
+radius = 87.8527
+
+[node name="DVD" type="Node2D"]
+position = Vector2(1379.2, 517.22)
+rotation = -0.317505
+
+[node name="ScreenBoundary" type="StaticBody2D" parent="."]
+collision_layer = 129
+collision_mask = 129
+
+[node name="Bottom" type="CollisionShape2D" parent="ScreenBoundary"]
+z_index = 1
+position = Vector2(-462.876, 719.221)
+rotation = 0.317505
+scale = Vector2(1, 0.28)
+shape = SubResource("RectangleShape2D_wq1i0")
+
+[node name="Right" type="CollisionShape2D" parent="ScreenBoundary"]
+z_index = 1
+position = Vector2(980.413, 126.169)
+rotation = 1.8883
+scale = Vector2(1, 0.279999)
+shape = SubResource("RectangleShape2D_wq1i0")
+
+[node name="Top" type="CollisionShape2D" parent="ScreenBoundary"]
+z_index = 1
+position = Vector2(-26.689, -596.886)
+rotation = 0.317505
+scale = Vector2(1, 0.28)
+shape = SubResource("RectangleShape2D_wq1i0")
+
+[node name="Left" type="CollisionShape2D" parent="ScreenBoundary"]
+z_index = 1
+position = Vector2(-1475.34, -410.325)
+rotation = -1.25329
+shape = SubResource("RectangleShape2D_wq1i0")
+
+[node name="BouncingPNG" type="CharacterBody2D" parent="."]
+position = Vector2(-1148.79, -921.95)
+rotation = 0.317505
+collision_layer = 128
+collision_mask = 128
+script = ExtResource("1_f1cv4")
+
+[node name="Sprite2D" type="Sprite2D" parent="BouncingPNG"]
+z_index = 3
+position = Vector2(857, 588)
+scale = Vector2(0.10625, 0.377778)
+texture = ExtResource("2_f8opt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BouncingPNG"]
+z_index = 1
+position = Vector2(854.001, 591.999)
+scale = Vector2(0.683216, 0.833462)
+shape = SubResource("CircleShape2D_f1cv4")
