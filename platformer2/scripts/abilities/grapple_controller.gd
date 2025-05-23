@@ -48,12 +48,14 @@ func launch(looking_at: Vector2):
 	#print("Player global position: ", get_global_mouse_position())
 	#print("looking_at: ", looking_at)
 	#print("Ray beore look_at: ", ray.global_position)
+	ray.position.x -= 4 # STRANGE BUG (this line + adding 4 back later fixes it): up close against wall, phase through. 
 	var direction = (looking_at - ray.global_position).normalized()
 	ray.target_position = ray.to_local(ray.global_position + direction * FAR_DISTANCE)
 	ray.force_raycast_update()
 	#print("Ray after look_at: ", ray.global_position)
 	if ray.is_colliding():
 		target = ray.get_collision_point()
+		ray.position.x += 4
 		
 		#print("Target global:", target)
 		#print("Canvas inv * target:", get_viewport().get_canvas_transform().affine_inverse() * target)
