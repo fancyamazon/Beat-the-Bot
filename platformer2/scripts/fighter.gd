@@ -85,6 +85,7 @@ const FALL_TIMER_SEC = 0.1 # seconds
 @onready var gear_particles=$GPUParticles2D
 
 signal on_damage_taken(dmg_amt)
+signal on_damage_dealt(dmg_amt)
 
 ### ------------------------------ BEGIN FUNCTIONS ---------------------------------- ###
 # Globally announce that this is the player. 
@@ -276,7 +277,7 @@ func take_damage(amount: int) -> void:
 	
 	if GAME.INVINCIBILITY:
 		return
-		
+	
 	if(is_shielding):
 		# Take less damage when shielded
 		remaining_shield_health -= amount*SHIELD_REDUCTION
@@ -299,7 +300,13 @@ func take_damage(amount: int) -> void:
 		self.queue_free()
 	#else:
 	#	print("Player health left: ", health)
-	on_damage_taken.emit(amount)
+	if get_team() == "player":
+		get_parent().get_parent().get_node("Bot").get_node("Fighter").on_damage_dealt.emit(amount)
+	else:
+		on_damage_taken.emit(amount)
+	
+	
+	# if get_team() == "player" and 
 
 func set_shader_blink_intensity(newValue : float):
 	#func for blink effect

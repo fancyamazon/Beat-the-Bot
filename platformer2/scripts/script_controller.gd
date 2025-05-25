@@ -30,7 +30,7 @@ func best_behavior(): #minimum damage taken
 	var best_behavior = 0
 	var best_score = behavior_scores[0]
 	for i in range(1, 4):
-		if behavior_scores[i] < behavior_scores[best_behavior]:
+		if behavior_scores[i] > behavior_scores[best_behavior]:
 			best_behavior = i
 			best_score = behavior_scores[i]
 	return best_behavior
@@ -51,9 +51,8 @@ func _process(_delta):
 		bot._ready()
 
 
-func _on_fighter_on_damage_taken(dmg_amt: Variant) -> void:
+func reconsider_behavior():
 	if will_swap:
-		behavior_scores[current_script] += dmg_amt
 		print(behavior_scores)
 		if current_script != best_behavior():
 			change_behavior(best_behavior())
@@ -61,5 +60,12 @@ func _on_fighter_on_damage_taken(dmg_amt: Variant) -> void:
 		will_swap = false
 		await get_tree().create_timer(1).timeout
 		will_swap = true
-	else:
-		print("not swap enough")
+
+func _on_fighter_on_damage_taken(dmg_amt: Variant) -> void:
+	behavior_scores[current_script] -= dmg_amt
+	reconsider_behavior()
+
+
+func _on_fighter_on_damage_dealt(dmg_amt: Variant) -> void:
+	behavior_scores[current_script] += dmg_amt
+	reconsider_behavior()

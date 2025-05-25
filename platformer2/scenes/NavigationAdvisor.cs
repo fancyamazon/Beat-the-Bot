@@ -17,7 +17,8 @@ public partial class NavigationAdvisor : Node2D
 	private CharacterBody2D _bot;
 	private Sprite2D my_sprite;
 
-	private RayCast2D _grapple_ray;
+	private RayCast2D _grapple_ray_low;
+	private RayCast2D _grapple_ray_high;
 	private Vector2 grapple_target;
 
 	public bool grapple_for_navigation = true;
@@ -31,8 +32,9 @@ public partial class NavigationAdvisor : Node2D
 	{
 		_pathFind2D = FindParent("Game").FindChild("TileMapPathFind") as TileMapPathFind;
 		_player = FindParent("Game").FindChild("Player").FindChild("Fighter") as CharacterBody2D;
-		_bot = GetNode<CharacterBody2D>("Fighter");
-		_grapple_ray = _bot.GetNode<Node2D>("GrappleController").GetNode<RayCast2D>("RayCast2D");
+		_bot = GetNode<CharacterBody2D>("Fighter");		
+		_grapple_ray_low = _bot.GetNode<RayCast2D>("LowDetector");
+		_grapple_ray_high = _bot.GetNode<RayCast2D>("HighDetector");
 		my_sprite = FindParent("Game").FindChild("MySprite2") as Sprite2D;
 		_startTime = GetNode<Timer>("PathFindTimer");
 		search_point = Vector2.Zero;
@@ -111,10 +113,11 @@ public partial class NavigationAdvisor : Node2D
 				if (grapple_for_navigation) {
 					grapple_target = _target.Position;
 				} // override user input
-				_grapple_ray.TargetPosition = grapple_target - _bot.GlobalPosition;
+				_grapple_ray_high.TargetPosition = grapple_target - _bot.GlobalPosition;
+				_grapple_ray_low.TargetPosition = grapple_target - _bot.GlobalPosition;
 
-				if (_grapple_ray.TargetPosition.Length() >= 64) {
-					if (!_grapple_ray.IsColliding() && !isEmpty(grapple_target + new Vector2(0, 32))) {
+				if (_grapple_ray_high.TargetPosition.Length() >= 64 && _grapple_ray_low.TargetPosition.Length() >= 64) {
+					if (!_grapple_ray_high.IsColliding() && !_grapple_ray_low.IsColliding() && !isEmpty(grapple_target + new Vector2(0, 32))) {
 						movements[3] = 1;
 					} else {
 
@@ -137,12 +140,12 @@ public partial class NavigationAdvisor : Node2D
 			// If the target is to the right of the current pusition
 
 
-			if (_target.Position.X - 8> _bot.GlobalPosition.X)
+			if (_target.Position.X - 16> _bot.GlobalPosition.X)
 			{
 				movements[0] = 1;
 			}
 			// If the target is to the left of the current pusition
-			else if (_target.Position.X  + 8< _bot.GlobalPosition.X)
+			else if (_target.Position.X  + 16< _bot.GlobalPosition.X)
 			{
 				//direction.X = -1f;
 				movements[0] = -1;
@@ -199,7 +202,7 @@ public partial class NavigationAdvisor : Node2D
 
 			if (!_bot.IsOnFloor()) {
 				//GD.Print(_target.Position.X - _bot.GlobalPosition.X);
-				movements[0] = 0;
+				//movements[0] = 0;
 			} // move somewhere else??
 		
 			

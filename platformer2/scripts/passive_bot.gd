@@ -134,9 +134,11 @@ func dist_to_target():
 
 func decide_actions():																									
 	queue_redraw()
+	#print(mode)
 	nav.search_point = determine_search_point(player.global_position, global_position)
 	#print(nav.actions
-	if ((dist_to_target() > 900) and mode == "atk"):
+	print(dist_to_target())
+	if ((dist_to_target() > 9000) and mode == "atk"):
 		mode = "nav"
 		action_grapple_retract()
 		print(mode)
@@ -144,7 +146,7 @@ func decide_actions():
 		mode = "nav"
 		action_grapple_retract()
 		print(mode)
-	if ((nav.search_point - global_position).length_squared() < 100 and mode == "nav" and is_on_floor()):
+	if ((nav.search_point - global_position).length_squared() < 200 and mode == "nav" and is_on_floor()):
 		if will_grapple:
 			#action_grapple(grapplePoint)
 			mode = "grapple"
