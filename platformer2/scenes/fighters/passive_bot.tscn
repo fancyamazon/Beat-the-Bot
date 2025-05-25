@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://b3bfx4ocxi8yq"]
+
+[ext_resource type="Script" uid="uid://dv2u2rj825eud" path="res://scenes/navigation/NavigationAdvisor.cs" id="1_gjkjt"]
+[ext_resource type="PackedScene" uid="uid://c740fnyl8cfxb" path="res://scenes/fighters/fighter.tscn" id="1_ple6w"]
+[ext_resource type="Script" uid="uid://c3l00g3hsxcd3" path="res://scripts/fighters/passive_bot.gd" id="1_psbud"]
+[ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/damage/health_bar.tscn" id="3_nrnto"]
+[ext_resource type="FontFile" uid="uid://ba46rbpxu84gj" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="3_vbo1x"]
+[ext_resource type="PackedScene" uid="uid://vhediblqaylo" path="res://scenes/navigation/pathdraw.tscn" id="6_2787x"]
+
+[node name="PassiveBot" type="Node2D"]
+script = ExtResource("1_gjkjt")
+
+[node name="Fighter" parent="." instance=ExtResource("1_ple6w")]
+script = ExtResource("1_psbud")
+
+[node name="HealthCanvas" type="CanvasLayer" parent="Fighter"]
+
+[node name="CharacterLabel" type="Label" parent="Fighter/HealthCanvas"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.5
+offset_top = -22.5
+offset_right = 48.5
+offset_bottom = 22.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("3_vbo1x")
+theme_override_font_sizes/font_size = 16
+text = "Passive Bot"
+
+[node name="HealthBar" parent="Fighter/HealthCanvas" instance=ExtResource("3_nrnto")]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -452.0
+offset_top = 232.0
+offset_right = -202.0
+offset_bottom = 248.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PathFindTimer" type="Timer" parent="."]
+wait_time = 0.3
+
+[node name="pathdraw" parent="." instance=ExtResource("6_2787x")]
+myColor = Color(0, 0.537486, 0.963022, 1)
+
+[connection signal="timeout" from="PathFindTimer" to="." method="OnPathFindTimerTimeout"]

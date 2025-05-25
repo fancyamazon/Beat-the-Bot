@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bqumibaarvnyl"]
+
+[ext_resource type="Script" uid="uid://dn1bt7o7d8qud" path="res://scripts/navigation/BotNavTest.cs" id="1_ey0et"]
+[ext_resource type="Texture2D" uid="uid://sjxohjc5pj5f" path="res://assets/ONLINE_TEXTURES/Free/Items/Boxes/Box1/Idle.png" id="2_ey0et"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0f58y"]
+size = Vector2(26, 26)
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_ey0et")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-1.13249e-06, 1.01328e-06)
+scale = Vector2(1.28571, 1.25)
+texture = ExtResource("2_ey0et")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0f58y")
+
+[node name="PathFindTimer" type="Timer" parent="."]
+wait_time = 0.3
+
+[connection signal="timeout" from="PathFindTimer" to="." method="OnPathFindTimerTimeout"]
