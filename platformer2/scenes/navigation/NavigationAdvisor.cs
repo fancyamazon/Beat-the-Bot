@@ -85,7 +85,6 @@ public partial class NavigationAdvisor : Node2D
 
 	public override void _PhysicsProcess(double delta)
 	{
-		
 
 		//movements[0] = 0;
 		movements[1] = 0;
@@ -109,63 +108,74 @@ public partial class NavigationAdvisor : Node2D
 		}
 		if (_target != null)
 		{
-			if (grapple_target != null) {
-				if (grapple_for_navigation) {
+			GD.Print("____");
+			GD.Print(_target.Position.X - _bot.GlobalPosition.X);
+			if (grapple_target != null)
+			{
+				if (grapple_for_navigation)
+				{
 					grapple_target = _target.Position;
 				} // override user input
 				_grapple_ray_high.TargetPosition = grapple_target - _bot.GlobalPosition;
 				_grapple_ray_low.TargetPosition = grapple_target - _bot.GlobalPosition;
 
-				if (_grapple_ray_high.TargetPosition.Length() >= 64 && _grapple_ray_low.TargetPosition.Length() >= 64) {
-					if (!_grapple_ray_high.IsColliding() && !_grapple_ray_low.IsColliding() && !isEmpty(grapple_target + new Vector2(0, 32))) {
+				if (_grapple_ray_high.TargetPosition.Length() >= 64 && _grapple_ray_low.TargetPosition.Length() >= 64)
+				{
+					if (!_grapple_ray_high.IsColliding() && !_grapple_ray_low.IsColliding() && !isEmpty(grapple_target + new Vector2(0, 32)))
+					{
 						movements[3] = 1;
-					} else {
+					}
+					else
+					{
 
 						movements[3] = 0;
 					}
-				} else {
+				}
+				else
+				{
 					movements[3] = -1;
 				}
 
-				if (_bot.IsOnWall()) {
+				if (_bot.IsOnWall())
+				{
 					movements[3] = -1;
 				}
-			} else {
+			}
+			else
+			{
 				movements[3] = 0;
 			}
-			
+
 			//preliminary grapple handling: 0 (no action) if grapple is blocked, 1 if not blocked
 
 
 			// If the target is to the right of the current pusition
 
 
-			if (_target.Position.X - 16> _bot.GlobalPosition.X)
+			if (_target.Position.X - 16 > _bot.GlobalPosition.X)
 			{
+				GD.Print("right");
 				movements[0] = 1;
 			}
 			// If the target is to the left of the current pusition
-			else if (_target.Position.X  + 16< _bot.GlobalPosition.X)
+			else if (_target.Position.X + 16 < _bot.GlobalPosition.X)
 			{
 				//direction.X = -1f;
+				GD.Print("left");
 				movements[0] = -1;
 			}
 
-			// so we don't miss double jumps
-			/*else if (_target.Position.Y > _bot.GlobalPosition.Y + 100) {
-				movements[0] = 0;
-			} */
-
 			else
 			{
+				GD.Print("consider");
 				movements[3] = -1; // handle grappling straight up/down separately
-				
+
 				if (_bot.IsOnFloor())
 				{
 					GoToNextPointInPath();
 					if (_target == null) return;
 					Jump();
-				} 
+				}
 
 				// helps fall down ledges
 
@@ -174,36 +184,51 @@ public partial class NavigationAdvisor : Node2D
 
 					movements[0] = 0;
 				}*/
+				
+				if (!_bot.IsOnFloor())
+				{
+					GD.Print(_target.Position.X - _bot.GlobalPosition.X);
+					//GD.Print(_target.Position.X - _bot.GlobalPosition.X);
+					movements[0] = 0;
+				} // move somewhere else??
 			}
-			
-			if(_target == null || _prevTarget == null) return;
 
-			if(_target.Position.Y >= _prevTarget.Position.Y && Mathf.Abs(_target.Position.X - _prevTarget.Position.X) >= 32 * 4){
+
+
+			if (_target == null || _prevTarget == null) return;
+			
+			if (_target.Position.Y >= _prevTarget.Position.Y && Mathf.Abs(_target.Position.X - _prevTarget.Position.X) >= 32 * 4)
+			{
 				//GD.Print("considering dash");
-				if (_target.Position.X > _bot.GlobalPosition.X){
+				if (_target.Position.X > _bot.GlobalPosition.X)
+				{
 					movements[0] = 1;
-					if (can_dash(1)){
+					if (can_dash(1))
+					{
 						movements[2] = 1;
-					} else{
+					}
+					else
+					{
 						movements[2] = 0;
 					}
 				}
-				if (_target.Position.X < _bot.GlobalPosition.X){
+				if (_target.Position.X < _bot.GlobalPosition.X)
+				{
 					movements[0] = -1;
-					if (can_dash(-1)){
+					if (can_dash(-1))
+					{
 						movements[2] = 1;
-					} else{
+					}
+					else
+					{
 						movements[2] = 0;
 					}
 				}
-			} else {
+			}
+			else
+			{
 				movements[2] = 0;
 			}
-
-			if (!_bot.IsOnFloor()) {
-				//GD.Print(_target.Position.X - _bot.GlobalPosition.X);
-				//movements[0] = 0;
-			} // move somewhere else??
 		
 			
 		} 

@@ -27,13 +27,11 @@ func _ready():
 	bot.set_physics_process(true)
 
 func best_behavior(): #minimum damage taken
-	var best_behavior = 0
-	var best_score = behavior_scores[0]
+	var best_b = 0
 	for i in range(1, 4):
-		if behavior_scores[i] > behavior_scores[best_behavior]:
-			best_behavior = i
-			best_score = behavior_scores[i]
-	return best_behavior
+		if behavior_scores[i] > behavior_scores[best_b]:
+			best_b = i
+	return best_b
 	
 
 func _process(_delta):
@@ -53,13 +51,11 @@ func _process(_delta):
 
 func reconsider_behavior():
 	if will_swap:
-		print(behavior_scores)
 		if current_script != best_behavior():
 			change_behavior(best_behavior())
-			print("behavior is now " + str(best_behavior()))
-		will_swap = false
-		await get_tree().create_timer(1).timeout
-		will_swap = true
+			will_swap = false
+			await get_tree().create_timer(1).timeout
+			will_swap = true
 
 func _on_fighter_on_damage_taken(dmg_amt: Variant) -> void:
 	behavior_scores[current_script] -= dmg_amt

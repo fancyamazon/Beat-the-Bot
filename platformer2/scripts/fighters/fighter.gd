@@ -57,6 +57,8 @@ const GRAPPLE_LENGTH = 200.0  # Ad$ChargedAttackTimerjust as needed
 @onready var grapple_point = null #point where the player is grappling to
 @onready var grapple_controller: Node2D = $GrappleController
 @onready var grappling_line_2d: Line2D = $GrappleController/Line2D
+var is_grappling = false
+	
 	
 ### Health and healthbar
 var health = 100
@@ -415,12 +417,14 @@ func action_grapple(target: Vector2):
 		animated_sprite_2d.play("grappling")
 		grapple_controller.launch(target)
 		movement_locked = true
+	is_grappling = true
 
 func action_grapple_retract():
 	if(can_move):
 		animated_sprite_2d.play("idle")
 		grapple_controller.retract()
 		movement_locked = false
+	is_grappling = false
 
 func action_grapple_deferred():
 	action_grapple(get_global_mouse_position())
