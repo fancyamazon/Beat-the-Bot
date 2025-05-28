@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://bwg4xr4tb87lb"
-path="res://.godot/imported/BeatTheBot_3-11.wav-7d50cafd28ca1281fb627fa692234d2f.sample"
+path="res://.godot/imported/Battle.wav-8e289350f0d33165a98d4b6d9beb5b10.sample"
 
 [deps]
 
-source_file="res://assets/BeatTheBot_3-11.wav"
-dest_files=["res://.godot/imported/BeatTheBot_3-11.wav-7d50cafd28ca1281fb627fa692234d2f.sample"]
+source_file="res://assets/Music/Battle.wav"
+dest_files=["res://.godot/imported/Battle.wav-8e289350f0d33165a98d4b6d9beb5b10.sample"]
 
 [params]
 

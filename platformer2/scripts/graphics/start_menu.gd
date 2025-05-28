@@ -25,6 +25,7 @@ const SCALE_RANGE = 0.2
 
 var inc = true # Whether increasing or decreasing 
 
+
 func _ready() -> void:
 	splash_text.text = SPLASH_TEXTS.pick_random()
 	#splash_text. = Vector2(16,16)
@@ -57,7 +58,7 @@ func _on_start_button_pressed() -> void:
 	get_tree().change_scene_to_file(GAME.SCENEPATH["game"])
 
 func _on_options_button_pressed() -> void:
-	print("settings button pers. doesn't do nothin")
+	get_tree().change_scene_to_file("res://scenes/graphics/options_menu.tscn")
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
