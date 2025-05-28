@@ -1,4 +1,4 @@
-[gd_scene load_steps=81 format=3 uid="uid://c740fnyl8cfxb"]
+[gd_scene load_steps=84 format=3 uid="uid://c740fnyl8cfxb"]
 
 [ext_resource type="Script" uid="uid://dmxssb186uj1f" path="res://scripts/fighters/fighter.gd" id="1_38ety"]
 [ext_resource type="Shader" uid="uid://cnutwusknelbm" path="res://assets/blink.gdshader" id="2_1bj3w"]
@@ -24,6 +24,18 @@ region = Rect2(448, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_3c5io"]
 atlas = ExtResource("2_toxlr")
 region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5m6h"]
+atlas = ExtResource("2_toxlr")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j3mnw"]
+atlas = ExtResource("2_toxlr")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_upbwt"]
+atlas = ExtResource("2_toxlr")
+region = Rect2(384, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y0qev"]
 atlas = ExtResource("2_toxlr")
@@ -287,6 +299,20 @@ animations = [{
 }],
 "loop": false,
 "name": &"crouch",
+"speed": 50.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a5m6h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j3mnw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_upbwt")
+}],
+"loop": false,
+"name": &"crouch-release",
 "speed": 50.0
 }, {
 "frames": [{
@@ -602,7 +628,7 @@ material = SubResource("ShaderMaterial_ql5yn")
 position = Vector2(0, -30)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sydby")
-animation = &"running"
+animation = &"crouch-release"
 autoplay = "idle"
 
 [node name="Hitbox" parent="AnimatedSprite2D" instance=ExtResource("3_tlqsq")]

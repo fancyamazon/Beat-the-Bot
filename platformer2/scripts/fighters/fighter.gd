@@ -91,10 +91,12 @@ signal on_damage_dealt(dmg_amt)
 
 
 var on_floor_last_frame = true
+#first 3 are cancellable
+#last 3 are defining (input locked once used)
 var held_anims = ["idle", "running", "jumping", "shield", "crouch", "grapple"]
 var held_actions = [true, false, false, false, false, false]
 # held animations in order of priority
-
+var is_crouching = false
 
 ### ------------------------------ BEGIN FUNCTIONS ---------------------------------- ###
 # Globally announce that this is the player. 
@@ -141,7 +143,7 @@ func _physics_process(delta: float) -> void:
 		if jumps_used > 0 and can_move:
 		#print("RESET!")
 			jumps_used = 0
-		if on_floor_last_frame == false and not is_grappling:
+		if on_floor_last_frame == false and not is_grappling and not is_crouching:
 			animated_sprite_2d.play("jumping-landing")
 	on_floor_last_frame = is_on_floor()
 	
@@ -149,7 +151,6 @@ func _physics_process(delta: float) -> void:
 		velocity += get_gravity() * delta
 	
 	decide_actions()
-
 	set_sprite()
 	
 	if !movement_locked:
@@ -157,6 +158,8 @@ func _physics_process(delta: float) -> void:
 			velocity.x = direction * SPEED
 		else:
 			velocity.x = move_toward(velocity.x, 0, 50)
+	else:
+		velocity.x = move_toward(velocity.x, 0, 5)
 	
 	## NOTE: is_dashing must occur after "velocity.x = direction * SPEED", since dash overrides movement.
 	if is_dashing: 
@@ -238,6 +241,8 @@ func action_walk(input_dir: int):
 func action_crouch():
 	if movement_locked:
 		return
+	movement_locked = true
+	is_crouching = true
 	
 	animated_sprite_2d.play("crouch")
 	if is_on_floor():
@@ -258,7 +263,12 @@ func action_crouch():
 			
 			set_collision_mask_value(1, true)
 			is_falling_through = false
-			
+
+func action_crouch_release():
+	is_crouching = false
+	movement_locked =false
+	animated_sprite_2d.play("crouch-release")
+
 func action_teleport():
 	if not GAME.CAN_TELEPORT or movement_locked:
 		return
@@ -353,15 +363,15 @@ func action_shield():
 	
 	animated_sprite_2d.play("shield-idle")
 	can_move=false
+	movement_locked = true
 	is_shielding=true
 	remaining_shield_health = SHIELD_HEALTH
 
 func action_shield_down():
-	if movement_locked:
-		return
 	
 	animated_sprite_2d.play("shield-break")
 	can_move=true
+	movement_locked = false
 	is_shielding=false
 
 func _on_range_timer_timeout() -> void:
@@ -440,10 +450,13 @@ func action_grapple_deferred():
 	action_grapple(get_global_mouse_position())
 	
 func _on_animated_sprite_2d_animation_finished() -> void:
-	if animated_sprite_2d.animation not in ["grappling", "crouching", "running", "idle"]:
+	if animated_sprite_2d.animation not in ["grappling", "crouch", "running", "idle"]:
 		if (is_grappling):
 			animated_sprite_2d.play("grappling")
+		elif is_crouching:
+			animated_sprite_2d.play("crouch")
 		elif (direction == 0):
 			animated_sprite_2d.play("idle") # Replace with function body.func _on_player_animation_finished() -> void:
 		else:
 			animated_sprite_2d.play("running")
+			

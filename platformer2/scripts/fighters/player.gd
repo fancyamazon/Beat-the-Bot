@@ -26,5 +26,7 @@ func decide_actions():
 	action_walk(roundi(Input.get_axis("left", "right")))
 	if Input.is_action_just_pressed("crouch"):
 		action_crouch()
+	if Input.is_action_just_released("crouch"):
+		action_crouch_release()
 	if Input.is_action_just_pressed("reset_game"):
 		call_deferred("reload_scene")
