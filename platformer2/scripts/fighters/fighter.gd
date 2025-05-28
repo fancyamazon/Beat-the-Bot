@@ -89,6 +89,13 @@ const FALL_TIMER_SEC = 0.1 # seconds
 signal on_damage_taken(dmg_amt)
 signal on_damage_dealt(dmg_amt)
 
+
+var on_floor_last_frame = true
+var held_anims = ["idle", "running", "jumping", "shield", "crouch", "grapple"]
+var held_actions = [true, false, false, false, false, false]
+# held animations in order of priority
+
+
 ### ------------------------------ BEGIN FUNCTIONS ---------------------------------- ###
 # Globally announce that this is the player. 
 # Bots override this in their own function
@@ -130,10 +137,13 @@ func _physics_process(delta: float) -> void:
 	health_bar.health = health
 
 	# Dash
-	if is_on_floor() and jumps_used > 0 and can_move:
+	if is_on_floor():
+		if jumps_used > 0 and can_move:
 		#print("RESET!")
-		jumps_used = 0
-		animated_sprite_2d.play("jumping-landing")
+			jumps_used = 0
+		if on_floor_last_frame == false and not is_grappling:
+			animated_sprite_2d.play("jumping-landing")
+	on_floor_last_frame = is_on_floor()
 	
 	if not is_on_floor():
 		velocity += get_gravity() * delta
@@ -215,7 +225,6 @@ func action_strafe(input_dir: int):
 	#velocity = move_and_slide(velocity, Vector2.UP) #or however you apply velocity
 
 func action_walk(input_dir: int):
-	direction = input_dir
 	#set_sprite(direction)
 	
 	if !can_move or movement_locked:
@@ -224,6 +233,7 @@ func action_walk(input_dir: int):
 		animated_sprite_2d.play("idle")
 	elif input_dir != 0 and direction == 0:
 		animated_sprite_2d.play("running")
+	direction = input_dir
 
 func action_crouch():
 	if movement_locked:
@@ -430,6 +440,10 @@ func action_grapple_deferred():
 	action_grapple(get_global_mouse_position())
 	
 func _on_animated_sprite_2d_animation_finished() -> void:
-	if animated_sprite_2d.animation not in ["grappling", "crouching"]:
-		animated_sprite_2d.play("idle") # Replace with function body.func _on_player_animation_finished() -> void:
-		pass
+	if animated_sprite_2d.animation not in ["grappling", "crouching", "running", "idle"]:
+		if (is_grappling):
+			animated_sprite_2d.play("grappling")
+		elif (direction == 0):
+			animated_sprite_2d.play("idle") # Replace with function body.func _on_player_animation_finished() -> void:
+		else:
+			animated_sprite_2d.play("running")

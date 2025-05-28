@@ -137,7 +137,7 @@ func decide_actions():
 	#print(mode)
 	nav.search_point = determine_search_point(player.global_position, global_position)
 	#print(nav.actions
-	print(dist_to_target())
+	#print(dist_to_target())
 	if ((dist_to_target() > 9000) and mode == "atk"):
 		mode = "nav"
 		action_grapple_retract()

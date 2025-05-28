@@ -602,7 +602,7 @@ material = SubResource("ShaderMaterial_ql5yn")
 position = Vector2(0, -30)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sydby")
-animation = &"crouch"
+animation = &"running"
 autoplay = "idle"
 
 [node name="Hitbox" parent="AnimatedSprite2D" instance=ExtResource("3_tlqsq")]

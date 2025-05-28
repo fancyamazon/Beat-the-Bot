@@ -15,7 +15,7 @@ const PRESS_COLOR: Color = Color("#BABFD1")
 
 ### Splash text (like Mojang)
 const SPLASH_TEXTS = [ ## List of all possible splash texts to choose from
-	"hi", "my name is Owen", "christopher is buns at this game"
+	"hi", "Owen will go to chess nats in december", "Owen is buns at this game"
 ]
 var time = 0.0
 const MAX_SPLASH_TEXT_SCALE = 1.2

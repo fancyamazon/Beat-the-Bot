@@ -23,8 +23,8 @@ func decide_actions():
 		action_charged_attack()
 	if Input.is_action_just_released("charged_attack"):
 		action_release_charged_attack()
+	action_walk(roundi(Input.get_axis("left", "right")))
 	if Input.is_action_just_pressed("crouch"):
 		action_crouch()
 	if Input.is_action_just_pressed("reset_game"):
 		call_deferred("reload_scene")
-	action_walk(roundi(Input.get_axis("left", "right")))
