@@ -18,6 +18,10 @@ boot_splash/show_image=false
 boot_splash/image="uid://5jlcb2n7c40j"
 config/icon="res://icon.svg"
 
+[autoload]
+
+GlobalVars="*res://GlobalVars.gd"
+
 [display]
 
 window/size/viewport_width=2304

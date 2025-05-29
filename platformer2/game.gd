@@ -1,6 +1,8 @@
 extends Node2D
 class_name GAME
 
+
+var music_path = ""
 ### ---------------------------------- DEV TOOLS FOR DEBUGGING ----------------------------------
 const INVINCIBILITY = false
 const DIE_FROM_VOID = true 
@@ -60,12 +62,21 @@ const SCRIPTPATH = {
 @onready var passive = load(SCENEPATH["passive"])
 @onready var bot = load(SCENEPATH["bot"])
 
+@onready var audio = $Audio/AudioStreamPlayer
 
 
 func _ready() -> void:
-	pass
+	print("path: " + GlobalVars.music_path)
+	if audio != null and GlobalVars.music_path != "":
+		audio.stream = load(GlobalVars.music_path)
+		print(GlobalVars.music_path)
+	audio.play()
 	
+
 func _process(_delta: float) -> void:
+	#print(music_path)
+	#if audio != null:
+	#	print(audio.stream)
 	if Input.is_action_just_pressed("spawn"): 
 		var instance = bot.instantiate()
 		instance.global_position = get_global_mouse_position()
