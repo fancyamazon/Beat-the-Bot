@@ -16,6 +16,7 @@ var will_swap = true
 
 
 func change_behavior(i):
+	bot.action_grapple_retract()
 	bot.set_script(scripts[i])
 	current_script = i
 	bot._ready()

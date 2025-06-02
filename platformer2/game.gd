@@ -71,6 +71,7 @@ func _ready() -> void:
 		audio.stream = load(GlobalVars.music_path)
 		print(GlobalVars.music_path)
 	audio.play()
+	audio.set_volume_linear(GlobalVars.music_volume)
 	
 
 func _process(_delta: float) -> void:

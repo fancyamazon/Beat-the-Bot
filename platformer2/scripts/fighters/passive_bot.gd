@@ -138,7 +138,7 @@ func decide_actions():
 	nav.search_point = determine_search_point(player.global_position, global_position)
 	#print(nav.actions
 	#print(dist_to_target())
-	if ((dist_to_target() > 9000) and mode == "atk"):
+	if ((dist_to_target() > 9000) and mode == "atk" and is_on_floor()):
 		mode = "nav"
 		action_grapple_retract()
 		print(mode)
@@ -146,13 +146,14 @@ func decide_actions():
 		mode = "nav"
 		action_grapple_retract()
 		print(mode)
-	if ((nav.search_point - global_position).length_squared() < 200 and mode == "nav" and is_on_floor()):
+	if ((nav.search_point - global_position).length_squared() < 576 and mode == "nav" and is_on_floor()):
 		if will_grapple:
 			#action_grapple(grapplePoint)
 			mode = "grapple"
 		else:
 			mode = "atk"
 		print(mode)
+	
 	
 	if abs(player.global_position.x - global_position.x) <= 32:
 		mode = "nav"
@@ -167,7 +168,10 @@ func decide_actions():
 		if player.global_position.y < global_position.y - 32:
 			action_jump()
 	elif mode == "grapple":
-		action_grapple(grapplePoint)
+		if is_facing_player():
+			action_grapple(grapplePoint)
+		else:
+			face_player()
 	elif mode == "nav":
 		if should_move:
 			action_walk(nav.get_movements()[0])
@@ -213,7 +217,10 @@ func setup_double_jump():
 	await get_tree().create_timer(0.3).timeout
 	action_jump()
 	should_move = true
-	
+
+func is_facing_player():
+	return(player.global_position.x < global_position.x and facing_dir == -1) or (player.global_position.x > global_position.x and facing_dir == 1)
+
 func face_player():
 	if player.global_position.x < global_position.x and facing_dir != -1:
 		action_walk(-1)

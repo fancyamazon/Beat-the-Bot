@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://l2wjmv2fkw6m"]
+[gd_scene load_steps=8 format=3 uid="uid://l2wjmv2fkw6m"]
 
 [ext_resource type="Script" uid="uid://dv2u2rj825eud" path="res://scenes/navigation/NavigationAdvisor.cs" id="1_hhacj"]
 [ext_resource type="PackedScene" uid="uid://c740fnyl8cfxb" path="res://scenes/fighters/fighter.tscn" id="1_qpkb6"]
 [ext_resource type="PackedScene" uid="uid://c5w2uueqwfavp" path="res://scenes/damage/health_bar.tscn" id="4_hon3i"]
 [ext_resource type="FontFile" uid="uid://ba46rbpxu84gj" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="4_u8vap"]
+[ext_resource type="Texture2D" uid="uid://geow62mrwkvk" path="res://assets/red_marker.png" id="5_gctut"]
 [ext_resource type="Script" uid="uid://b4slpaegefstq" path="res://scripts/fighters/script_controller.gd" id="6_bf32g"]
 [ext_resource type="PackedScene" uid="uid://vhediblqaylo" path="res://scenes/navigation/pathdraw.tscn" id="6_ntuq6"]
 
@@ -49,6 +50,11 @@ target_position = Vector2(0, 13)
 [node name="HighDetector" type="RayCast2D" parent="Fighter"]
 position = Vector2(0, -62)
 target_position = Vector2(0, -12)
+
+[node name="RedMarker" type="Sprite2D" parent="Fighter"]
+position = Vector2(0, -72)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_gctut")
 
 [node name="PathFindTimer" type="Timer" parent="."]
 wait_time = 0.3

@@ -21,6 +21,8 @@ public partial class NavigationAdvisor : Node2D
 	private RayCast2D _grapple_ray_high;
 	private Vector2 grapple_target;
 
+	private Line2D grapple_line;
+
 	public bool grapple_for_navigation = true;
 
 	private int last_move_direc = 0;
@@ -37,6 +39,7 @@ public partial class NavigationAdvisor : Node2D
 		_grapple_ray_high = _bot.GetNode<RayCast2D>("HighDetector");
 		my_sprite = FindParent("Game").FindChild("MySprite2") as Sprite2D;
 		_startTime = GetNode<Timer>("PathFindTimer");
+		grapple_line = _bot.GetNode("GrappleController").GetNode<Line2D>("Line2D");
 		search_point = Vector2.Zero;
 	}
 
@@ -89,8 +92,9 @@ public partial class NavigationAdvisor : Node2D
 		//movements[0] = 0;
 		movements[1] = 0;
 		movements[2] = 0;
+		movements[3] = 0;
 		// Handle start hunt.
-		if (Input.IsActionJustPressed("left") || 
+		if (Input.IsActionJustPressed("left") ||
 			Input.IsActionJustPressed("right") ||
 			Input.IsActionJustPressed("jump") ||
 			Input.IsActionJustPressed("crouch")
@@ -108,43 +112,46 @@ public partial class NavigationAdvisor : Node2D
 		}
 		if (_target != null)
 		{
-			GD.Print("____");
-			GD.Print(_target.Position.X - _bot.GlobalPosition.X);
-			if (grapple_target != null)
+			//GD.Print("____");
+			//GD.Print(_target.Position.X - _bot.GlobalPosition.X);
+
+			// if grappled and (grapple length is short or we have collision), release
+			// if no grapple, 
+			if (grapple_for_navigation)
 			{
-				if (grapple_for_navigation)
-				{
-					grapple_target = _target.Position;
-				} // override user input
+				grapple_target = _target.Position;
+			} // override user input
+
+			if (grapple_target != null) {
 				_grapple_ray_high.TargetPosition = grapple_target - _bot.GlobalPosition;
 				_grapple_ray_low.TargetPosition = grapple_target - _bot.GlobalPosition;
-
-				if (_grapple_ray_high.TargetPosition.Length() >= 64 && _grapple_ray_low.TargetPosition.Length() >= 64)
+				if (grapple_line.IsVisibleInTree()) // if grappling
+				{
+					if (_bot.IsOnFloor() || _bot.IsOnCeiling() || _bot.IsOnFloor())
+					{
+						movements[3] = -1;
+					}
+					else if ((grapple_line.Points[0] - grapple_line.Points[1]).Length() < 128)
+					{
+						movements[3] = -1;
+					}
+					/*else if (_grapple_ray_high.IsColliding() || !_grapple_ray_low.IsColliding())
+					{
+						movements[3] = -1;
+					}*/
+				}
+				else // if not grappling
 				{
 					if (!_grapple_ray_high.IsColliding() && !_grapple_ray_low.IsColliding() && !isEmpty(grapple_target + new Vector2(0, 32)))
 					{
-						movements[3] = 1;
-					}
-					else
-					{
-
-						movements[3] = 0;
+						if (_grapple_ray_high.TargetPosition.Length() >= 64 && _grapple_ray_low.TargetPosition.Length() >= 64)
+						{
+							movements[3] = 1;
+						}
 					}
 				}
-				else
-				{
-					movements[3] = -1;
-				}
+			}
 
-				if (_bot.IsOnWall())
-				{
-					movements[3] = -1;
-				}
-			}
-			else
-			{
-				movements[3] = 0;
-			}
 
 			//preliminary grapple handling: 0 (no action) if grapple is blocked, 1 if not blocked
 
@@ -154,20 +161,16 @@ public partial class NavigationAdvisor : Node2D
 
 			if (_target.Position.X - 16 > _bot.GlobalPosition.X)
 			{
-				GD.Print("right");
 				movements[0] = 1;
 			}
 			// If the target is to the left of the current pusition
 			else if (_target.Position.X + 16 < _bot.GlobalPosition.X)
 			{
-				//direction.X = -1f;
-				GD.Print("left");
 				movements[0] = -1;
 			}
 
 			else
 			{
-				GD.Print("consider");
 				movements[3] = -1; // handle grappling straight up/down separately
 
 				if (_bot.IsOnFloor())
@@ -184,10 +187,10 @@ public partial class NavigationAdvisor : Node2D
 
 					movements[0] = 0;
 				}*/
-				
+
 				if (!_bot.IsOnFloor())
 				{
-					GD.Print(_target.Position.X - _bot.GlobalPosition.X);
+					//GD.Print(_target.Position.X - _bot.GlobalPosition.X);
 					//GD.Print(_target.Position.X - _bot.GlobalPosition.X);
 					movements[0] = 0;
 				} // move somewhere else??

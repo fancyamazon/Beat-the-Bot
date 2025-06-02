@@ -392,18 +392,21 @@ func action_charged_attack():
 		return
 		
 	if charged_status == 0:
-		### animated_sprite_2d.play("ranged-attack-uncharged") REPLACE WITH SHOOTING ANIMATION
+		animated_sprite_2d.play("ranged-attack-charging") #REPLACE WITH SHOOTING ANIMATION
 		charged_status = 1
 		charged_attack_timer.start(charging_duration)
 		#print("charging started")
-	elif charged_status == 1 || charged_status == 2:
-		pass
+	elif charged_status == 1:
+		animated_sprite_2d.play("ranged-attack-charging")
+	elif charged_status == 2:
+		animated_sprite_2d.play("ranged-attack-held-charge")
 		
 func action_release_charged_attack():
 	if charged_status == 0 || charged_status == 1:
 		charged_status = 0
 		charged_attack_timer.stop()
 	elif charged_status == 2:		
+		animated_sprite_2d.play("ranged-attack-charged")
 		create_bullet(CHARGED_ATTACK_DAMAGE, "charged", get_team())
 
 		if can_move == false:
@@ -450,8 +453,10 @@ func action_grapple_deferred():
 	action_grapple(get_global_mouse_position())
 	
 func _on_animated_sprite_2d_animation_finished() -> void:
-	if animated_sprite_2d.animation not in ["grappling", "crouch", "running", "idle"]:
-		if (is_grappling):
+	if animated_sprite_2d.animation not in ["grappling", "shield-idle", "crouch", "running", "idle"]:
+		if (is_shielding):
+			animated_sprite_2d.play("shield-idle")
+		elif (is_grappling):
 			animated_sprite_2d.play("grappling")
 		elif is_crouching:
 			animated_sprite_2d.play("crouch")

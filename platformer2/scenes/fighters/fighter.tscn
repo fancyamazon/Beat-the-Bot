@@ -498,7 +498,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"ranged-attack-charged",
-"speed": 20.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -507,10 +507,10 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_kyytn")
 }, {
-"duration": 10.0,
+"duration": 9.0,
 "texture": SubResource("AtlasTexture_6ivee")
 }, {
-"duration": 10.0,
+"duration": 9.0,
 "texture": SubResource("AtlasTexture_ae167")
 }],
 "loop": false,
@@ -537,7 +537,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"ranged-attack-uncharged",
-"speed": 20.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -628,7 +628,7 @@ material = SubResource("ShaderMaterial_ql5yn")
 position = Vector2(0, -30)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_sydby")
-animation = &"crouch-release"
+animation = &"ranged-attack-charging"
 autoplay = "idle"
 
 [node name="Hitbox" parent="AnimatedSprite2D" instance=ExtResource("3_tlqsq")]

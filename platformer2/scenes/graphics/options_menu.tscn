@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://beq4dklttnguo"]
+[gd_scene load_steps=14 format=3 uid="uid://beq4dklttnguo"]
 
 [ext_resource type="Script" uid="uid://b3i5nn7t8bfr4" path="res://scripts/graphics/options_menu.gd" id="1_xtq6s"]
 [ext_resource type="Texture2D" uid="uid://cnqfv4fqmfce5" path="res://assets/Battle!-1.png.png" id="3_snd5n"]
@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://blwbjx5oi8miv" path="res://assets/Rogue.png" id="5_5kod6"]
 [ext_resource type="Texture2D" uid="uid://cig6gotmmjoo7" path="res://assets/journey_img-1.png.png" id="6_p34er"]
 [ext_resource type="Texture2D" uid="uid://dol26x4t7i1tv" path="res://assets/hero_img-1.png.png" id="7_1c3nc"]
+[ext_resource type="Texture2D" uid="uid://fdkngdn1xlo4" path="res://assets/gear.png" id="8_1c3nc"]
+[ext_resource type="AudioStream" uid="uid://c3yfwk1crhswa" path="res://assets/Music/Menu.wav" id="8_p34er"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_thu50"]
 
@@ -54,9 +56,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -255.5
-offset_top = -145.0
+offset_top = -312.0
 offset_right = 255.5
-offset_bottom = 203.0
+offset_bottom = 36.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 9
@@ -85,6 +87,34 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_h61rw")
 theme_override_styles/normal = SubResource("StyleBoxFlat_thu50")
 text = "Return"
 
+[node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_p34er")
+theme_override_font_sizes/font_size = 32
+text = "Music"
+placeholder_text = "
+"
+
+[node name="HSlider" type="HSlider" parent="VBoxContainer"]
+layout_mode = 2
+max_value = 15.0
+value = 8.0
+
+[node name="TextEdit2" type="TextEdit" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_p34er")
+theme_override_font_sizes/font_size = 32
+text = "SFX"
+placeholder_text = "
+"
+
+[node name="HSlider2" type="HSlider" parent="VBoxContainer"]
+layout_mode = 2
+max_value = 15.0
+value = 8.0
+
 [node name="GameTitleLabel" type="Label" parent="."]
 layout_mode = 1
 anchors_preset = 8
@@ -93,9 +123,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -344.0
-offset_top = -351.0
+offset_top = -518.0
 offset_right = 344.0
-offset_bottom = -105.0
+offset_bottom = -272.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
@@ -107,26 +137,50 @@ text = "Options"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="TextEdit" type="TextEdit" parent="."]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 0
+offset_left = 894.0
+offset_top = 706.0
+offset_right = 1405.0
+offset_bottom = 754.0
+theme_override_fonts/font = ExtResource("4_p34er")
+theme_override_font_sizes/font_size = 32
+text = "Music Select"
+placeholder_text = "
+"
+
 [node name="MusicSelect" type="ItemList" parent="."]
 layout_mode = 2
-offset_left = 734.0
-offset_top = 857.0
-offset_right = 1579.0
-offset_bottom = 1123.0
+offset_left = 745.0
+offset_top = 776.0
+offset_right = 1561.0
+offset_bottom = 1185.0
 theme_override_fonts/font = ExtResource("4_p34er")
-theme_override_font_sizes/font_size = 72
-item_count = 5
+theme_override_font_sizes/font_size = 36
+item_count = 6
+max_columns = 2
+same_column_width = true
+icon_scale = 0.5
 item_0/text = "Battle!"
 item_0/icon = ExtResource("3_snd5n")
 item_1/text = "Energy"
 item_1/icon = ExtResource("4_sf8mc")
 item_2/text = "Rogue"
 item_2/icon = ExtResource("5_5kod6")
-item_3/text = "Journey"
-item_3/icon = ExtResource("6_p34er")
-item_4/text = "Hero"
-item_4/icon = ExtResource("7_1c3nc")
+item_3/text = "Hero"
+item_3/icon = ExtResource("7_1c3nc")
+item_4/text = "Journey"
+item_4/icon = ExtResource("6_p34er")
+item_5/text = "Menu"
+item_5/icon = ExtResource("8_1c3nc")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_p34er")
+autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="drag_ended" from="VBoxContainer/HSlider" to="." method="_on_h_slider_drag_ended"]
+[connection signal="drag_ended" from="VBoxContainer/HSlider2" to="." method="_on_h_slider_2_drag_ended"]
 [connection signal="item_activated" from="MusicSelect" to="." method="_on_music_select_item_activated"]
 [connection signal="mouse_entered" from="MusicSelect" to="." method="_on_music_select_mouse_entered"]

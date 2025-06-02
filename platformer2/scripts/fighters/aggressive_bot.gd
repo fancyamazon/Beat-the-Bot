@@ -4,6 +4,7 @@ class_name AggressiveBot extends Fighter
 @onready var player = get_parent().get_parent().get_node("Player").get_node("Fighter")
 
 var should_move = true
+var should_grapple = true
 
 func get_team():
 	return "bot"
@@ -26,8 +27,11 @@ func decide_actions():
 		if nav.get_movements()[1] == 2:
 			setup_double_jump()
 	if nav.get_movements()[2] == 1:
+		action_grapple_retract()
 		#print('lowkey wanna dash')
 		action_dash()
+		delay_grapple()
+		
 	
 	
 	if abs(nav.get_vector_to_player().x) < 100 and abs(nav.get_vector_to_player().y) < 32:
@@ -48,3 +52,8 @@ func face_player():
 		action_walk(1)
 	else:
 		action_walk(0)
+
+func delay_grapple():
+	should_grapple = false
+	await get_tree().create_timer(0.3).timeout
+	should_grapple = true
