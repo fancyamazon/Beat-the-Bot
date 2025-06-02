@@ -95,6 +95,7 @@ theme_override_font_sizes/font_size = 32
 text = "Music"
 placeholder_text = "
 "
+editable = false
 
 [node name="HSlider" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
@@ -109,6 +110,7 @@ theme_override_font_sizes/font_size = 32
 text = "SFX"
 placeholder_text = "
 "
+editable = false
 
 [node name="HSlider2" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
@@ -149,6 +151,7 @@ theme_override_font_sizes/font_size = 32
 text = "Music Select"
 placeholder_text = "
 "
+editable = false
 
 [node name="MusicSelect" type="ItemList" parent="."]
 layout_mode = 2
