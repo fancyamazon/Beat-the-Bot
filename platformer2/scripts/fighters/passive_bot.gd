@@ -146,7 +146,7 @@ func decide_actions():
 		mode = "nav"
 		action_grapple_retract()
 		print(mode)
-	if ((nav.search_point - global_position).length_squared() < 576 and mode == "nav" and is_on_floor()):
+	if ((nav.search_point - global_position).length_squared() < 1024 and mode == "nav" and is_on_floor()):
 		if will_grapple:
 			#action_grapple(grapplePoint)
 			mode = "grapple"
