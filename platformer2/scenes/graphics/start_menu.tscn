@@ -217,7 +217,7 @@ vertical_alignment = 1
 
 [node name="DVD" parent="." instance=ExtResource("5_1qtra")]
 
-[node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_mvp8j")
 bus = &"Music"
 

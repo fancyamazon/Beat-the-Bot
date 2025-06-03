@@ -27,7 +27,7 @@ const SCALE_RANGE = 0.2
 var inc = true # Whether increasing or decreasing 
 
 ### Music
-@onready var music_stream_player: AudioStreamPlayer = $MusicStreamPlayer
+@onready var music_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 func _ready() -> void:
 	$AudioStreamPlayer.play(GlobalVars.menu_music_progress)

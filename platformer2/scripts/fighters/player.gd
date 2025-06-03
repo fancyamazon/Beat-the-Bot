@@ -5,9 +5,9 @@ func decide_actions():
 		action_dash()
 	if Input.is_action_just_pressed("jump"):
 		action_jump()
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("melee attack"):
 		action_melee()
-	if(Input.is_action_just_pressed("ranged")):
+	if(Input.is_action_just_pressed("ranged attack")):
 		action_ranged()
 	if Input.is_action_just_pressed("grapple"):
 		call_deferred("action_grapple_deferred")
@@ -19,9 +19,9 @@ func decide_actions():
 		action_shield_down()
 	if Input.is_action_just_pressed("tp"):
 		action_teleport()
-	if Input.is_action_pressed("charged_attack"):
+	if Input.is_action_pressed("charged attack"):
 		action_charged_attack()
-	if Input.is_action_just_released("charged_attack"):
+	if Input.is_action_just_released("charged attack"):
 		action_release_charged_attack()
 	action_walk(roundi(Input.get_axis("left", "right")))
 	if Input.is_action_just_pressed("crouch"):

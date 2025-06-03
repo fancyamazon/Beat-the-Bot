@@ -87,6 +87,30 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_h61rw")
 theme_override_styles/normal = SubResource("StyleBoxFlat_thu50")
 text = "Return"
 
+[node name="KeybindsButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("4_p34er")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_thu50")
+theme_override_styles/hover = SubResource("StyleBoxFlat_m7x51")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_h61rw")
+theme_override_styles/normal = SubResource("StyleBoxFlat_thu50")
+text = "Controls"
+
 [node name="TextEdit" type="TextEdit" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
@@ -183,6 +207,7 @@ stream = ExtResource("8_p34er")
 autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/KeybindsButton" to="." method="_on_keybinds_button_pressed"]
 [connection signal="drag_ended" from="VBoxContainer/HSlider" to="." method="_on_h_slider_drag_ended"]
 [connection signal="drag_ended" from="VBoxContainer/HSlider2" to="." method="_on_h_slider_2_drag_ended"]
 [connection signal="item_activated" from="MusicSelect" to="." method="_on_music_select_item_activated"]
