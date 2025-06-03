@@ -18,7 +18,7 @@ func decide_actions():
 	
 	# on timer end, jump
 	# while timer is running, do not jump
-	if nav.get_movements()[3] == 1 and not is_grappling:
+	if nav.get_movements()[3] == 1:
 		action_grapple(nav.get_target())
 	elif nav.get_movements()[3] == -1:
 		action_grapple_retract()

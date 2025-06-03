@@ -5,7 +5,11 @@ extends Control
 
 var files = ["Battle", "Energy", "Darkness", "Hero", "Journey", "Menu"]
 
+func _ready():
+	$AudioStreamPlayer.play(GlobalVars.menu_music_progress)
+
 func _on_return_button_pressed() -> void:
+	GlobalVars.menu_music_progress = $AudioStreamPlayer.get_playback_position() 
 	get_tree().change_scene_to_file("res://scenes/graphics/start_menu.tscn")
 	
 

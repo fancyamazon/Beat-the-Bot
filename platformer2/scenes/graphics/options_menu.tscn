@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://blwbjx5oi8miv" path="res://assets/Rogue.png" id="5_5kod6"]
 [ext_resource type="Texture2D" uid="uid://cig6gotmmjoo7" path="res://assets/journey_img-1.png.png" id="6_p34er"]
 [ext_resource type="Texture2D" uid="uid://dol26x4t7i1tv" path="res://assets/hero_img-1.png.png" id="7_1c3nc"]
-[ext_resource type="Texture2D" uid="uid://fdkngdn1xlo4" path="res://assets/gear.png" id="8_1c3nc"]
+[ext_resource type="Texture2D" uid="uid://r6mwuj7ei4ga" path="res://assets/menu-1.png.png" id="8_1c3nc"]
 [ext_resource type="AudioStream" uid="uid://c3yfwk1crhswa" path="res://assets/Music/Menu.wav" id="8_p34er"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_thu50"]
