@@ -57,6 +57,7 @@ offset_top = 434.0
 offset_right = 1899.0
 offset_bottom = 466.0
 rotation = -0.317505
+scale = Vector2(1.5, 1.5)
 pivot_offset = Vector2(264, 16)
 theme_override_colors/font_color = Color(0.992157, 0.992157, 0.0117647, 1)
 theme_override_colors/font_shadow_color = Color(0.211765, 0.211765, 0.00392157, 1)
@@ -86,10 +87,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -255.5
+offset_left = -427.0
 offset_top = -145.0
-offset_right = 255.5
-offset_bottom = 203.0
+offset_right = 437.0
+offset_bottom = 301.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 9
@@ -143,6 +144,31 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_thu50")
 text = "Options
 "
 
+[node name="TutorialButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("3_1qtra")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_thu50")
+theme_override_styles/hover = SubResource("StyleBoxFlat_m7x51")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_h61rw")
+theme_override_styles/normal = SubResource("StyleBoxFlat_thu50")
+text = "Movement Tutorial
+"
+
 [node name="QuitButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -174,27 +200,28 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -344.0
-offset_top = -351.0
-offset_right = 344.0
-offset_bottom = -105.0
+offset_left = -683.0
+offset_top = -387.0
+offset_right = 693.0
+offset_bottom = -141.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 10
 theme_override_constants/shadow_offset_y = 10
 theme_override_fonts/font = ExtResource("3_1qtra")
-theme_override_font_sizes/font_size = 64
+theme_override_font_sizes/font_size = 128
 text = "Beat The Bot"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DVD" parent="." instance=ExtResource("5_1qtra")]
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_mvp8j")
-autoplay = true
+bus = &"Music"
 
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/TutorialButton" to="." method="_on_tutorial_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

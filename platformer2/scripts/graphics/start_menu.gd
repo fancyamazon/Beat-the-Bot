@@ -15,7 +15,8 @@ const PRESS_COLOR: Color = Color("#BABFD1")
 
 ### Splash text (like Mojang)
 const SPLASH_TEXTS = [ ## List of all possible splash texts to choose from
-	"hi", "Owen will go to chess nats in december", "Owen is buns at this game"
+	"Did you do you homework?", "Go touch some grass!", "Only on .exe!", "99% bug free", "As seen on TV!", "Now with a start screen!",
+	"Made by COLDPX", "Can you find all twelve easter eggs?", "Will you beat the bot!?"
 ]
 var time = 0.0
 const MAX_SPLASH_TEXT_SCALE = 1.2
@@ -25,6 +26,8 @@ const SCALE_RANGE = 0.2
 
 var inc = true # Whether increasing or decreasing 
 
+### Music
+@onready var music_stream_player: AudioStreamPlayer = $MusicStreamPlayer
 
 func _ready() -> void:
 	$AudioStreamPlayer.play(GlobalVars.menu_music_progress)
@@ -66,6 +69,12 @@ func _on_quit_button_pressed() -> void:
 	get_tree().quit()
 
 func _physics_process(delta):
+	if not music_stream_player.playing:
+		music_stream_player.play()
 	time += delta * SCALE_SPEED
-	var scale_factor = 1.0 + sin(time) * SCALE_RANGE
+	var scale_factor = 1.5 + sin(time) * SCALE_RANGE
 	splash_text.scale = Vector2(scale_factor, scale_factor)
+
+
+func _on_tutorial_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://tutorial_level.tscn")
