@@ -27,8 +27,6 @@ const SCALE_SPEED = 2
 const SCALE_RANGE = 0.2
 var inc = true # Whether text size currently increasing or decreasing 
 
-var inc = true # Whether increasing or decreasing 
-
 
 func _ready() -> void:
 	GLOBAL_MUSIC_PLAYER.play_music(GLOBAL_MUSIC_PLAYER.MUSICPATH["Menu"])
@@ -76,4 +74,5 @@ func _physics_process(delta):
 
 
 func _on_tutorial_button_pressed() -> void:
+	get_tree().root.content_scale_factor = GAME.GAME_SCREEN_SIZING
 	get_tree().change_scene_to_file(GAME.SCENEPATH["tutorial"])

@@ -850,6 +850,7 @@ texture_region_size = Vector2i(32, 32)
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_vukmp"]
 texture = ExtResource("10_gjyf0")
 texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_qeonc"]
 tile_size = Vector2i(32, 32)
