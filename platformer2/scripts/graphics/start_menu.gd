@@ -27,8 +27,6 @@ const SCALE_SPEED = 2
 const SCALE_RANGE = 0.2
 var inc = true # Whether text size currently increasing or decreasing 
 
-var inc = true # Whether increasing or decreasing 
-
 
 func _ready() -> void:
 	GLOBAL_MUSIC_PLAYER.play_music(GLOBAL_MUSIC_PLAYER.MUSICPATH["Menu"])
