@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=3 uid="uid://c740fnyl8cfxb"]
+[gd_scene load_steps=85 format=3 uid="uid://yf14ici0wyi7"]
 
 [ext_resource type="Script" uid="uid://dmxssb186uj1f" path="res://scripts/fighters/fighter.gd" id="1_38ety"]
 [ext_resource type="Shader" path="res://assets/blink.gdshader" id="2_1bj3w"]

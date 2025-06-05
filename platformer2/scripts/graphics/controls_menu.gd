@@ -2,13 +2,16 @@ extends Control
 
 var my_selected = -1
 
+@onready var actions = $VBoxContainer/HBoxContainer/ActionsList
+@onready var key_inputs = $VBoxContainer/HBoxContainer/KeysList
+
 func _ready():
 	$AudioStreamPlayer.play(GlobalVars.menu_music_progress)
 	var actions_inputs
-	for i in range($ActionsList.get_item_count()):
-		actions_inputs = InputMap.action_get_events($ActionsList.get_item_text(i).to_lower())
+	for i in range(actions.get_item_count()):
+		actions_inputs = InputMap.action_get_events(actions.get_item_text(i).to_lower())
 		
-		$KeysList.set_item_text(i, MapToText(actions_inputs[0]))
+		key_inputs.set_item_text(i, MapToText(actions_inputs[0]))
 
 func MapToText(input):
 	if input is InputEventKey:
@@ -34,11 +37,12 @@ func _input(event):
 	var actions_inputs
 	if event is InputEventKey or event is InputEventMouseButton:
 		if event.is_pressed() and my_selected != -1:
-			$KeysList.set_item_text(my_selected, getText(event))
-			editInputMap($ActionsList.get_item_text(my_selected).to_lower(), event)
+			key_inputs.set_item_text(my_selected, getText(event))
+			editInputMap(actions.get_item_text(my_selected).to_lower(), event)
 			my_selected = -1
 			#print("done")
-			$KeysList.deselect_all()
+			key_inputs.deselect_all()
+			print(getText(event))
 
 
 
