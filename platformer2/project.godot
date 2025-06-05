@@ -18,9 +18,13 @@ boot_splash/show_image=false
 boot_splash/image="uid://5jlcb2n7c40j"
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout=""
+
 [autoload]
 
-GlobalVars="*res://GlobalVars.gd"
+GLOBAL_AUDIO_MANAGER="*res://scripts/audio/global_music_player.gd"
 
 [display]
 

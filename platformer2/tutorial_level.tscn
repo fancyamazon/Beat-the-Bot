@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://u4uxhcaje7xa"]
+[gd_scene load_steps=12 format=4 uid="uid://u4uxhcaje7xa"]
 
 [ext_resource type="Script" uid="uid://db25rkl7nijpv" path="res://game.gd" id="1_s56d1"]
 [ext_resource type="Texture2D" uid="uid://dby6anbfo5aev" path="res://assets/lightning-bg/lightning_bg0.png" id="2_ccse8"]
@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://hc6gcfko7dn2" path="res://scenes/damage/killzone.tscn" id="7_i25kj"]
 [ext_resource type="PackedScene" uid="uid://c3ja3raqyfvcq" path="res://scenes/fighters/player.tscn" id="8_p1nik"]
 [ext_resource type="FontFile" uid="uid://b8wcbm5ximtu5" path="res://assets/fonts/PixelOperator8.ttf" id="9_mikwp"]
-[ext_resource type="AudioStream" uid="uid://bwg4xr4tb87lb" path="res://assets/Music/Battle.wav" id="10_w750r"]
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_7obcx"]
 frames = 4
@@ -68,9 +67,3 @@ offset_bottom = 311.0
 theme_override_fonts/font = ExtResource("9_mikwp")
 theme_override_font_sizes/font_size = 16
 horizontal_alignment = 1
-
-[node name="Audio" type="Node" parent="."]
-
-[node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("10_w750r")
-bus = &"Music"
