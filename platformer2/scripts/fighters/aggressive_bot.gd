@@ -6,10 +6,12 @@ class_name AggressiveBot extends Fighter
 var should_move = true
 var should_grapple = true
 
+
 func get_team():
 	return "bot"
 
 func decide_actions():
+
 	nav.search_point = player.global_position 
 	if should_move:
 		action_walk(nav.get_movements()[0])
@@ -31,12 +33,16 @@ func decide_actions():
 		#print('lowkey wanna dash')
 		action_dash()
 		delay_grapple()
-		
+
+	if(player.bm or player.playerDead):
+		action_bad_manner()
+
 	
 	
 	if abs(nav.get_vector_to_player().x) < 100 and abs(nav.get_vector_to_player().y) < 32:
 		face_player()
 		action_melee()
+
 	
 	
 func setup_double_jump():
