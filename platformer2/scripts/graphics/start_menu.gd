@@ -74,4 +74,5 @@ func _physics_process(delta):
 
 
 func _on_tutorial_button_pressed() -> void:
+	get_tree().root.content_scale_factor = GAME.GAME_SCREEN_SIZING
 	get_tree().change_scene_to_file(GAME.SCENEPATH["tutorial"])
