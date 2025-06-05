@@ -1,12 +1,13 @@
-[gd_scene load_steps=84 format=3 uid="uid://c740fnyl8cfxb"]
+[gd_scene load_steps=85 format=3 uid="uid://c740fnyl8cfxb"]
 
 [ext_resource type="Script" uid="uid://dmxssb186uj1f" path="res://scripts/fighters/fighter.gd" id="1_38ety"]
-[ext_resource type="Shader" path="res://assets/blink.gdshader" id="2_1bj3w"]
+[ext_resource type="Shader" uid="uid://cnutwusknelbm" path="res://assets/blink.gdshader" id="2_1bj3w"]
 [ext_resource type="Texture2D" uid="uid://clcbommkfo6ss" path="res://assets/robot.png" id="2_toxlr"]
 [ext_resource type="PackedScene" uid="uid://cewe5w03ysyqm" path="res://scenes/damage/hitbox.tscn" id="3_tlqsq"]
 [ext_resource type="Script" uid="uid://dgmr0dwn1k1of" path="res://scripts/abilities/grapple_controller.gd" id="3_yxhgq"]
 [ext_resource type="PackedScene" uid="uid://bdopo78jbaqco" path="res://scenes/damage/hurtbox.tscn" id="4_eelhu"]
 [ext_resource type="Texture2D" uid="uid://fdkngdn1xlo4" path="res://assets/gear.png" id="6_eelhu"]
+[ext_resource type="Texture2D" uid="uid://behjkipxfijad" path="res://assets/grappler.png" id="7_j3mnw"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ql5yn"]
 shader = ExtResource("2_1bj3w")
@@ -672,8 +673,8 @@ target_position = Vector2(1000, 0)
 
 [node name="Line2D" type="Line2D" parent="GrappleController"]
 points = PackedVector2Array(19, -42, 19, -42)
-width = 5.0
-default_color = Color(0.909804, 0, 0, 1)
+texture = ExtResource("7_j3mnw")
+texture_mode = 1
 
 [node name="FloorRayLeft" type="RayCast2D" parent="."]
 position = Vector2(-11, 0)

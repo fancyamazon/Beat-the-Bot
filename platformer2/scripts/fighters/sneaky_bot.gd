@@ -80,6 +80,9 @@ func decide_actions():
 		# Re-agress to avoid being brutalized
 		mode = "atk"
 		
+	if(player.bm or player.playerDead):
+		action_bad_manner()
+		
 	## Nav -> Atk
 	if (nav.search_point - global_position).length_squared() < 1600 and mode == "nav":
 		mode = "atk"

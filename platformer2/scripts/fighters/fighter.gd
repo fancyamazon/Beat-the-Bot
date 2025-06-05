@@ -98,6 +98,11 @@ var held_actions = [true, false, false, false, false, false]
 # held animations in order of priority
 var is_crouching = false
 
+###Bad Manners
+var rng = RandomNumberGenerator.new()
+var bm=false
+var playerDead=false
+
 ### ------------------------------ BEGIN FUNCTIONS ---------------------------------- ###
 # Globally announce that this is the player. 
 # Bots override this in their own function
@@ -277,6 +282,23 @@ func action_teleport():
 	velocity.y = 0
 	jumps_used = 0
 	
+func action_bad_manner():
+	#print("Health:", health, "Team:", get_team())
+	print("bm activated")
+	var my_random_number = rng.randf_range(1, 3)
+	#await get_tree().create_timer(my_random_number).timeout
+	for i in range(my_random_number):
+		await get_tree().create_timer(0.5).timeout
+		action_crouch()
+		await get_tree().create_timer(0.5).timeout
+		action_crouch_release()
+		await get_tree().create_timer(0.5).timeout
+		action_jump()
+		await get_tree().create_timer(0.5).timeout
+		action_walk(1)
+		await get_tree().create_timer(0.5).timeout
+		action_walk(-1)
+	
 ### -------------------------------- SPRITE -------------------------------- ### 
 
 func set_sprite():
@@ -316,7 +338,16 @@ func take_damage(amount: int) -> void:
 	gear_particles.emitting=true
 	
 	if health <= 0 and get_team() == "player":
-		call_deferred("reload_scene")
+		#print("player health<0")
+		playerDead=true
+		player_death()
+		
+		#bm=true
+		#print("fighter" + str(bm))
+		#self.set_visible(false)
+		#await get_tree().create_timer(3.3).timeout
+		#
+		#call_deferred("reload_scene")
 	elif health <= 0 and get_team() == "bot":
 		get_parent().queue_free()
 		self.queue_free()
@@ -329,6 +360,13 @@ func take_damage(amount: int) -> void:
 	
 	
 	# if get_team() == "player" and 
+func player_death():
+	if playerDead:
+		#print("entered player_death")
+		bm=true
+		self.set_visible(false)
+		await get_tree().create_timer(3.3).timeout
+		call_deferred("reload_scene")
 
 func set_shader_blink_intensity(newValue : float):
 	#func for blink effect

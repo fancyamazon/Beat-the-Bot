@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://u4uxhcaje7xa"]
+[gd_scene load_steps=12 format=4 uid="uid://u4uxhcaje7xa"]
 
 [ext_resource type="Script" uid="uid://db25rkl7nijpv" path="res://game.gd" id="1_s56d1"]
 [ext_resource type="Texture2D" uid="uid://dby6anbfo5aev" path="res://assets/lightning-bg/lightning_bg0.png" id="2_ccse8"]

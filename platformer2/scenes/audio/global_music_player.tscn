@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://bxi474bjb7sjq"]
+
+[ext_resource type="Script" uid="uid://rrv6fpg7hcuh" path="res://scripts/audio/global_music_player.gd" id="1_mpbgc"]
+
+[sub_resource type="AudioStreamMP3" id="AudioStreamMP3_mpbgc"]
+loop = true
+
+[node name="GlobalMusicPlayer" type="AudioStreamPlayer"]
+stream = SubResource("AudioStreamMP3_mpbgc")
+volume_db = -80.0
+script = ExtResource("1_mpbgc")

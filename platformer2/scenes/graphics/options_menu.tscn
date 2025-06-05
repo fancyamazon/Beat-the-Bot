@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b3i5nn7t8bfr4" path="res://scripts/graphics/options_menu.gd" id="1_xtq6s"]
 [ext_resource type="Texture2D" uid="uid://cnqfv4fqmfce5" path="res://assets/Battle!-1.png.png" id="3_snd5n"]
 [ext_resource type="FontFile" uid="uid://ba46rbpxu84gj" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="4_p34er"]
-[ext_resource type="Texture2D" uid="uid://qck7i0naxtvw" path="res://energy_img.png" id="4_sf8mc"]
+[ext_resource type="Texture2D" uid="uid://qck7i0naxtvw" path="res://assets/energy_img.png" id="4_sf8mc"]
 [ext_resource type="Texture2D" uid="uid://blwbjx5oi8miv" path="res://assets/Rogue.png" id="5_5kod6"]
 [ext_resource type="Texture2D" uid="uid://cig6gotmmjoo7" path="res://assets/journey_img-1.png.png" id="6_p34er"]
 [ext_resource type="Texture2D" uid="uid://dol26x4t7i1tv" path="res://assets/hero_img-1.png.png" id="7_1c3nc"]

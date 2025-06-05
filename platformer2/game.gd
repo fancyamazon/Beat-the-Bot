@@ -1,8 +1,6 @@
 extends Node2D
 class_name GAME
 
-
-var music_path = ""
 ### ---------------------------------- DEV TOOLS FOR DEBUGGING ----------------------------------
 const INVINCIBILITY = false
 const DIE_FROM_VOID = true 
@@ -36,8 +34,11 @@ const SCENEPATH = {
 	"passive" = "res://scenes/fighters/passive_bot.tscn",
 	"bot" = "res://scenes/fighters/bot.tscn",
 	"startmenu" = "res://scenes/graphics/start_menu.tscn",
+	"tutorial" = "res://tutorial_level.tscn",
 	"bullet" = "res://scenes/abilities/bullet.tscn",
-	"graphPoint" = "res://scenes/abilities/graphPoint.tscn"
+	"graphPoint" = "res://scenes/abilities/graphPoint.tscn",
+	"optionsmenu" = "res://scenes/graphics/options_menu.tscn",
+	"controlsmenu" = "res://scenes/graphics/controls_menu.tscn",
 }
 # Note that the line: _graphpoint = ResourceLoader.Load<PackedScene>("res://scenes/abilities/graphPoint");
 # in TileMapPathFind.cs still relies on MANUALLY INPUTTING the path.

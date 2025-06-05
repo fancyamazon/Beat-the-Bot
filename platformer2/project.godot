@@ -18,6 +18,10 @@ boot_splash/show_image=false
 boot_splash/image="uid://5jlcb2n7c40j"
 config/icon="res://icon.svg"
 
+[audio]
+
+buses/default_bus_layout=""
+
 [autoload]
 
 GlobalVars="*res://GlobalVars.gd"
@@ -154,5 +158,6 @@ spawn-camper={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/canvas_textures/default_texture_repeat=1
 renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
