@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://d07nvyd5qem1x"]
+[gd_scene load_steps=19 format=4 uid="uid://d07nvyd5qem1x"]
 
 [ext_resource type="Script" uid="uid://db25rkl7nijpv" path="res://game.gd" id="1_w04m8"]
 [ext_resource type="PackedScene" uid="uid://st3xivfw0pcs" path="res://scenes/navigation/platform.tscn" id="3_7lvvc"]
@@ -7,7 +7,6 @@
 [ext_resource type="Texture2D" uid="uid://b0hvm8ocpggm8" path="res://assets/lightning-bg/lightning_bg1.png" id="7_lighe"]
 [ext_resource type="Texture2D" uid="uid://ckau8nb4eq5vk" path="res://assets/lightning-bg/lightning_bg2.png" id="8_xv1lx"]
 [ext_resource type="Texture2D" uid="uid://dwv0kqshqlw5l" path="res://assets/lightning-bg/lightning_bg3.png" id="9_uxdud"]
-[ext_resource type="AudioStream" uid="uid://bwg4xr4tb87lb" path="res://assets/Music/Battle.wav" id="10_jehyl"]
 [ext_resource type="PackedScene" uid="uid://c3ja3raqyfvcq" path="res://scenes/fighters/player.tscn" id="10_w85to"]
 [ext_resource type="FontFile" uid="uid://b8wcbm5ximtu5" path="res://assets/fonts/PixelOperator8.ttf" id="11_50rtv"]
 [ext_resource type="PackedScene" uid="uid://l2wjmv2fkw6m" path="res://scenes/fighters/bot.tscn" id="12_215e1"]
@@ -194,12 +193,6 @@ slime movement: ijkl
 
 ↓death zone here↓"
 horizontal_alignment = 1
-
-[node name="Audio" type="Node" parent="."]
-
-[node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("10_jehyl")
-bus = &"Music"
 
 [node name="background" type="ParallaxBackground" parent="."]
 

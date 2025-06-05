@@ -62,23 +62,7 @@ const SCRIPTPATH = {
 @onready var passive = load(SCENEPATH["passive"])
 @onready var bot = load(SCENEPATH["bot"])
 
-
-## Music
-@onready var music = $Audio/MusicStreamPlayer
-
-func _ready() -> void:
-	#print("path: " + GlobalVars.music_path)
-	#if audio != null and GlobalVars.music_path != "":
-		#audio.stream = load(GlobalVars.music_path)
-		#print(GlobalVars.music_path)
-	music.play()
-	music.set_volume_linear(GlobalVars.music_volume)
-	
-
 func _process(_delta: float) -> void:
-	#print(music_path)
-	#if audio != null:
-	#	print(audio.stream)
 	if Input.is_action_just_pressed("spawn"): 
 		var instance = bot.instantiate()
 		instance.global_position = get_global_mouse_position()

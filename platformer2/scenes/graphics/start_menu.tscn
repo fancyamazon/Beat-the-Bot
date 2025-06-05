@@ -1,11 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://boln0hwwnm4da"]
+[gd_scene load_steps=11 format=3 uid="uid://boln0hwwnm4da"]
 
 [ext_resource type="Script" uid="uid://c2yy7rmta3ymp" path="res://scripts/graphics/start_menu.gd" id="1_vhncm"]
 [ext_resource type="FontFile" uid="uid://b8wcbm5ximtu5" path="res://assets/fonts/PixelOperator8.ttf" id="2_1qtra"]
 [ext_resource type="Texture2D" uid="uid://lm8s57nmlhgp" path="res://assets/christopher_wallpaper_plus_text.png" id="2_dfe08"]
 [ext_resource type="FontFile" uid="uid://ba46rbpxu84gj" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="3_1qtra"]
 [ext_resource type="PackedScene" uid="uid://c6m0af6r304rd" path="res://scenes/graphics/dvd.tscn" id="5_1qtra"]
-[ext_resource type="AudioStream" uid="uid://c3yfwk1crhswa" path="res://assets/Music/Menu.wav" id="6_mvp8j"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_m7x51"]
 texture = ExtResource("2_dfe08")
@@ -216,10 +215,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="DVD" parent="." instance=ExtResource("5_1qtra")]
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("6_mvp8j")
-bus = &"Music"
 
 [connection signal="pressed" from="VBoxContainer/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/OptionsButton" to="." method="_on_options_button_pressed"]

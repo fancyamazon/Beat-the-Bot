@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://beq4dklttnguo"]
+[gd_scene load_steps=13 format=3 uid="uid://beq4dklttnguo"]
 
 [ext_resource type="Script" uid="uid://b3i5nn7t8bfr4" path="res://scripts/graphics/options_menu.gd" id="1_xtq6s"]
 [ext_resource type="Texture2D" uid="uid://cnqfv4fqmfce5" path="res://assets/Battle!-1.png.png" id="3_snd5n"]
@@ -8,7 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://cig6gotmmjoo7" path="res://assets/journey_img-1.png.png" id="6_p34er"]
 [ext_resource type="Texture2D" uid="uid://dol26x4t7i1tv" path="res://assets/hero_img-1.png.png" id="7_1c3nc"]
 [ext_resource type="Texture2D" uid="uid://r6mwuj7ei4ga" path="res://assets/menu-1.png.png" id="8_1c3nc"]
-[ext_resource type="AudioStream" uid="uid://c3yfwk1crhswa" path="res://assets/Music/Menu.wav" id="8_p34er"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_thu50"]
 
@@ -201,10 +200,6 @@ item_4/text = "Journey"
 item_4/icon = ExtResource("6_p34er")
 item_5/text = "Menu"
 item_5/icon = ExtResource("8_1c3nc")
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("8_p34er")
-autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/KeybindsButton" to="." method="_on_keybinds_button_pressed"]

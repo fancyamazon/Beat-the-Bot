@@ -3,7 +3,6 @@ extends Control
 var my_selected = -1
 
 func _ready():
-	$AudioStreamPlayer.play(GlobalVars.menu_music_progress)
 	var actions_inputs
 	for i in range($ActionsList.get_item_count()):
 		actions_inputs = InputMap.action_get_events($ActionsList.get_item_text(i).to_lower())
@@ -29,6 +28,32 @@ func getText(event):
 func editInputMap(action, new_key):
 	InputMap.action_erase_events(action)
 	InputMap.action_add_event(action, new_key)
+	if new_key is InputEventKey:
+		var key_name = OS.get_keycode_string(new_key.keycode)
+		print("Key pressed:", key_name)
+		KEY_BINDINGS.MAP[action] = key_name
+
+	elif new_key is InputEventMouseButton:
+		var button_name := ""
+		match new_key.button_index:
+			1:
+				button_name = "Left Button"
+			2:
+				button_name = "Right Button"
+			3:
+				button_name = "Middle Button"
+			4:
+				button_name = "Wheel Up"
+			5:
+				button_name = "Wheel Down"
+			6:
+				button_name = "Wheel Left"
+			7:
+				button_name = "Wheel Right"
+			_:
+				button_name = "Other Mouse Button"
+		KEY_BINDINGS.MAP[action] = button_name
+
 
 func _input(event):
 	var actions_inputs
@@ -47,5 +72,4 @@ func _on_keys_list_item_activated(index: int) -> void:
 
 
 func _on_return_button_pressed() -> void:
-	GlobalVars.menu_music_progress = $AudioStreamPlayer.get_playback_position() 
 	get_tree().change_scene_to_file("res://scenes/graphics/options_menu.tscn")

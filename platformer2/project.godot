@@ -21,6 +21,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 GlobalVars="*res://GlobalVars.gd"
+KEY_BINDINGS="*res://scripts/graphics/keybinds.gd"
+GLOBAL_MUSIC_PLAYER="*res://scripts/audio/global_audio_manager.gd"
 
 [display]
 

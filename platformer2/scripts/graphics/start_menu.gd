@@ -26,11 +26,10 @@ const SCALE_RANGE = 0.2
 
 var inc = true # Whether increasing or decreasing 
 
-### Music
-@onready var music_stream_player: AudioStreamPlayer = $AudioStreamPlayer
 
 func _ready() -> void:
-	$AudioStreamPlayer.play(GlobalVars.menu_music_progress)
+	GLOBAL_MUSIC_PLAYER.play_music(GLOBAL_MUSIC_PLAYER.MUSICPATH["Menu"])
+
 	splash_text.text = SPLASH_TEXTS.pick_random()
 	#splash_text. = Vector2(16,16)
 	splash_text.set_pivot_offset(splash_text.size / 2)
@@ -62,15 +61,12 @@ func _on_start_button_pressed() -> void:
 	get_tree().change_scene_to_file(GAME.SCENEPATH["game"])
 
 func _on_options_button_pressed() -> void:
-	GlobalVars.menu_music_progress = $AudioStreamPlayer.get_playback_position() 
 	get_tree().change_scene_to_file("res://scenes/graphics/options_menu.tscn")
 
 func _on_quit_button_pressed() -> void:
 	get_tree().quit()
 
 func _physics_process(delta):
-	if not music_stream_player.playing:
-		music_stream_player.play()
 	time += delta * SCALE_SPEED
 	var scale_factor = 1.5 + sin(time) * SCALE_RANGE
 	splash_text.scale = Vector2(scale_factor, scale_factor)
