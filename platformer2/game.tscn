@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://d07nvyd5qem1x"]
+[gd_scene load_steps=19 format=4 uid="uid://d07nvyd5qem1x"]
 
 [ext_resource type="Script" uid="uid://db25rkl7nijpv" path="res://game.gd" id="1_w04m8"]
 [ext_resource type="PackedScene" uid="uid://st3xivfw0pcs" path="res://scenes/navigation/platform.tscn" id="3_7lvvc"]
@@ -193,12 +193,6 @@ slime movement: ijkl
 
 ↓death zone here↓"
 horizontal_alignment = 1
-
-[node name="Audio" type="Node" parent="."]
-
-[node name="MusicStreamPlayer" type="AudioStreamPlayer" parent="Audio"]
-stream = ExtResource("10_jehyl")
-bus = &"Music"
 
 [node name="background" type="ParallaxBackground" parent="."]
 

@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://d3k3ejjcvqq7x"]
+[gd_scene load_steps=7 format=3 uid="uid://d3k3ejjcvqq7x"]
 
 [ext_resource type="Script" uid="uid://dtpsyc2t5fnwf" path="res://scripts/graphics/controls_menu.gd" id="1_rrery"]
 [ext_resource type="FontFile" uid="uid://ba46rbpxu84gj" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="2_frvaa"]
-[ext_resource type="AudioStream" uid="uid://c3yfwk1crhswa" path="res://assets/Music/Menu.wav" id="9_3em6u"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_thu50"]
 
@@ -158,10 +157,6 @@ theme_override_font_sizes/font_size = 64
 text = "Controls"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("9_3em6u")
-autoplay = true
 
 [connection signal="pressed" from="VBoxContainer/ReturnButton" to="." method="_on_return_button_pressed"]
 [connection signal="item_activated" from="VBoxContainer/HBoxContainer/KeysList" to="." method="_on_keys_list_item_activated"]

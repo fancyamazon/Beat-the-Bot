@@ -27,11 +27,12 @@ const SCALE_SPEED = 2
 const SCALE_RANGE = 0.2
 var inc = true # Whether text size currently increasing or decreasing 
 
+var inc = true # Whether increasing or decreasing 
+
 
 func _ready() -> void:
-	if GLOBAL_AUDIO_MANAGER.music_path == "N/A":
-		GLOBAL_AUDIO_MANAGER.play_music(GLOBAL_AUDIO_MANAGER.MUSICPATH["Menu"])
-	
+	GLOBAL_MUSIC_PLAYER.play_music(GLOBAL_MUSIC_PLAYER.MUSICPATH["Menu"])
+
 	splash_text.text = SPLASH_TEXTS.pick_random()
 	#splash_text. = Vector2(16,16)
 	splash_text.set_pivot_offset(splash_text.size / 2)

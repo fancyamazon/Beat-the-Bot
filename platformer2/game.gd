@@ -63,11 +63,6 @@ const SCRIPTPATH = {
 @onready var passive = load(SCENEPATH["passive"])
 @onready var bot = load(SCENEPATH["bot"])
 
-
-func _ready() -> void:
-	GLOBAL_AUDIO_MANAGER.play_music(GLOBAL_AUDIO_MANAGER.music_path)
-	
-
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("spawn"): 
 		var instance = bot.instantiate()
