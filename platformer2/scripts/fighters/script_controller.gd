@@ -16,10 +16,19 @@ var will_swap = true
 
 
 func change_behavior(i):
+	var current_health = bot.health
 	bot.action_grapple_retract()
 	bot.set_script(scripts[i])
 	current_script = i
 	bot._ready()
+	if i == 0:
+		bot.init_on_behavior_swap(current_health, "Bot (Aggressive)")
+	if i == 1:
+		bot.init_on_behavior_swap(current_health, "Bot (Passive)")
+	if i == 2:
+		bot.init_on_behavior_swap(current_health, "Bot (Sneaky)")
+	if i == 3:
+		bot.init_on_behavior_swap(current_health, "Bot (Camper)")
 	
 func _ready():
 	change_behavior(current_script)
@@ -29,7 +38,7 @@ func _ready():
 
 func best_behavior(): #minimum damage taken
 	var best_b = 0
-	for i in range(1, 4):
+	for i in range(0, 4):
 		if behavior_scores[i] > behavior_scores[best_b]:
 			best_b = i
 	return best_b
@@ -39,24 +48,16 @@ func _process(_delta):
 	#print("bot health: ", bot.health)
 	var current_health = bot.health
 	if Input.is_action_just_pressed("spawn-aggressive"): 
-		bot.set_script(script_aggro)
-		bot._ready()
-		bot.init_on_behavior_swap(current_health, "Bot (Aggressive)")
+		change_behavior(0)
 		
 	if Input.is_action_just_pressed("spawn-passive"): 
-		bot.set_script(script_passive)
-		bot._ready()
-		bot.init_on_behavior_swap(current_health, "Bot (Passive)")
+		change_behavior(1)
 		
 	if Input.is_action_just_pressed("spawn-sneaky"): 
-		bot.set_script(script_sneak)
-		bot._ready()
-		bot.init_on_behavior_swap(current_health, "Bot (Sneaky)")
+		change_behavior(2)
 		
 	if Input.is_action_just_pressed("spawn-camper"): 
-		bot.set_script(script_camp)
-		bot._ready()
-		bot.init_on_behavior_swap(current_health, "Bot (Camper)")
+		change_behavior(3)
 
 
 func reconsider_behavior():

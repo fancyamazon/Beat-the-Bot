@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://u4uxhcaje7xa"]
+[gd_scene load_steps=25 format=4 uid="uid://u4uxhcaje7xa"]
 
 [ext_resource type="Script" uid="uid://db25rkl7nijpv" path="res://game.gd" id="1_s56d1"]
 [ext_resource type="Texture2D" uid="uid://dby6anbfo5aev" path="res://assets/lightning-bg/lightning_bg0.png" id="2_ccse8"]
@@ -7,15 +7,46 @@
 [ext_resource type="Texture2D" uid="uid://dwv0kqshqlw5l" path="res://assets/lightning-bg/lightning_bg3.png" id="5_3su5g"]
 [ext_resource type="PackedScene" uid="uid://bwvo4ik24ce80" path="res://scenes/graphics/tilemap.tscn" id="6_p21de"]
 [ext_resource type="PackedScene" uid="uid://hc6gcfko7dn2" path="res://scenes/damage/killzone.tscn" id="7_i25kj"]
+[ext_resource type="Script" uid="uid://cmcdgfwgfeijm" path="res://scripts/graphics/return_to_menu_button.gd" id="8_mikwp"]
 [ext_resource type="PackedScene" uid="uid://c3ja3raqyfvcq" path="res://scenes/fighters/player.tscn" id="8_p1nik"]
 [ext_resource type="Script" uid="uid://dwwooux1t7qnf" path="res://scripts/graphics/keybinds.gd" id="9_ccse8"]
 [ext_resource type="FontFile" uid="uid://b8wcbm5ximtu5" path="res://assets/fonts/PixelOperator8.ttf" id="9_mikwp"]
+[ext_resource type="FontFile" uid="uid://ba46rbpxu84gj" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="9_w750r"]
 [ext_resource type="Texture2D" uid="uid://dxmgsfafpf14k" path="res://assets/Screenshot 2025-06-05 at 11.27.56 PM.png" id="11_i25kj"]
 [ext_resource type="Texture2D" uid="uid://buhgm2ic1hagb" path="res://assets/parallax_background/1.png" id="11_p21de"]
 [ext_resource type="Texture2D" uid="uid://cxsp6uurjcmdu" path="res://assets/parallax_background/2.png" id="12_i25kj"]
 [ext_resource type="Texture2D" uid="uid://ctqyplrmok8t0" path="res://assets/parallax_background/3.png" id="13_p1nik"]
 [ext_resource type="Texture2D" uid="uid://b4bdn67bgupco" path="res://assets/parallax_background/4.png" id="14_mikwp"]
 [ext_resource type="Texture2D" uid="uid://ci6a8k6bc27uk" path="res://assets/parallax_background/5.png" id="15_w750r"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mj8px"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_knmh0"]
+bg_color = Color(0.981421, 0.932286, 0.856158, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.623529)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wtq25"]
+bg_color = Color(0.641934, 0.641934, 0.641934, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.623529)
+shadow_size = 5
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_77uv1"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.623529)
+shadow_size = 5
 
 [sub_resource type="AnimatedTexture" id="AnimatedTexture_7obcx"]
 frames = 4
@@ -33,6 +64,45 @@ distance = 227.0
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_s56d1")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("8_mikwp")
+
+[node name="ReturnToMenuButton" type="Button" parent="Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -219.0
+offset_bottom = 56.0
+grow_horizontal = 0
+size_flags_vertical = 3
+theme_override_colors/font_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/font_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_disabled_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_hover_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_pressed_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/icon_normal_color = Color(0, 0, 0, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_focus_color = Color(0, 0, 0, 1)
+theme_override_colors/font_pressed_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_w750r")
+theme_override_font_sizes/font_size = 32
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mj8px")
+theme_override_styles/hover = SubResource("StyleBoxFlat_knmh0")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_wtq25")
+theme_override_styles/normal = SubResource("StyleBoxFlat_77uv1")
+text = "Return"
 
 [node name="Map" type="Node" parent="."]
 
@@ -200,3 +270,5 @@ motion_mirroring = Vector2(1440, 0)
 position = Vector2(482, -393)
 scale = Vector2(4.008, 4)
 texture = ExtResource("15_w750r")
+
+[connection signal="pressed" from="Control/ReturnToMenuButton" to="Control" method="_on_return_to_menu_button_pressed"]
