@@ -61,9 +61,9 @@ wait_time = 0.3
 
 [node name="pathdraw" parent="." instance=ExtResource("6_ntuq6")]
 
-[node name="Node" type="Node2D" parent="."]
+[node name="ScriptController" type="Node2D" parent="."]
 script = ExtResource("6_bf32g")
 
-[connection signal="on_damage_dealt" from="Fighter" to="Node" method="_on_fighter_on_damage_dealt"]
-[connection signal="on_damage_taken" from="Fighter" to="Node" method="_on_fighter_on_damage_taken"]
+[connection signal="on_damage_dealt" from="Fighter" to="ScriptController" method="_on_fighter_on_damage_dealt"]
+[connection signal="on_damage_taken" from="Fighter" to="ScriptController" method="_on_fighter_on_damage_taken"]
 [connection signal="timeout" from="PathFindTimer" to="." method="OnPathFindTimerTimeout"]
