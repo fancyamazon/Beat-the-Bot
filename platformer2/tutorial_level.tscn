@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=4 uid="uid://u4uxhcaje7xa"]
+[gd_scene load_steps=26 format=4 uid="uid://u4uxhcaje7xa"]
 
 [ext_resource type="Script" uid="uid://db25rkl7nijpv" path="res://game.gd" id="1_s56d1"]
 [ext_resource type="Texture2D" uid="uid://dby6anbfo5aev" path="res://assets/lightning-bg/lightning_bg0.png" id="2_ccse8"]
@@ -14,6 +14,7 @@
 [ext_resource type="FontFile" uid="uid://ba46rbpxu84gj" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="9_w750r"]
 [ext_resource type="Texture2D" uid="uid://dxmgsfafpf14k" path="res://assets/Screenshot 2025-06-05 at 11.27.56 PM.png" id="11_i25kj"]
 [ext_resource type="Texture2D" uid="uid://buhgm2ic1hagb" path="res://assets/parallax_background/1.png" id="11_p21de"]
+[ext_resource type="Script" uid="uid://bq8uk8hkd1528" path="res://tutorial_level.gd" id="11_w750r"]
 [ext_resource type="Texture2D" uid="uid://cxsp6uurjcmdu" path="res://assets/parallax_background/2.png" id="12_i25kj"]
 [ext_resource type="Texture2D" uid="uid://ctqyplrmok8t0" path="res://assets/parallax_background/3.png" id="13_p1nik"]
 [ext_resource type="Texture2D" uid="uid://b4bdn67bgupco" path="res://assets/parallax_background/4.png" id="14_mikwp"]
@@ -139,6 +140,9 @@ shape = SubResource("WorldBoundaryShape2D_80cx4")
 position = Vector2(482, -367)
 
 [node name="Instructions" type="Node" parent="."]
+script = ExtResource("11_w750r")
+
+[node name="Keybinds" type="Node" parent="Instructions"]
 script = ExtResource("9_ccse8")
 
 [node name="Welcome" type="Label" parent="Instructions"]
@@ -154,8 +158,8 @@ vertical_alignment = 1
 
 [node name="WelcomeBox" type="Sprite2D" parent="Instructions"]
 z_index = -2
-position = Vector2(487.5, -165)
-scale = Vector2(1.31696, 0.506329)
+position = Vector2(489, -165)
+scale = Vector2(1.35714, 0.506329)
 texture = ExtResource("11_i25kj")
 
 [node name="Jump" type="Label" parent="Instructions"]
@@ -171,8 +175,8 @@ vertical_alignment = 1
 
 [node name="JumpBox" type="Sprite2D" parent="Instructions"]
 z_index = -2
-position = Vector2(949.25, -659)
-scale = Vector2(0.680804, 0.278481)
+position = Vector2(950.5, -659)
+scale = Vector2(0.78125, 0.278481)
 texture = ExtResource("11_i25kj")
 
 [node name="Dash" type="Label" parent="Instructions"]
@@ -189,8 +193,8 @@ vertical_alignment = 1
 
 [node name="DashBox" type="Sprite2D" parent="Instructions"]
 z_index = -2
-position = Vector2(1454.12, -434.5)
-scale = Vector2(0.806183, 0.373418)
+position = Vector2(1455.5, -430)
+scale = Vector2(0.870536, 0.468355)
 texture = ExtResource("11_i25kj")
 
 [node name="Grapple" type="Label" parent="Instructions"]
@@ -200,14 +204,14 @@ offset_right = 2602.0
 offset_bottom = -564.0
 theme_override_fonts/font = ExtResource("9_mikwp")
 theme_override_font_sizes/font_size = 16
-text = "Use your grapple (Right Click) to get into the clouds. →"
+text = "Use your grapple (Right Mouse Button) to get into the clouds. →"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="GrappleBox" type="Sprite2D" parent="Instructions"]
 z_index = -2
-position = Vector2(2167.81, -707)
-scale = Vector2(1.06306, 0.329114)
+position = Vector2(2169.5, -707)
+scale = Vector2(1.20684, 0.329114)
 texture = ExtResource("11_i25kj")
 
 [node name="Congrats" type="Label" parent="Instructions"]
