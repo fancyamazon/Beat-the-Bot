@@ -29,7 +29,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_fonts/font = ExtResource("4_u8vap")
 theme_override_font_sizes/font_size = 16
-text = "Aggressive Bot"
+text = "Bot (Aggressive)"
 
 [node name="HealthBar" parent="Fighter/HealthCanvas" instance=ExtResource("4_hon3i")]
 anchors_preset = 8

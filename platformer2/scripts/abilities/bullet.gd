@@ -39,6 +39,7 @@ func initiateBullet(damage_dealt: int, type: String, which_team: String) -> void
 func _ready():
 	global_position = spawnPos
 	global_rotation = spawnRot
+	animated_sprite_2d.scale.x = dir * 2
 
 func _physics_process(delta: float) -> void:
 	# Detect hitting wall
@@ -49,8 +50,7 @@ func _physics_process(delta: float) -> void:
 			#print("Collider:", collider, " | Type: ", typeof(collider))
 			if collider is TileMapLayer:
 				self.queue_free()
-		
-	animated_sprite_2d.scale.x = dir * 2
+	
 	velocity = Vector2(SPEED * dir, 0)  # Only move horizontally, no vertical movement
 	global_position += velocity * delta  # Move the bullet by its velocity
 	

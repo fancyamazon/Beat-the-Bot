@@ -64,7 +64,7 @@ func determine_search_point(player_pos,bot_pos):
 		search_direc = -1
 	else:
 		search_direc = 1
-	var search = search_in_direc(player_pos, bot_pos, search_direc)
+	var search = search_in_direc(player_pos)
 	if search != null:
 		return search
 	else:
@@ -73,7 +73,7 @@ func determine_search_point(player_pos,bot_pos):
 		return null
 	#return calc_bot_pos(player_pos, 0, 0)
 
-func search_in_direc(player_pos, bot_pos, search_direc):	
+func search_in_direc(player_pos):	
 	
 	var found_spot_score = 0
 	#0 = not found
@@ -157,24 +157,24 @@ func decide_actions():
 	if ((dist_to_target() > 9000) and mode == "atk" and is_on_floor()):
 		mode = "nav"
 		action_grapple_retract()
-		print(mode)
+		#print(mode)
 	if mode == "grapple" and ((abs(nav.get_vector_to_player().x) < 64)):
 		mode = "nav"
 		action_grapple_retract()
-		print(mode)
+		#print(mode)
 	if ((nav.search_point - global_position).length_squared() < 1024 and mode == "nav" and is_on_floor()):
 		if will_grapple:
 			mode = "grapple"
 		else:
 			mode = "atk"
-		print(mode)
+		#print(mode)
 	
 	
 	if abs(player.global_position.x - global_position.x) <= 32:
 		mode = "nav"
 		action_grapple_retract()
 		action_dash()
-		print(mode)
+		#print(mode)
 
 	
 	if mode == "atk":

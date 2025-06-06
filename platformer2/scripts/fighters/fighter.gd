@@ -110,9 +110,14 @@ var playerDead=false
 func get_team():
 	return "player"
 
-func _ready():
+func init_on_behavior_swap(current_health : int, label : String):
 	health_bar._init_health(health)
+	health = current_health
+	health_bar.health = health
 	
+	character_label.text = label
+	
+func _ready():	
 	# Aligning player/bot healthbars and labels
 	if get_team() == "player":
 		health_bar.position.x = 200
@@ -233,8 +238,6 @@ func action_strafe(input_dir: int):
 	#velocity = move_and_slide(velocity, Vector2.UP) #or however you apply velocity
 
 func action_walk(input_dir: int):
-	#set_sprite(direction)
-	
 	if !can_move or movement_locked:
 		return
 	if input_dir == 0 and direction != 0:
@@ -271,7 +274,7 @@ func action_crouch():
 
 func action_crouch_release():
 	is_crouching = false
-	movement_locked =false
+	movement_locked = false
 	animated_sprite_2d.play("crouch-release")
 
 func action_teleport():
@@ -283,8 +286,6 @@ func action_teleport():
 	jumps_used = 0
 	
 func action_bad_manner():
-	#print("Health:", health, "Team:", get_team())
-	print("bm activated")
 	var my_random_number = rng.randf_range(1, 3)
 	#await get_tree().create_timer(my_random_number).timeout
 	for i in range(my_random_number):
@@ -302,15 +303,13 @@ func action_bad_manner():
 ### -------------------------------- SPRITE -------------------------------- ### 
 
 func set_sprite():
-	if direction >0:
-		facing_dir=1
-		spawn_offset= Vector2(20, -20)
-		animated_sprite_2d.scale.x=2
+	if direction > 0:
+		facing_dir = 1
+		animated_sprite_2d.scale.x = 2
 		grappling_line_2d.set_point_position(0, Vector2(21, -44))
-	elif direction<0:
-		facing_dir=-1
-		spawn_offset= Vector2(20, 20)
-		animated_sprite_2d.scale.x=-2
+	elif direction < 0:
+		facing_dir = -1
+		animated_sprite_2d.scale.x = -2
 		grappling_line_2d.set_point_position(0, Vector2(-21, -44))
 
 ### -------------------------------- DAMAGE (taking damage, melee, ranged, charged, shielding) -------------------------------- ### 
@@ -339,7 +338,7 @@ func take_damage(amount: int) -> void:
 	
 	if health <= 0 and get_team() == "player":
 		#print("player health<0")
-		playerDead=true
+		playerDead = true
 		player_death()
 		
 		#bm=true
@@ -354,16 +353,23 @@ func take_damage(amount: int) -> void:
 	#else:
 	#	print("Player health left: ", health)
 	if get_team() == "player":
+		on_damage_dealt.emit(0)
 		get_parent().get_parent().get_node("Bot").get_node("Fighter").on_damage_dealt.emit(amount)
 	else:
 		on_damage_taken.emit(amount)
 	
 	
 	# if get_team() == "player" and 
+
 func player_death():
 	if playerDead:
 		#print("entered player_death")
-		bm=true
+		bm = true
+		can_move = false
+		movement_locked = true
+		on_attack_cooldown = true
+		character_label.visible = false
+		health_bar.visible = false
 		self.set_visible(false)
 		await get_tree().create_timer(3.3).timeout
 		call_deferred("reload_scene")
@@ -463,7 +469,7 @@ func create_bullet(damage, type, team) -> void:
 	
 	# Need to set properties before adding to scene so it shows
 	instance.dir = facing_dir  # Set to the last pressed direction
-	instance.spawnPos = global_position + spawn_offset * facing_dir
+	instance.spawnPos = global_position + Vector2(spawn_offset.x * facing_dir, spawn_offset.y)
 	instance.spawnRot = rotation  # Set to the player's rotation (optional)
 	
 	# Need to add to scene FIRST before initializing

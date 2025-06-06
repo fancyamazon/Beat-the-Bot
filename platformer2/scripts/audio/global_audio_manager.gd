@@ -12,12 +12,15 @@ const MUSICPATH = {
 
 ### Changeable in other places
 var music_path : String = "N/A" 
-var music_volume : float = 8.0;
-var sfx_volume : float = 8.0;
+var music_volume : float = 0.3;
+var sfx_volume : float = 0.5;
 
 ### Local stuff
 var current_music_file : String = "N/A"
 
+func _process(_delta : float) -> void:
+	set_volume()
+	
 func set_volume():
 	set_volume_linear(music_volume)
 

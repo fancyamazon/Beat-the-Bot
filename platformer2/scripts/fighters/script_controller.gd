@@ -11,7 +11,7 @@ var script_camp = load(GAME.SCRIPTPATH["camper"])
 
 var behavior_scores = [0, 0, 0, 0] #aggro passive sneak camp
 var current_script = 0
-var scripts =[script_aggro, script_passive, script_sneak, script_camp]
+var scripts = [script_aggro, script_passive, script_sneak, script_camp]
 var will_swap = true 
 
 
@@ -36,18 +36,27 @@ func best_behavior(): #minimum damage taken
 	
 
 func _process(_delta):
+	#print("bot health: ", bot.health)
+	var current_health = bot.health
 	if Input.is_action_just_pressed("spawn-aggressive"): 
 		bot.set_script(script_aggro)
 		bot._ready()
+		bot.init_on_behavior_swap(current_health, "Bot (Aggressive)")
+		
 	if Input.is_action_just_pressed("spawn-passive"): 
 		bot.set_script(script_passive)
 		bot._ready()
+		bot.init_on_behavior_swap(current_health, "Bot (Passive)")
+		
 	if Input.is_action_just_pressed("spawn-sneaky"): 
 		bot.set_script(script_sneak)
 		bot._ready()
+		bot.init_on_behavior_swap(current_health, "Bot (Sneaky)")
+		
 	if Input.is_action_just_pressed("spawn-camper"): 
 		bot.set_script(script_camp)
 		bot._ready()
+		bot.init_on_behavior_swap(current_health, "Bot (Camper)")
 
 
 func reconsider_behavior():

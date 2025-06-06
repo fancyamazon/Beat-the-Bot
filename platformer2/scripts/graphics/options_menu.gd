@@ -27,4 +27,4 @@ func _on_h_slider_2_drag_ended(value_changed: bool) -> void:
 
 
 func _on_keybinds_button_pressed() -> void:
-	get_tree().change_scene_to_file("res://scenes/graphics/controls_menu.tscn") # Replace with function body.
+	get_tree().change_scene_to_file(GAME.SCENEPATH["controlsmenu"])

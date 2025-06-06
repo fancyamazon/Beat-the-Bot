@@ -29,6 +29,8 @@ var inc = true # Whether text size currently increasing or decreasing
 
 
 func _ready() -> void:
+	GLOBAL_MUSIC_PLAYER.set_volume()
+	
 	if GLOBAL_MUSIC_PLAYER.music_path == "N/A":
 		GLOBAL_MUSIC_PLAYER.play_music(GLOBAL_MUSIC_PLAYER.MUSICPATH["Menu"])
 

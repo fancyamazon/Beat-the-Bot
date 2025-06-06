@@ -9,19 +9,19 @@ const BULLETS_GO_THROUGH_WALLS = false
 const GAME_SCREEN_SIZING = 2.0
 
 ## Testing preset
-const PLAYER_SHIELD_RESETS_HEALTH = true
-const PLAYER_PASSIVE_HEALING = 0.3 # per frame # Easy mode: 0.3 # Non-easy: 0.1
-const BOTS_PASSIVE_HEALING = 0.05 # per frame # Easy mode: 0.02 # Non-easy: 0.05
-const CAN_TELEPORT = true
-const FULL_LENGTH_SPLASH_SCREEN = false
+#const PLAYER_SHIELD_RESETS_HEALTH = true
+#const PLAYER_PASSIVE_HEALING = 0.3 # per frame # Easy mode: 0.3 # Non-easy: 0.1
+#const BOTS_PASSIVE_HEALING = 0.05 # per frame # Easy mode: 0.02 # Non-easy: 0.05
+#const CAN_TELEPORT = true
+#const FULL_LENGTH_SPLASH_SCREEN = false
 #const SCENE_AFTER_SPLASH : PackedScene = preload(SCENEPATH["game") # Loads game directly after splash
 
 ## Final gameplay preset (Ctrl Shift K to mass uncomment, Ctrl K to mass comment)
-#const PLAYER_SHIELD_RESETS_HEALTH = false
-#const PLAYER_PASSIVE_HEALING = 0 # per frame # Easy mode: 0.3 # Non-easy: 0.1
-#const BOTS_PASSIVE_HEALING = 0 # per frame # Easy mode: 0.02 # Non-easy: 0.05
-#const CAN_TELEPORT = false
-#const FULL_LENGTH_SPLASH_SCREEN = true
+const PLAYER_SHIELD_RESETS_HEALTH = false
+const PLAYER_PASSIVE_HEALING = 0 # per frame # Easy mode: 0.3 # Non-easy: 0.1
+const BOTS_PASSIVE_HEALING = 0 # per frame # Easy mode: 0.02 # Non-easy: 0.05
+const CAN_TELEPORT = false
+const FULL_LENGTH_SPLASH_SCREEN = true
 const SCENE_AFTER_SPLASH : PackedScene = preload(SCENEPATH["startmenu"]) # Loads start menu after splash
 
 ## Path to .tscn scenes and .gd scripts
