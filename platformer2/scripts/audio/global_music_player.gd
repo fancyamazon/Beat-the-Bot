@@ -19,9 +19,12 @@ var sfx_volume : float = 8.0;
 var current_music_file : String = "N/A"
 
 func set_volume():
+	print("set volume to " + str(music_volume))
 	set_volume_linear(music_volume)
+	print(volume_linear)
 
 func play_music(music: String):
+	print("play")
 	if current_music_file == music:
 		return
 	

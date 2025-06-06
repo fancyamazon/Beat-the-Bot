@@ -18,8 +18,8 @@ func MapToText(input):
 	else:
 		return input.as_text()
 
-func cut_ending(str):
-	return str.substr(0, str.length() - 11)
+func cut_ending(str_input):
+	return str_input.substr(0, str_input.length() - 11)
 
 func getText(event):
 	if event is InputEventKey:
@@ -33,7 +33,6 @@ func editInputMap(action, new_key):
 	InputMap.action_add_event(action, new_key)
 	if new_key is InputEventKey:
 		var key_name = OS.get_keycode_string(new_key.keycode)
-		print("Key pressed:", key_name)
 		KEY_BINDINGS.MAP[action] = key_name
 
 	elif new_key is InputEventMouseButton:
@@ -59,15 +58,12 @@ func editInputMap(action, new_key):
 
 
 func _input(event):
-	var actions_inputs
 	if event is InputEventKey or event is InputEventMouseButton:
 		if event.is_pressed() and my_selected != -1:
 			key_inputs.set_item_text(my_selected, getText(event))
 			editInputMap(actions.get_item_text(my_selected).to_lower(), event)
 			my_selected = -1
-			#print("done")
 			key_inputs.deselect_all()
-			print(getText(event))
 
 
 
