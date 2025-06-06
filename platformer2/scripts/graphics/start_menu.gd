@@ -29,7 +29,8 @@ var inc = true # Whether text size currently increasing or decreasing
 
 
 func _ready() -> void:
-	GLOBAL_MUSIC_PLAYER.play_music(GLOBAL_MUSIC_PLAYER.MUSICPATH["Menu"])
+	if GLOBAL_MUSIC_PLAYER.music_path == "N/A":
+		GLOBAL_MUSIC_PLAYER.play_music(GLOBAL_MUSIC_PLAYER.MUSICPATH["Menu"])
 
 	splash_text.text = SPLASH_TEXTS.pick_random()
 	#splash_text. = Vector2(16,16)
