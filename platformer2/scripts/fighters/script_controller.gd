@@ -45,8 +45,6 @@ func best_behavior(): #minimum damage taken
 	
 
 func _process(_delta):
-	#print("bot health: ", bot.health)
-	var current_health = bot.health
 	if Input.is_action_just_pressed("spawn-aggressive"): 
 		change_behavior(0)
 		
