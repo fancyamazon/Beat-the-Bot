@@ -89,7 +89,6 @@ public partial class NavigationAdvisor : Node2D
 	public override void _PhysicsProcess(double delta)
 	{
 
-		//movements[0] = 0;
 		movements[1] = 0;
 		movements[2] = 0;
 		movements[3] = 0;

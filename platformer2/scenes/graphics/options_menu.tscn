@@ -124,7 +124,7 @@ editable = false
 layout_mode = 2
 max_value = 1.0
 step = 0.1
-value = 1.0
+value = 0.5
 
 [node name="TextEdit2" type="TextEdit" parent="VBoxContainer"]
 custom_minimum_size = Vector2(0, 48)
@@ -138,8 +138,9 @@ editable = false
 
 [node name="HSlider2" type="HSlider" parent="VBoxContainer"]
 layout_mode = 2
-max_value = 15.0
-value = 8.0
+max_value = 1.0
+step = 0.1
+value = 0.5
 
 [node name="GameTitleLabel" type="Label" parent="."]
 layout_mode = 1
