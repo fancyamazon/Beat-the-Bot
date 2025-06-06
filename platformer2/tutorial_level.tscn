@@ -70,77 +70,87 @@ position = Vector2(482, -367)
 script = ExtResource("9_ccse8")
 
 [node name="Welcome" type="Label" parent="Instructions"]
-offset_left = 60.0
-offset_top = -172.0
-offset_right = 922.0
-offset_bottom = 117.0
+offset_left = 62.0
+offset_top = -310.0
+offset_right = 924.0
+offset_bottom = -21.0
 theme_override_fonts/font = ExtResource("9_mikwp")
 theme_override_font_sizes/font_size = 16
 text = "Welcome to the movement tutorial! Use A and D to move left and right."
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WelcomeBox" type="Sprite2D" parent="Instructions"]
+z_index = -2
+position = Vector2(487.5, -165)
+scale = Vector2(1.31696, 0.506329)
+texture = ExtResource("11_i25kj")
 
 [node name="Jump" type="Label" parent="Instructions"]
-offset_left = 518.0
-offset_top = -670.0
-offset_right = 1380.0
-offset_bottom = -381.0
+offset_left = 523.0
+offset_top = -803.0
+offset_right = 1385.0
+offset_bottom = -514.0
 theme_override_fonts/font = ExtResource("9_mikwp")
 theme_override_font_sizes/font_size = 16
 text = "Use W to jump! You can jump twice."
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="JumpBox" type="Sprite2D" parent="Instructions"]
+z_index = -2
+position = Vector2(949.25, -659)
+scale = Vector2(0.680804, 0.278481)
+texture = ExtResource("11_i25kj")
 
 [node name="Dash" type="Label" parent="Instructions"]
-offset_left = 1014.0
-offset_top = -457.0
-offset_right = 1876.0
-offset_bottom = -168.0
+offset_left = 1021.0
+offset_top = -577.0
+offset_right = 1883.0
+offset_bottom = -288.0
 theme_override_fonts/font = ExtResource("9_mikwp")
 theme_override_font_sizes/font_size = 16
 text = "Try using Dash (E) and your jumps to get
 to the next platform."
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="DashBox" type="Sprite2D" parent="Instructions"]
+z_index = -2
+position = Vector2(1454.12, -434.5)
+scale = Vector2(0.806183, 0.373418)
+texture = ExtResource("11_i25kj")
 
 [node name="Grapple" type="Label" parent="Instructions"]
-offset_left = 1731.0
-offset_top = -718.0
-offset_right = 2593.0
-offset_bottom = -429.0
+offset_left = 1740.0
+offset_top = -853.0
+offset_right = 2602.0
+offset_bottom = -564.0
 theme_override_fonts/font = ExtResource("9_mikwp")
 theme_override_font_sizes/font_size = 16
 text = "Use your grapple (Right Click) to get into the clouds. →"
 horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GrappleBox" type="Sprite2D" parent="Instructions"]
+z_index = -2
+position = Vector2(2167.81, -707)
+scale = Vector2(1.06306, 0.329114)
+texture = ExtResource("11_i25kj")
 
 [node name="Congrats" type="Label" parent="Instructions"]
-offset_left = 2629.0
-offset_top = -1057.0
-offset_right = 3491.0
-offset_bottom = -768.0
+offset_left = 2637.0
+offset_top = -1190.0
+offset_right = 3499.0
+offset_bottom = -901.0
 theme_override_fonts/font = ExtResource("9_mikwp")
 theme_override_font_sizes/font_size = 16
 text = "Congrats! You're now ready to Beat the Bot!"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(487.5, -165)
-scale = Vector2(1.31696, 0.506329)
-texture = ExtResource("11_i25kj")
-
-[node name="Sprite2D2" type="Sprite2D" parent="."]
-position = Vector2(949.25, -659)
-scale = Vector2(0.680804, 0.278481)
-texture = ExtResource("11_i25kj")
-
-[node name="Sprite2D3" type="Sprite2D" parent="."]
-position = Vector2(1443.62, -438)
-scale = Vector2(0.774926, 0.329114)
-texture = ExtResource("11_i25kj")
-
-[node name="Sprite2D4" type="Sprite2D" parent="."]
-position = Vector2(2162.31, -707)
-scale = Vector2(1.04669, 0.329114)
-texture = ExtResource("11_i25kj")
-
-[node name="Sprite2D5" type="Sprite2D" parent="."]
+[node name="CongratsBox" type="Sprite2D" parent="Instructions"]
+z_index = -2
 position = Vector2(3069.66, -1045)
 scale = Vector2(0.852214, 0.329114)
 texture = ExtResource("11_i25kj")

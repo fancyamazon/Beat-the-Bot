@@ -167,6 +167,7 @@ position = Vector2(246, -476)
 [node name="Instructions" type="Node" parent="."]
 
 [node name="InstructionsLabel" type="Label" parent="Instructions"]
+visible = false
 offset_left = 253.0
 offset_top = 22.0
 offset_right = 859.0

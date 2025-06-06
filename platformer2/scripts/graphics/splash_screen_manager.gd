@@ -13,11 +13,11 @@ var out_time : float
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if GAME.FULL_LENGTH_SPLASH_SCREEN:
-		in_time = 0.5
-		fade_in_time = 1.5
-		pause_time = 1.5
-		fade_out_time = 1.5
-		out_time = 0.5
+		in_time = 0.2
+		fade_in_time = 0.6
+		pause_time = 0.6
+		fade_out_time = 0.6
+		out_time = 0.2
 	else:
 		in_time = 0.1
 		fade_in_time = 0.3
