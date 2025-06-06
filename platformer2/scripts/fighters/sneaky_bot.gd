@@ -79,10 +79,7 @@ func decide_actions():
 		escaped_distance = false
 		# Re-agress to avoid being brutalized
 		mode = "atk"
-		
-	if(player.bm or player.playerDead):
-		action_bad_manner()
-		
+				
 	## Nav -> Atk
 	if (nav.search_point - global_position).length_squared() < 1600 and mode == "nav":
 		mode = "atk"
@@ -122,6 +119,10 @@ func decide_actions():
 	
 	if mode == "atk" and (nav.get_vector_to_player().x > -100 and nav.get_vector_to_player().x < 100):
 		action_melee()
+		
+	if player.bm or player.playerDead:
+		action_bad_manner()
+
 
 func setup_double_jump():
 	should_move = false

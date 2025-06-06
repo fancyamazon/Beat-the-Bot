@@ -32,16 +32,14 @@ func decide_actions():
 		action_grapple_retract()
 		#print('lowkey wanna dash')
 		action_dash()
-		delay_grapple()
-
-	if(player.bm or player.playerDead):
-		action_bad_manner()
-
-	
+		delay_grapple()	
 	
 	if abs(nav.get_vector_to_player().x) < 100 and abs(nav.get_vector_to_player().y) < 32:
 		face_player()
 		action_melee()
+		
+	if player.bm or player.playerDead:
+		action_bad_manner()
 
 	
 	

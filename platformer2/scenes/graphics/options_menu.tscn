@@ -127,6 +127,7 @@ step = 0.1
 value = 0.3
 
 [node name="TextEdit2" type="TextEdit" parent="VBoxContainer"]
+visible = false
 custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("4_p34er")
@@ -137,6 +138,7 @@ placeholder_text = "
 editable = false
 
 [node name="HSlider2" type="HSlider" parent="VBoxContainer"]
+visible = false
 layout_mode = 2
 max_value = 1.0
 step = 0.1
@@ -208,4 +210,5 @@ item_5/icon = ExtResource("8_1c3nc")
 [connection signal="drag_ended" from="VBoxContainer/HSlider" to="." method="_on_h_slider_drag_ended"]
 [connection signal="drag_ended" from="VBoxContainer/HSlider2" to="." method="_on_h_slider_2_drag_ended"]
 [connection signal="item_activated" from="MusicSelect" to="." method="_on_music_select_item_activated"]
+[connection signal="item_selected" from="MusicSelect" to="." method="_on_music_select_item_selected"]
 [connection signal="mouse_entered" from="MusicSelect" to="." method="_on_music_select_mouse_entered"]

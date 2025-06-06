@@ -6,6 +6,7 @@ class_name CamperBot extends Fighter
 var mode = "nav"
 var release = false
 var is_charging = false # New state to track charging
+var should_move = true
 
 func get_team():
 	return "bot"
@@ -33,8 +34,11 @@ func decide_actions():
 			action_walk(0)
 	elif mode == "nav":
 		action_walk(nav.get_movements()[0])
-		if nav.get_movements()[1] > 0:
+		if nav.get_movements()[1] > 0 and is_on_floor(): 
 			action_jump()
+			if nav.get_movements()[1] == 2:
+				setup_double_jump()
+
 
 	if player.global_position.y - global_position.y < 400 and player.global_position.y - global_position.y >= -100:
 		if not is_charging:
@@ -50,3 +54,13 @@ func decide_actions():
 
 	if (nav.get_vector_to_player().x > -100 and nav.get_vector_to_player().x < 100):
 		action_melee()
+	
+	if player.bm or player.playerDead:
+		nav.search_point = player.global_position
+		action_bad_manner()
+
+func setup_double_jump():
+	should_move = false
+	await get_tree().create_timer(0.3).timeout
+	action_jump()
+	should_move = true

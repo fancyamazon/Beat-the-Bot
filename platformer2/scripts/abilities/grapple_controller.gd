@@ -13,12 +13,16 @@ var target: Vector2
 
 ### Far distance, at least the diagonal of the screen
 const FAR_DISTANCE = 3000
+var team
 
 var launched = false
 
 ## This is to solve for moving platforms. 
 var collider: Object
 var offset_from_center: Vector2 # how far it is from the center of the platform
+
+func get_team():
+	return team
 
 func _ready():
 	rope.hide()
@@ -61,7 +65,9 @@ func launch(looking_at: Vector2):
 		#print("Canvas inv * target:", get_viewport().get_canvas_transform().affine_inverse() * target)
 		#print("Visible rect:", get_viewport().get_visible_rect())
 		
-		if is_point_on_screen(target) and GAME.GRAPPLE_LIMITED_TO_SCREEN: # Check that the target is within screen bounds
+		if ((get_team() == "player" and is_point_on_screen(target)) or \
+		   (get_team() == "bot" and player.global_position.distance_to(target) < FAR_DISTANCE)) \
+			and GAME.GRAPPLE_LIMITED_TO_SCREEN: # Check that the target is within screen bounds
 			launched = true
 			#print("target is on screen")
 			collider = ray.get_collider()
@@ -71,9 +77,6 @@ func launch(looking_at: Vector2):
 				offset_from_center = Vector2.ZERO
 
 			rope.show()
-		else:
-			#print("is not on screen")
-			pass
 
 func retract():
 	launched = false

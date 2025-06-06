@@ -84,12 +84,12 @@ var is_falling_through = false
 const FALL_TIMER_SEC = 0.1 # seconds
 
 ### Particle/Effects
-@onready var gear_particles=$GPUParticles2D
+@onready var gear_particles = $GPUParticles2D
 
 signal on_damage_taken(dmg_amt)
 signal on_damage_dealt(dmg_amt)
 
-
+### Getting held animations like crouch to work
 var on_floor_last_frame = true
 #first 3 are cancellable
 #last 3 are defining (input locked once used)
@@ -98,10 +98,10 @@ var held_actions = [true, false, false, false, false, false]
 # held animations in order of priority
 var is_crouching = false
 
-###Bad Manners
-var rng = RandomNumberGenerator.new()
-var bm=false
-var playerDead=false
+### Bad Manners
+var bm = false
+var playerDead = false
+var doingBM = false
 
 ### ------------------------------ BEGIN FUNCTIONS ---------------------------------- ###
 # Globally announce that this is the player. 
@@ -137,6 +137,8 @@ func _ready():
 	if animated_sprite_2d.material:
 		animated_sprite_2d.material = animated_sprite_2d.material.duplicate()
 	
+	# Make sure the grapple controller knows its team
+	grapple_controller.team = get_team()
 
 ### -------------------------------- PHYSICS, MOVEMENT OV -------------------------------- ### 
 
@@ -286,18 +288,19 @@ func action_teleport():
 	jumps_used = 0
 	
 func action_bad_manner():
-	var my_random_number = rng.randf_range(1, 3)
-	#await get_tree().create_timer(my_random_number).timeout
-	for i in range(my_random_number):
-		await get_tree().create_timer(0.5).timeout
+	if doingBM:
+		return
+	
+	doingBM = true
+	for TIMES in range(5):
+		await get_tree().create_timer(0.3).timeout
 		action_crouch()
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(0.3).timeout
 		action_crouch_release()
-		await get_tree().create_timer(0.5).timeout
 		action_jump()
 		await get_tree().create_timer(0.5).timeout
 		action_walk(1)
-		await get_tree().create_timer(0.5).timeout
+		await get_tree().create_timer(0.15).timeout
 		action_walk(-1)
 	
 ### -------------------------------- SPRITE -------------------------------- ### 

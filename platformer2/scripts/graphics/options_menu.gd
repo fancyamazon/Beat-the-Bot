@@ -28,3 +28,8 @@ func _on_h_slider_2_drag_ended(value_changed: bool) -> void:
 
 func _on_keybinds_button_pressed() -> void:
 	get_tree().change_scene_to_file(GAME.SCENEPATH["controlsmenu"])
+
+
+func _on_music_select_item_selected(index: int) -> void:
+	GLOBAL_MUSIC_PLAYER.music_path = GLOBAL_MUSIC_PLAYER.MUSICPATH[files[index]]
+	GLOBAL_MUSIC_PLAYER.play_music(GLOBAL_MUSIC_PLAYER.music_path)

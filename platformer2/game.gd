@@ -18,8 +18,8 @@ const GAME_SCREEN_SIZING = 2.0
 
 ## Final gameplay preset (Ctrl Shift K to mass uncomment, Ctrl K to mass comment)
 const PLAYER_SHIELD_RESETS_HEALTH = false
-const PLAYER_PASSIVE_HEALING = 0 # per frame # Easy mode: 0.3 # Non-easy: 0.1
-const BOTS_PASSIVE_HEALING = 0 # per frame # Easy mode: 0.02 # Non-easy: 0.05
+const PLAYER_PASSIVE_HEALING = 0.1 # per frame # Easy mode: 0.3 # Non-easy: 0.1
+const BOTS_PASSIVE_HEALING = 0.03 # per frame # Easy mode: 0.02 # Non-easy: 0.05
 const CAN_TELEPORT = false
 const FULL_LENGTH_SPLASH_SCREEN = true
 const SCENE_AFTER_SPLASH : PackedScene = preload(SCENEPATH["startmenu"]) # Loads start menu after splash

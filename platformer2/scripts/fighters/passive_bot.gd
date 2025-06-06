@@ -145,7 +145,7 @@ func dist_to_target():
 		
 
 func decide_actions():																									
-	queue_redraw()
+	#queue_redraw()
 	#print(mode)
 	if determine_search_point(player.global_position, global_position) != null:
 		nav.search_point = determine_search_point(player.global_position, global_position)
@@ -210,7 +210,10 @@ func decide_actions():
 	
 	if (nav.get_vector_to_player().x > -100 and nav.get_vector_to_player().x < 100):
 		action_melee()
-
+	
+	if player.bm or player.playerDead:
+		nav.search_point = player.global_position
+		action_bad_manner()
 
 
 func setup_double_jump():
