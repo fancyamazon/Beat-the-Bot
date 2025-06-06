@@ -31,7 +31,7 @@ public class PointInfo
 public partial class TileMapPathFind : TileMapLayer
 {
 	[Export]
-	public bool ShowDebugGraph = true;                  // If the graph points and lines should be drawn
+	public bool ShowDebugGraph = false;                  // If the graph points and lines should be drawn
 	[Export]
 	public int JumpDistance = 5;                       // Distance between two tiles to count as a jump
 	[Export]
