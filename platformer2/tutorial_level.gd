@@ -6,7 +6,7 @@ extends Node
 @onready var grapple: Label = $Grapple
 @onready var congrats: Label = $Congrats
 
-func _process(float) -> void:
+func _process(_delta: float) -> void:
 	welcome.text = "Welcome to the movement tutorial. Use " + KEY_BINDINGS.MAP["left"] + " and " + KEY_BINDINGS.MAP["right"] + " to move left and right."
 	jump.text = "Use " + KEY_BINDINGS.MAP["jump"] + " to jump! You can jump twice."
 	dash.text = "Try using Dash (" + KEY_BINDINGS.MAP["dash"] + ") and your jumps to get\nto the next platform."
